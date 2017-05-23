@@ -1,0 +1,656 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <include layout="@layout/title"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="26dp">
+
+                <TextView
+                    android:id="@+id/name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="张三"
+                    android:textColor="@color/text_black"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:id="@+id/phone_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/name_tv"
+                    android:layout_marginTop="8dp"
+                    android:text="联系电话：159-2635-6744"
+                    android:textColor="@color/text_gray999"
+                    android:textSize="12sp"/>
+
+
+                <TextView
+                    android:id="@+id/supplement_tv"
+                    android:layout_width="117dp"
+                    android:layout_height="32dp"
+                    android:layout_alignBottom="@id/phone_tv"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/ripple_selector_item_blue_rectangle"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:text="补充资料"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="27dp">
+
+
+                <ImageView
+                    android:id="@+id/progress_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_centerHorizontal="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/icon_pro0"/>
+                <!--    <ImageView
+                        android:layout_width="295dp"
+                        android:layout_height="200dp"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/icon_pro0"/>-->
+                <TextView
+                    android:id="@+id/number_tv1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="100dp"
+                    android:text="00"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="29sp"/>
+
+                <TextView
+                    android:id="@+id/number_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="107dp"
+                    android:layout_toRightOf="@id/number_tv1"
+                    android:text="%"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="12sp"/>
+
+                <TextView
+                    android:id="@+id/status_tv"
+                    android:layout_width="84dp"
+                    android:layout_height="30dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="180dp"
+                    android:background="@drawable/ripple_selector_item_blue"
+                    android:gravity="center"
+                    android:text="进行中"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"/>
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/line11_v"
+                android:layout_width="1dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/selector_line_checkinfo"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <!--
+                                <View
+                                    android:id="@+id/line1_v"
+                                    android:layout_width="1dp"
+                                    android:layout_centerHorizontal="true"
+                                    android:background="@drawable/selector_line_checkinfo"
+                                    android:layout_height="35dp"/>
+                                <View
+                                    android:layout_below="@id/line1_v"
+                                    android:layout_width="1dp"
+                                    android:layout_centerHorizontal="true"
+                                    android:background="@drawable/selector_line_checkinfo"
+                                    android:layout_height="35dp"/>-->
+
+                <View
+                    android:id="@+id/line12_v"
+                    style="@style/check_info_line"
+                    />
+
+                <View
+                    android:id="@+id/line21_v"
+                    style="@style/check_info_line"
+                    android:layout_below="@id/line12_v"/>
+
+                <View
+                    android:id="@+id/round1_v"
+                    style="@style/check_info_round"/>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/line12_v"
+                    >
+
+                    <ImageView
+                        android:id="@+id/icon1_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/selector_icon1_checkinfo"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/icon1_iv"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/text11_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:lines="1"
+                            android:text="接单"
+                            android:textColor="@color/text_black"
+                            android:textSize="21sp"/>
+
+                        <TextView
+                            android:id="@+id/text12_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="未进行"
+                            android:textColor="@color/text_gray999"
+                            android:textSize="12sp"/>
+                    </LinearLayout>
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:id="@+id/line22_v"
+                    style="@style/check_info_line"
+                    />
+
+                <View
+                    android:id="@+id/line31_v"
+                    style="@style/check_info_line"
+                    android:layout_below="@id/line22_v"/>
+
+                <View
+                    android:id="@+id/round2_v"
+                    style="@style/check_info_round"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@id/line22_v"
+                    >
+
+                    <ImageView
+                        android:id="@+id/icon2_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/selector_icon2_checkinfo"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@id/icon2_iv"
+                        android:gravity="right"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/text21_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:lines="1"
+                            android:text="资料审核"
+                            android:textColor="@color/text_black"
+                            android:textSize="21sp"/>
+
+                        <TextView
+                            android:id="@+id/text22_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="未进行"
+                            android:textColor="@color/text_gray999"
+                            android:textSize="12sp"/>
+
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:id="@+id/line32_v"
+                    style="@style/check_info_line"
+                    />
+
+                <View
+                    android:id="@+id/line41_v"
+                    style="@style/check_info_line"
+                    android:layout_below="@id/line32_v"/>
+
+                <View
+                    android:id="@+id/round3_v"
+                    style="@style/check_info_round"/>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/line32_v"
+                    >
+
+                    <ImageView
+                        android:id="@+id/icon3_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/selector_icon3_checkinfo"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/icon3_iv"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/text31_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:lines="1"
+                            android:text="签约"
+                            android:textColor="@color/text_black"
+                            android:textSize="21sp"/>
+
+                        <TextView
+                            android:id="@+id/text32_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="未进行"
+                            android:textColor="@color/text_gray999"
+                            android:textSize="12sp"/>
+                    </LinearLayout>
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:id="@+id/line42_v"
+                    style="@style/check_info_line"
+                    />
+
+                <View
+                    android:id="@+id/line51_v"
+                    style="@style/check_info_line"
+                    android:layout_below="@id/line42_v"/>
+
+                <View
+                    android:id="@+id/round4_v"
+                    style="@style/check_info_round"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@id/line42_v"
+                    >
+
+                    <ImageView
+                        android:id="@+id/icon4_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/selector_icon4_checkinfo"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@id/icon4_iv"
+                        android:gravity="right"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/text41_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:lines="1"
+                            android:text="伤情判定"
+                            android:textColor="@color/text_black"
+                            android:textSize="21sp"/>
+
+                        <TextView
+                            android:id="@+id/text42_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="未进行"
+                            android:textColor="@color/text_gray999"
+                            android:textSize="12sp"/>
+
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:id="@+id/line52_v"
+                    style="@style/check_info_line"
+                    />
+
+                <View
+                    android:id="@+id/line61_v"
+                    style="@style/check_info_line"
+                    android:layout_below="@id/line52_v"/>
+
+                <View
+                    android:id="@+id/round5_v"
+                    style="@style/check_info_round"/>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/line52_v"
+                    >
+
+                    <ImageView
+                        android:id="@+id/icon5_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/selector_icon5_checkinfo"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/icon5_iv"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/text51_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:lines="1"
+                            android:text="信息校验"
+                            android:textColor="@color/text_black"
+                            android:textSize="21sp"/>
+
+                        <TextView
+                            android:id="@+id/text52_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="未进行"
+                            android:textColor="@color/text_gray999"
+                            android:textSize="12sp"/>
+                    </LinearLayout>
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:id="@+id/line62_v"
+                    style="@style/check_info_line"
+                    />
+
+                <View
+                    android:id="@+id/line71_v"
+                    style="@style/check_info_line"
+                    android:layout_below="@id/line62_v"/>
+
+                <View
+                    android:id="@+id/round6_v"
+                    style="@style/check_info_round"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@id/line62_v"
+                    >
+
+                    <ImageView
+                        android:id="@+id/icon6_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/selector_icon6_checkinfo"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@id/icon6_iv"
+                        android:gravity="right"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/text61_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:lines="1"
+                            android:text="用药判定"
+                            android:textColor="@color/text_black"
+                            android:textSize="21sp"/>
+
+                        <TextView
+                            android:id="@+id/text62_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="未进行"
+                            android:textColor="@color/text_gray999"
+                            android:textSize="12sp"/>
+
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:id="@+id/line72_v"
+                    style="@style/check_info_line"
+                    />
+
+                <View
+                    android:id="@+id/line81_v"
+                    style="@style/check_info_line"
+                    android:layout_below="@id/line72_v"/>
+
+                <View
+                    android:id="@+id/round7_v"
+                    style="@style/check_info_round"/>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/line72_v"
+                    >
+
+                    <ImageView
+                        android:id="@+id/icon7_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/selector_icon7_checkinfo"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/icon7_iv"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/text71_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:lines="1"
+                            android:text="理赔判定"
+                            android:textColor="@color/text_black"
+                            android:textSize="21sp"/>
+
+                        <TextView
+                            android:id="@+id/text72_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="未进行"
+                            android:textColor="@color/text_gray999"
+                            android:textSize="12sp"/>
+                    </LinearLayout>
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:id="@+id/line82_v"
+                    style="@style/check_info_line"
+                    />
+
+                <View
+                    android:id="@+id/line91_v"
+                    style="@style/check_info_line"
+                    android:layout_below="@id/line82_v"/>
+
+                <View
+                    android:id="@+id/round8_v"
+                    style="@style/check_info_round"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@id/line82_v"
+                    >
+
+                    <ImageView
+                        android:id="@+id/icon8_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/selector_icon8_checkinfo"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@id/icon8_iv"
+                        android:gravity="right"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/text81_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:lines="1"
+                            android:text="完结"
+                            android:textColor="@color/text_black"
+                            android:textSize="21sp"/>
+
+                        <TextView
+                            android:id="@+id/text82_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="未进行"
+                            android:textColor="@color/text_gray999"
+                            android:textSize="12sp"/>
+
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/line92_v"
+                android:layout_width="1dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/selector_line_checkinfo"/>
+
+            <!--     <View
+                     android:id="@+id/round9_v"
+                     style="@style/check_info_round"
+                     android:layout_gravity="center_horizontal"/>-->
+            <View
+                android:id="@+id/round9_v"
+                android:layout_width="14dp"
+                android:layout_height="7dp"
+
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/selector_round_checkinfo_half"/>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#4195d7</color>
+    <color name="colorPrimaryDark">#4899d9</color>
+    <!--<color name="colorPrimaryDark">#4195d7</color>-->
+    <color name="colorAccent">#054195d7</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="white_press">#cccccc</color>
+    <color name="line_gray">#FFDDDDDD</color>
+    <!--<color name="text_black333">#333333</color>-->
+
+    <color name="text_black">#353535</color>
+    <color name="text_gray999">#999999</color>
+    <color name="text_gray666">#666666</color>
+
+    <!--背景主颜色-->
+    <color name="main_gray">#F7F7F7</color>
+    <color name="translate_gray">#00000000</color>
+
+
+    <color name="black_alf10">#1a000000</color>
+    <color name="pop_text_bg">#e0e0e0</color>
+
+    <!--灰色背景-->
+    <color name="gray_bg">#eeeeee</color>
+    <color name="gray_ccc">#cccccc</color>
+
+    <color name="blue_press">#388BCC</color>
+    <color name="blue_normal">#3C94DA</color>
+    <color name="blue_water">#2974B2</color>
+
+
+    <!--灰色背景-->
+    <color name="gray_bg2">#b3d5ef</color>
+
+    <integer-array name="gplus_colors">
+        <item>@color/colorPrimary</item>
+        <item>@color/gplus_color_4</item>
+        <item>@color/gplus_color_1</item>
+        <item>@color/gplus_color_2</item>
+    </integer-array>
+
+    <color name="gplus_color_1">#3e802f</color>
+    <color name="gplus_color_2">#f4b400</color>
+    <color name="gplus_color_3">#427fed</color>
+    <color name="gplus_color_4">#b23424</color>
+    <color name="gplus_color_4_nor">#D32B36</color>
+
+
+    <color name="text_red">#D32B36</color>
+
+    <!--水波纹颜色-->
+    <color name="item_water_white">#d9d9d9</color>
+    <!--进度条dialog背景颜色-->
+    <color name="progress_dialog_bg">#55000000</color>
+
+    <color name="gallery_blue">#4195d7</color>
+
+
+
+    <!--loading动画颜色-->
+    <color name="triangle">#aa72d572</color>
+    <color name="circle">#aa738ffe</color>
+    <color name="rect">#aae84e40</color>
+    <color name="view_bg">#00000000</color>
+    <color name="shadow">#25808080</color>
+    <color name="dialog_bg">#f5f5f5</color>
+</resources>

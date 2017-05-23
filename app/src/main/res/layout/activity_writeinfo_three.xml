@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <include layout="@layout/title"/>
+
+    <include layout="@layout/include_writeinfo_header"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="9dp"
+                android:layout_marginLeft="19dp"
+                android:layout_marginTop="28dp"
+                android:text="工作时间"
+                android:textColor="@color/text_black"
+                android:textSize="14sp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="19dp"
+                android:layout_marginRight="19dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/time1_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_edit_bg"
+                    android:hint="请选择工作时间"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="9dp"
+                    android:paddingRight="9dp"
+                    android:drawableRight="@drawable/icon_down"
+                    android:paddingTop="15dp"
+                    android:textColor="@color/text_black"
+                    android:textColorHint="@color/gray_ccc"
+                    android:textSize="12sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="9dp"
+                    android:layout_marginRight="9dp"
+                    android:text="至"
+                    android:textColor="@color/text_gray666"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:id="@+id/time2_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_edit_bg"
+                    android:hint="请选择离职时间"
+                    android:paddingBottom="15dp"
+                    android:drawableRight="@drawable/icon_down"
+                    android:paddingLeft="9dp"
+                    android:paddingRight="9dp"
+                    android:paddingTop="15dp"
+                    android:textColor="@color/text_black"
+                    android:textColorHint="@color/gray_ccc"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="9dp"
+                android:layout_marginLeft="19dp"
+                android:layout_marginTop="20dp"
+                android:text="是否有社保"
+                android:textColor="@color/text_black"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@+id/social_security_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="19dp"
+                android:layout_marginRight="19dp"
+                android:background="@drawable/shape_edit_bg"
+                android:drawableRight="@drawable/icon_down"
+                android:hint="请选择社保状况"
+                android:paddingBottom="15dp"
+                android:paddingLeft="9dp"
+                android:paddingRight="9dp"
+                android:paddingTop="15dp"
+                android:textColor="@color/text_black"
+                android:textColorHint="@color/gray_ccc"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="9dp"
+                android:layout_marginLeft="19dp"
+                android:layout_marginTop="20dp"
+                android:text="是否签订劳动合同"
+                android:textColor="@color/text_black"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@+id/contract_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="19dp"
+                android:layout_marginRight="19dp"
+                android:background="@drawable/shape_edit_bg"
+                android:drawableRight="@drawable/icon_down"
+                android:hint="请选择有无劳动合同"
+                android:paddingBottom="15dp"
+                android:paddingLeft="9dp"
+                android:paddingRight="9dp"
+                android:paddingTop="15dp"
+                android:textColor="@color/text_black"
+                android:textColorHint="@color/gray_ccc"
+                android:textSize="12sp"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="9dp"
+                android:layout_marginLeft="19dp"
+                android:layout_marginTop="20dp"
+                android:text="工资发放形式"
+                android:textColor="@color/text_black"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@+id/grant_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="19dp"
+                android:layout_marginRight="19dp"
+                android:background="@drawable/shape_edit_bg"
+                android:drawableRight="@drawable/icon_down"
+                android:hint="请选择发放形式"
+                android:paddingBottom="15dp"
+                android:paddingLeft="9dp"
+                android:paddingRight="9dp"
+                android:paddingTop="15dp"
+                android:textColor="@color/text_black"
+                android:textColorHint="@color/gray_ccc"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/next_tv"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginLeft="28dp"
+                android:layout_marginRight="28dp"
+                android:layout_marginTop="28dp"
+                android:background="@drawable/ripple_selector_item_blue"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="下一步"
+                android:layout_marginBottom="40dp"
+                android:textColor="@color/white"
+                android:textSize="16sp"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

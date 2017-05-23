@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.maymeng.jinkeyulv">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
+    <application
+        android:name="com.maymeng.jinkeyulv.base.BaseApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:screenOrientation="portrait"
+        android:theme="@style/TransparencyAppTheme">
+
+        <activity android:name="com.maymeng.jinkeyulv.ui.activity.SplashActivity" android:theme="@style/AppWelcome">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:name="com.maymeng.jinkeyulv.ui.activity.MainActivity"/>
+        <!--android:windowSoftInputMode="stateHidden|adjustPan"-->
+        <activity android:name="com.maymeng.jinkeyulv.ui.activity.LoginActivity"/>
+
+        <activity android:name="com.maymeng.jinkeyulv.ui.activity.NewDispatchActivity" />
+        <activity android:name="com.maymeng.jinkeyulv.ui.activity.DispatchDetailActivity"/>
+        <activity android:name="com.maymeng.jinkeyulv.ui.activity.WriteInfoOneActivity" android:windowSoftInputMode="stateHidden|adjustPan"/>
+        <activity android:name="com.maymeng.jinkeyulv.ui.activity.WriteInfoTwoActivity" android:windowSoftInputMode="stateHidden|adjustPan"/>
+        <activity android:name="com.maymeng.jinkeyulv.ui.activity.WriteInfoThreeActivity" android:windowSoftInputMode="stateHidden|adjustPan"/>
+        <activity android:name="com.maymeng.jinkeyulv.ui.activity.WriteInfoFourActivity" android:windowSoftInputMode="stateHidden|adjustPan"/>
+        <activity android:name="com.maymeng.jinkeyulv.ui.activity.WriteInfoFiveActivity"/>
+        <activity android:name="com.maymeng.jinkeyulv.ui.activity.InfoCheckOneActivity"/>
+        <activity android:name="com.maymeng.jinkeyulv.ui.activity.InfoCheckOneResultActivity"/>
+        <activity android:name="com.maymeng.jinkeyulv.ui.activity.InfoCheckThreeActivity"/>
+        <activity android:name="com.maymeng.jinkeyulv.ui.activity.InfoCheckThreeResultActivity"/>
+        <activity android:name="com.maymeng.jinkeyulv.ui.activity.InfoCheckFourActivity"/>
+        <activity android:name="com.maymeng.jinkeyulv.ui.activity.InfoCheckWebShebaoActivity"/>
+        <activity android:name="com.maymeng.jinkeyulv.ui.activity.InfoCheckWebGJJActivity"/>
+        <activity android:name="com.maymeng.jinkeyulv.ui.activity.InfoCheckWebPhoneActivity"/>
+        <activity android:name="com.maymeng.jinkeyulv.ui.activity.QueryActivity"/>
+        <activity android:name="com.maymeng.jinkeyulv.ui.activity.QueryResultActivity"/>
+        <activity android:name="com.maymeng.jinkeyulv.ui.activity.QueryAllActivity"/>
+        <activity android:name="com.maymeng.jinkeyulv.ui.activity.ShowPictureActivity" android:theme="@style/AppTheme"/>
+        <activity android:name="com.maymeng.jinkeyulv.ui.activity.SignActivity"/>
+        <activity android:name="com.maymeng.jinkeyulv.ui.activity.SignUploadActivity"/>
+
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.maymeng.jinkeyulv.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths"/>
+        </provider>
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="59018a5ef29d98751e00205d">
+        </meta-data>
+        <meta-data
+            android:name="UMENG_MESSAGE_SECRET"
+            android:value="16c86688a38440213375b00fc9226172">
+        </meta-data>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Channel ID" >
+        </meta-data>
+
+    </application>
+
+</manifest>

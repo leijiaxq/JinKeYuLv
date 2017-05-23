@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <include layout="@layout/title"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="24dp"
+        android:layout_marginTop="28dp"
+        android:src="@drawable/search_icon"/>
+
+    <EditText
+        android:id="@+id/search_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="19dp"
+        android:layout_marginRight="19dp"
+        android:background="@drawable/shape_edit_bg"
+        android:drawableLeft="@drawable/search"
+        android:drawablePadding="9dp"
+        android:hint="请输入姓名/身份证号/报案号等查询"
+        android:paddingBottom="15dp"
+        android:paddingLeft="9dp"
+        android:paddingRight="9dp"
+        android:paddingTop="15dp"
+        android:textColor="@color/text_black"
+        android:textColorHint="@color/gray_ccc"
+        android:textCursorDrawable="@drawable/shape_cursor"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/query_tv"
+        android:layout_width="317dp"
+        android:layout_height="44dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="31dp"
+        android:layout_marginTop="57dp"
+        android:background="@drawable/ripple_selector_item_blue"
+        android:clickable="true"
+        android:gravity="center"
+        android:text="查询"
+        android:textColor="@color/white"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/query_all_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:autoLink="all"
+        android:text="查看全部"
+        android:textColor="@color/text_gray666"
+        android:textSize="15sp"/>
+
+
+</LinearLayout>

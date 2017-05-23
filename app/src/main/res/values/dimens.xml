@@ -1,0 +1,142 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="padding_top">0dp</dimen>
+
+
+    <dimen name="margin_1dp">1dp</dimen>
+    <dimen name="margin_2dp">2dp</dimen>
+    <dimen name="margin_3dp">3dp</dimen>
+    <dimen name="margin_4dp">4dp</dimen>
+    <dimen name="margin_5dp">5dp</dimen>
+    <dimen name="margin_6dp">6dp</dimen>
+    <dimen name="margin_7dp">7dp</dimen>
+    <dimen name="margin_8dp">8dp</dimen>
+    <dimen name="margin_9dp">9dp</dimen>
+    <dimen name="margin_10dp">10dp</dimen>
+    <dimen name="margin_11dp">11dp</dimen>
+    <dimen name="margin_12dp">12dp</dimen>
+    <dimen name="margin_13dp">13dp</dimen>
+    <dimen name="margin_14dp">14dp</dimen>
+    <dimen name="margin_15dp">15dp</dimen>
+    <dimen name="margin_16dp">16dp</dimen>
+    <dimen name="margin_17dp">17dp</dimen>
+    <dimen name="margin_18dp">18dp</dimen>
+    <dimen name="margin_19dp">19dp</dimen>
+    <dimen name="margin_20dp">20dp</dimen>
+    <dimen name="margin_21dp">21dp</dimen>
+    <dimen name="margin_22dp">22dp</dimen>
+    <dimen name="margin_23dp">23dp</dimen>
+    <dimen name="margin_24dp">24dp</dimen>
+    <dimen name="margin_25dp">25dp</dimen>
+    <dimen name="margin_26dp">26dp</dimen>
+    <dimen name="margin_27dp">27dp</dimen>
+    <dimen name="margin_28dp">28dp</dimen>
+    <dimen name="margin_29dp">29dp</dimen>
+    <dimen name="margin_30dp">30dp</dimen>
+    <dimen name="margin_31dp">31dp</dimen>
+    <dimen name="margin_32dp">32dp</dimen>
+    <dimen name="margin_33dp">33dp</dimen>
+
+    <dimen name="margin_34dp">34dp</dimen>
+    <dimen name="margin_35dp">35dp</dimen>
+    <dimen name="margin_36dp">36dp</dimen>
+    <dimen name="margin_37dp">37dp</dimen>
+    <dimen name="margin_38dp">38dp</dimen>
+    <dimen name="margin_39dp">39dp</dimen>
+    <dimen name="margin_40dp">40dp</dimen>
+    <dimen name="margin_41dp">41dp</dimen>
+    <dimen name="margin_42dp">42dp</dimen>
+    <dimen name="margin_43dp">43dp</dimen>
+
+    <dimen name="margin_44dp">44dp</dimen>
+    <dimen name="margin_45dp">45dp</dimen>
+    <dimen name="margin_46dp">46dp</dimen>
+    <dimen name="margin_47dp">47dp</dimen>
+    <dimen name="margin_48dp">48dp</dimen>
+    <dimen name="margin_49dp">49dp</dimen>
+
+    <dimen name="margin_50dp">50dp</dimen>
+    <dimen name="margin_51dp">51dp</dimen>
+    <dimen name="margin_52dp">52dp</dimen>
+    <dimen name="margin_53dp">53dp</dimen>
+    <dimen name="margin_54dp">54dp</dimen>
+    <dimen name="margin_55dp">55dp</dimen>
+    <dimen name="margin_56dp">56dp</dimen>
+    <dimen name="margin_57dp">57dp</dimen>
+    <dimen name="margin_58dp">58dp</dimen>
+    <dimen name="margin_59dp">59dp</dimen>
+    <dimen name="margin_60dp">60dp</dimen>
+    <dimen name="margin_61dp">61dp</dimen>
+    <dimen name="margin_62dp">62dp</dimen>
+    <dimen name="margin_63dp">63dp</dimen>
+
+    <dimen name="text_size_1sp">1sp</dimen>
+    <dimen name="text_size_2sp">2sp</dimen>
+    <dimen name="text_size_3sp">3sp</dimen>
+    <dimen name="text_size_4sp">4sp</dimen>
+    <dimen name="text_size_5sp">5sp</dimen>
+    <dimen name="text_size_6sp">6sp</dimen>
+    <dimen name="text_size_7sp">7sp</dimen>
+    <dimen name="text_size_8sp">8sp</dimen>
+    <dimen name="text_size_9sp">9sp</dimen>
+    <dimen name="text_size_10sp">10sp</dimen>
+    <dimen name="text_size_11sp">11sp</dimen>
+    <dimen name="text_size_12sp">12sp</dimen>
+    <dimen name="text_size_13sp">13sp</dimen>
+    <dimen name="text_size_14sp">14sp</dimen>
+    <dimen name="text_size_15sp">15sp</dimen>
+    <dimen name="text_size_16sp">16sp</dimen>
+    <dimen name="text_size_17sp">17sp</dimen>
+    <dimen name="text_size_18sp">18sp</dimen>
+    <dimen name="text_size_19sp">19sp</dimen>
+    <dimen name="text_size_20sp">20sp</dimen>
+    <dimen name="text_size_21sp">21sp</dimen>
+    <dimen name="text_size_22sp">22sp</dimen>
+    <dimen name="text_size_23sp">23sp</dimen>
+    <dimen name="text_size_24sp">24sp</dimen>
+    <dimen name="text_size_25sp">25sp</dimen>
+    <dimen name="text_size_26sp">26sp</dimen>
+    <dimen name="text_size_27sp">27sp</dimen>
+    <dimen name="text_size_28sp">28sp</dimen>
+    <dimen name="text_size_29sp">29sp</dimen>
+    <dimen name="text_size_30sp">30sp</dimen>
+    <dimen name="text_size_31sp">31sp</dimen>
+    <dimen name="text_size_32sp">32sp</dimen>
+    <dimen name="text_size_33sp">33sp</dimen>
+    <dimen name="text_size_34sp">34sp</dimen>
+    <dimen name="text_size_35sp">35sp</dimen>
+    <dimen name="text_size_36sp">36sp</dimen>
+    <dimen name="text_size_37sp">37sp</dimen>
+    <dimen name="text_size_38sp">38sp</dimen>
+    <dimen name="text_size_39sp">39sp</dimen>
+
+    <dimen name="text_size_40sp">40sp</dimen>
+    <dimen name="text_size_41sp">41sp</dimen>
+    <dimen name="text_size_42sp">42sp</dimen>
+    <dimen name="text_size_43sp">43sp</dimen>
+    <dimen name="text_size_44sp">44sp</dimen>
+    <dimen name="text_size_45sp">45sp</dimen>
+    <dimen name="text_size_46sp">46sp</dimen>
+    <dimen name="text_size_47sp">47sp</dimen>
+    <dimen name="text_size_48sp">48sp</dimen>
+    <dimen name="text_size_49sp">49sp</dimen>
+
+    <dimen name="text_size_50sp">50sp</dimen>
+    <dimen name="text_size_51sp">51sp</dimen>
+    <dimen name="text_size_52sp">52sp</dimen>
+    <dimen name="text_size_53sp">53sp</dimen>
+    <dimen name="text_size_54sp">54sp</dimen>
+    <dimen name="text_size_55sp">55sp</dimen>
+    <dimen name="text_size_56sp">56sp</dimen>
+    <dimen name="text_size_57sp">57sp</dimen>
+    <dimen name="text_size_58sp">58sp</dimen>
+    <dimen name="text_size_59sp">59sp</dimen>
+
+    <dimen name="text_size_60sp">60sp</dimen>
+    <dimen name="text_size_61sp">61sp</dimen>
+    <dimen name="text_size_62sp">62sp</dimen>
+    <dimen name="text_size_63sp">63sp</dimen>
+</resources>

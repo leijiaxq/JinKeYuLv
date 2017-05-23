@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <include layout="@layout/title"/>
+
+    <include layout="@layout/include_writeinfo_header"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="9dp"
+                android:layout_marginLeft="19dp"
+                android:layout_marginTop="28dp"
+                android:text="名称"
+                android:textColor="@color/text_black"
+                android:textSize="14sp"/>
+
+            <EditText
+                android:id="@+id/name_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="19dp"
+                android:layout_marginRight="19dp"
+                android:background="@drawable/shape_edit_bg"
+                android:hint="请输入伤者姓名（必填）"
+                android:paddingBottom="15dp"
+                android:paddingLeft="9dp"
+                android:paddingRight="9dp"
+                android:paddingTop="15dp"
+                android:textColor="@color/text_black"
+                android:textColorHint="@color/gray_ccc"
+                android:textCursorDrawable="@drawable/shape_cursor"
+                android:textSize="12sp"/>
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="9dp"
+                android:layout_marginLeft="19dp"
+                android:layout_marginTop="20dp"
+                android:text="性别"
+                android:textColor="@color/text_black"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@+id/gender_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="19dp"
+                android:layout_marginRight="19dp"
+                android:background="@drawable/shape_edit_bg"
+                android:drawableRight="@drawable/icon_down"
+                android:hint="请选择"
+                android:paddingBottom="15dp"
+                android:paddingLeft="9dp"
+                android:paddingRight="9dp"
+                android:paddingTop="15dp"
+                android:textColor="@color/text_black"
+                android:textColorHint="@color/gray_ccc"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="9dp"
+                android:layout_marginLeft="19dp"
+                android:layout_marginTop="20dp"
+                android:text="年龄"
+                android:textColor="@color/text_black"
+                android:textSize="14sp"/>
+
+            <EditText
+                android:id="@+id/age_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="19dp"
+                android:layout_marginRight="19dp"
+                android:background="@drawable/shape_edit_bg"
+                android:hint="请输入真实年龄"
+                android:inputType="number"
+                android:paddingBottom="15dp"
+                android:paddingLeft="9dp"
+                android:paddingRight="9dp"
+                android:paddingTop="15dp"
+                android:textColor="@color/text_black"
+                android:textColorHint="@color/gray_ccc"
+                android:textCursorDrawable="@drawable/shape_cursor"
+                android:textSize="12sp"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="9dp"
+                android:layout_marginLeft="19dp"
+                android:layout_marginTop="20dp"
+                android:text="联系电话"
+                android:textColor="@color/text_black"
+                android:textSize="14sp"/>
+
+            <EditText
+                android:maxLength="11"
+                android:id="@+id/phone_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="19dp"
+                android:layout_marginRight="19dp"
+                android:background="@drawable/shape_edit_bg"
+                android:hint="请输入联系电话"
+                android:inputType="phone"
+                android:paddingBottom="15dp"
+                android:paddingLeft="9dp"
+                android:paddingRight="9dp"
+                android:paddingTop="15dp"
+                android:textColor="@color/text_black"
+                android:textColorHint="@color/gray_ccc"
+                android:textCursorDrawable="@drawable/shape_cursor"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="9dp"
+                android:layout_marginLeft="19dp"
+                android:layout_marginTop="20dp"
+                android:text="户籍地址"
+                android:textColor="@color/text_black"
+                android:textSize="14sp"/>
+
+            <EditText
+                android:textCursorDrawable="@drawable/shape_cursor"
+                android:id="@+id/address_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="19dp"
+                android:layout_marginRight="19dp"
+                android:background="@drawable/shape_edit_bg"
+                android:hint="请输入户籍所在地"
+                android:paddingBottom="15dp"
+                android:paddingLeft="9dp"
+                android:paddingRight="9dp"
+                android:paddingTop="15dp"
+                android:textColor="@color/text_black"
+                android:textColorHint="@color/gray_ccc"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="9dp"
+                android:layout_marginLeft="19dp"
+                android:layout_marginTop="20dp"
+                android:text="户籍性质"
+                android:textColor="@color/text_black"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@+id/nature_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="19dp"
+                android:layout_marginRight="19dp"
+                android:background="@drawable/shape_edit_bg"
+                android:drawableRight="@drawable/icon_down"
+                android:hint="请选择户籍性质"
+                android:paddingBottom="15dp"
+                android:paddingLeft="9dp"
+                android:paddingRight="9dp"
+                android:paddingTop="15dp"
+                android:textColor="@color/text_black"
+                android:textColorHint="@color/gray_ccc"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="9dp"
+                android:layout_marginLeft="19dp"
+                android:layout_marginTop="20dp"
+                android:text="身份证号"
+                android:textColor="@color/text_black"
+                android:textSize="14sp"/>
+
+            <EditText
+                android:textCursorDrawable="@drawable/shape_cursor"
+                android:id="@+id/number_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="19dp"
+                android:layout_marginRight="19dp"
+                android:background="@drawable/shape_edit_bg"
+                android:digits="0123456789xyzXYZ"
+                android:hint="请输入有效证件号（必填）"
+                android:inputType="number"
+                android:maxLength="18"
+                android:paddingBottom="15dp"
+                android:paddingLeft="9dp"
+                android:paddingRight="9dp"
+                android:paddingTop="15dp"
+                android:textColor="@color/text_black"
+                android:textColorHint="@color/gray_ccc"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="9dp"
+                android:layout_marginLeft="19dp"
+                android:layout_marginTop="20dp"
+                android:text="居住情况"
+                android:textColor="@color/text_black"
+                android:textSize="14sp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="19dp"
+                android:layout_marginRight="19dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/time1_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_edit_bg"
+                    android:hint="请选择入住时间"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="9dp"
+                    android:paddingRight="9dp"
+                    android:paddingTop="15dp"
+                    android:textColor="@color/text_black"
+                    android:textColorHint="@color/gray_ccc"
+                    android:textSize="12sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="9dp"
+                    android:layout_marginRight="9dp"
+                    android:text="至"
+                    android:textColor="@color/text_gray666"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:id="@+id/time2_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_edit_bg"
+                    android:hint="至今"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="9dp"
+                    android:paddingRight="9dp"
+                    android:paddingTop="15dp"
+                    android:textColor="@color/text_black"
+                    android:textColorHint="@color/gray_ccc"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="9dp"
+                android:layout_marginLeft="19dp"
+                android:layout_marginTop="20dp"
+                android:text="居住地址"
+                android:textColor="@color/text_black"
+                android:textSize="14sp"/>
+
+            <EditText
+                android:textCursorDrawable="@drawable/shape_cursor"
+                android:id="@+id/address_live_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="19dp"
+                android:layout_marginRight="19dp"
+                android:background="@drawable/shape_edit_bg"
+                android:hint="请输入现居住地址"
+                android:paddingBottom="15dp"
+                android:paddingLeft="9dp"
+                android:paddingRight="9dp"
+                android:paddingTop="15dp"
+                android:textColor="@color/text_black"
+                android:textColorHint="@color/gray_ccc"
+                android:textSize="12sp"/>
+
+
+            <TextView
+                android:id="@+id/next_tv"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginBottom="40dp"
+                android:layout_marginLeft="28dp"
+                android:layout_marginRight="28dp"
+                android:layout_marginTop="28dp"
+                android:background="@drawable/ripple_selector_item_blue"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="下一步"
+                android:textColor="@color/white"
+                android:textSize="16sp"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

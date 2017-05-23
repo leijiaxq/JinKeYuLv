@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+              android:orientation="vertical">
+
+    <View
+        android:id="@+id/item_top_v"
+        android:layout_width="1dp"
+        android:layout_height="8dp"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/item_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="9dp"
+        android:layout_marginLeft="19dp"
+        android:layout_marginTop="20dp"
+        android:text="进件审批表"
+        android:textColor="@color/text_black"
+        android:textSize="14sp"/>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="9dp"
+            android:layout_marginRight="9dp"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:id="@+id/layout11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <!-- <ImageView
+                     android:scaleType="centerCrop"
+                     android:id="@+id/iamge11_iv"
+                     android:layout_width="78dp"
+                     android:layout_height="78dp"
+                     android:src="@drawable/add_img"/>-->
+                <com.maymeng.jinkeyulv.view.mask.PorterShapeImageView
+                    android:id="@+id/iamge11_iv"
+                    android:layout_width="78dp"
+                    android:layout_height="78dp"
+                    android:src="@drawable/add_img"
+                    app:siShape="@drawable/shape_rounded_rectangle"
+                    app:siSquare="true"/>
+
+                <ImageView
+                    android:id="@+id/delete11_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:src="@drawable/delete"
+                    android:visibility="gone"
+                    />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:visibility="gone"
+                android:id="@+id/layout12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="9dp"
+                >
+
+                <com.maymeng.jinkeyulv.view.mask.PorterShapeImageView
+                    android:id="@+id/iamge12_iv"
+                    android:layout_width="78dp"
+                    android:layout_height="78dp"
+                    android:src="@drawable/add_img"
+                    app:siShape="@drawable/shape_rounded_rectangle"
+                    app:siSquare="true"/>
+                <!--    <ImageView
+                        android:layout_width="78dp"
+                        android:layout_height="78dp"
+                        android:src="@drawable/add_img"/>-->
+
+                <ImageView
+                    android:id="@+id/delete12_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:src="@drawable/delete"
+                    android:visibility="gone"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:visibility="gone"
+                android:id="@+id/layout13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="9dp"
+               >
+
+                <com.maymeng.jinkeyulv.view.mask.PorterShapeImageView
+                    android:id="@+id/iamge13_iv"
+                    android:layout_width="78dp"
+                    android:layout_height="78dp"
+                    android:src="@drawable/add_img"
+                    app:siShape="@drawable/shape_rounded_rectangle"
+                    app:siSquare="true"/>
+                <!--    <ImageView
+                        android:layout_width="78dp"
+                        android:layout_height="78dp"
+                        android:src="@drawable/add_img"/>-->
+
+                <ImageView
+                    android:id="@+id/delete13_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:src="@drawable/delete"
+                    android:visibility="gone"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:visibility="gone"
+                android:id="@+id/layout14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="9dp"
+               >
+
+                <com.maymeng.jinkeyulv.view.mask.PorterShapeImageView
+                    android:id="@+id/iamge14_iv"
+                    android:layout_width="78dp"
+                    android:layout_height="78dp"
+                    android:src="@drawable/add_img"
+                    app:siShape="@drawable/shape_rounded_rectangle"
+                    app:siSquare="true"/>
+                <!--    <ImageView
+                        android:layout_width="78dp"
+                        android:layout_height="78dp"
+                        android:src="@drawable/add_img"/>-->
+
+                <ImageView
+                    android:id="@+id/delete14_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:src="@drawable/delete"
+                    android:visibility="gone"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
+</LinearLayout>

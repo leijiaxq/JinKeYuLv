@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:clickable="true"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ripple_selector_item_white">
+
+    <TextView
+        android:id="@+id/item_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="15dp"
+        android:text="张三"
+        android:textColor="@color/text_black"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/item_phone_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item_name_tv"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="8dp"
+        android:textSize="12sp"
+        android:textColor="@color/text_gray999"
+        android:text="联系电话：159-2635-6744"/>
+
+    <TextView
+        android:id="@+id/item_status_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:drawablePadding="10dp"
+        android:textColor="@color/selector_item_text"
+        android:drawableRight="@drawable/icon_next"
+        android:text="进行中"/>
+
+    <View
+        android:layout_marginLeft="14dp"
+        android:background="@color/line_gray"
+
+        android:id="@+id/item_line_v"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="1px"/>
+</RelativeLayout>

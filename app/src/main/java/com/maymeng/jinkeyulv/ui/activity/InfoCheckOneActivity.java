@@ -200,9 +200,9 @@ public class InfoCheckOneActivity extends RxBaseActivity {
                 });
     }
 
-    private void submitCheckInfoToServiceNet(String idCard) {
+    private void submitCheckInfoToServiceNet(String idCard,String address) {
         RetrofitHelper.getBaseApi()
-                .submitCheckInfoToServiceNet(1, idCard)
+                .submitCheckInfoToServiceNet(1, idCard,address)
                 .compose(this.<BaseNetBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -268,7 +268,7 @@ public class InfoCheckOneActivity extends RxBaseActivity {
 
                 BaseApplication.getInstance().setCheckUserBean(checkUserBean);
 
-                submitCheckInfoToServiceNet(checkUserBean.IDCard);
+                submitCheckInfoToServiceNet(checkUserBean.IDCard,bean.data.address);
             }
 //            Intent intent = new Intent(this, InfoCheckOneResultActivity.class);
 //            startActivity(intent);

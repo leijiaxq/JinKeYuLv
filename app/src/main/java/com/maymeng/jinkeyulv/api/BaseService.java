@@ -130,7 +130,7 @@ public interface BaseService {
     //    身份校验和银行卡校验信息提交后台  ValidCode 1为身份证信息，2为银行卡信息
     @FormUrlEncoded
     @POST("api/CaseUserInfo")
-    Observable<BaseNetBean> submitCheckInfoToServiceNet(@Field("ValidCode") int ValidCode, @Field("IDCard") String IDCard);
+    Observable<BaseNetBean> submitCheckInfoToServiceNet(@Field("ValidCode") int ValidCode, @Field("IDCard") String IDCard, @Field("HouseholdRegister") String HouseholdRegister);
 
     //   上传图片的时间和经纬度
 //    @FormUrlEncoded

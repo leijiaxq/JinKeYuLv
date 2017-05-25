@@ -84,7 +84,13 @@ public class SignUploadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             holder.mDelete12Iv.setVisibility(View.GONE);
             holder.mLayout13.setVisibility(View.GONE);
             holder.mLayout14.setVisibility(View.GONE);
-            String path = list.get(0);
+            String path = "";
+            String str = list.get(0);
+            if (str.startsWith("/Image")) {
+                path = Constants.BASE_URL + str;
+            } else {
+                path = str;
+            }
 //            ImageUtil.getInstance().displayRoundImage(mContext, path, holder.mIamge11Iv, 50);
             ImageUtil.getInstance().displayImage(mContext, path, holder.mIamge11Iv);
 //            holder.mIamge12Iv.setImageResource(R.drawable.add_img);
@@ -97,10 +103,22 @@ public class SignUploadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             holder.mLayout13.setVisibility(View.VISIBLE);
             holder.mLayout14.setVisibility(View.GONE);
             holder.mDelete13Iv.setVisibility(View.GONE);
-            String path = list.get(0);
+            String path = "";
+            String str = list.get(0);
+            if (str.startsWith("/Image")) {
+                path = Constants.BASE_URL + str;
+            } else {
+                path = str;
+            }
             ImageUtil.getInstance().displayImage(mContext, path, holder.mIamge11Iv);
 //            ImageUtil.getInstance().displayRoundImage(mContext, path, holder.mIamge11Iv, 50);
-            String path2 = list.get(1);
+            String path2 = "";
+            String str2 = list.get(1);
+            if (str2.startsWith("/Image")) {
+                path2 = Constants.BASE_URL + str2;
+            } else {
+                path2 = str2;
+            }
             ImageUtil.getInstance().displayImage(mContext, path2, holder.mIamge12Iv);
 //            ImageUtil.getInstance().displayRoundImage(mContext, path2, holder.mIamge12Iv, 50);
 //            holder.mIamge13Iv.setImageResource(R.drawable.add_img);
@@ -115,13 +133,31 @@ public class SignUploadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             holder.mLayout14.setVisibility(View.VISIBLE);
             holder.mDelete14Iv.setVisibility(View.GONE);
-            String path = list.get(0);
+            String path = "";
+            String str = list.get(0);
+            if (str.startsWith("/Image")) {
+                path = Constants.BASE_URL + str;
+            } else {
+                path = str;
+            }
 //            ImageUtil.getInstance().displayRoundImage(mContext, path, holder.mIamge11Iv, 50);
             ImageUtil.getInstance().displayImage(mContext, path, holder.mIamge11Iv);
-            String path2 = list.get(1);
+            String path2 = "";
+            String str2 = list.get(1);
+            if (str2.startsWith("/Image")) {
+                path2 = Constants.BASE_URL + str2;
+            } else {
+                path2 = str2;
+            }
             ImageUtil.getInstance().displayImage(mContext, path2, holder.mIamge12Iv);
 //            ImageUtil.getInstance().displayRoundImage(mContext, path2, holder.mIamge12Iv, 50);
-            String path3 = list.get(2);
+            String path3 = "";
+            String str3 = list.get(2);
+            if (str3.startsWith("/Image")) {
+                path3 = Constants.BASE_URL + str3;
+            } else {
+                path3 = str3;
+            }
             ImageUtil.getInstance().displayImage(mContext, path3, holder.mIamge13Iv);
 //            ImageUtil.getInstance().displayRoundImage(mContext, path3, holder.mIamge13Iv, 50);
             ImageUtil.getInstance().displayImage(mContext, R.drawable.add_img, holder.mIamge14Iv);
@@ -135,16 +171,40 @@ public class SignUploadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             holder.mLayout14.setVisibility(View.VISIBLE);
             holder.mDelete14Iv.setVisibility(View.VISIBLE);
-            String path = list.get(0);
+            String path = "";
+            String str = list.get(0);
+            if (str.startsWith("/Image")) {
+                path = Constants.BASE_URL + str;
+            } else {
+                path = str;
+            }
 //            ImageUtil.getInstance().displayRoundImage(mContext, path, holder.mIamge11Iv, 50);
             ImageUtil.getInstance().displayImage(mContext, path, holder.mIamge11Iv);
-            String path2 = list.get(1);
+            String path2 = "";
+            String str2 = list.get(1);
+            if (str2.startsWith("/Image")) {
+                path2 = Constants.BASE_URL + str2;
+            } else {
+                path2 = str2;
+            }
             ImageUtil.getInstance().displayImage(mContext, path2, holder.mIamge12Iv);
 //            ImageUtil.getInstance().displayRoundImage(mContext, path2, holder.mIamge12Iv, 50);
-            String path3 = list.get(2);
+            String path3 = "";
+            String str3 = list.get(2);
+            if (str3.startsWith("/Image")) {
+                path3 = Constants.BASE_URL + str3;
+            } else {
+                path3 = str3;
+            }
             ImageUtil.getInstance().displayImage(mContext, path3, holder.mIamge13Iv);
 //            ImageUtil.getInstance().displayRoundImage(mContext, path3, holder.mIamge13Iv, 50);
-            String path4 = list.get(3);
+            String path4 = "";
+            String str4 = list.get(3);
+            if (str4.startsWith("/Image")) {
+                path4 = Constants.BASE_URL + str4;
+            } else {
+                path4 = str4;
+            }
             ImageUtil.getInstance().displayImage(mContext, path4, holder.mIamge14Iv);
         }
 

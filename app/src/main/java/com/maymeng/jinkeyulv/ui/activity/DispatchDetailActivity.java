@@ -134,10 +134,10 @@ public class DispatchDetailActivity extends RxBaseActivity {
                     @Override
                     public void call(RxBusBean bean) {
                         if (bean.id == Constants.RXBUS_ONE) {
-//                            finish();
-                            if (mBean != null) {
+                            finish();
+                           /* if (mBean != null) {
                                 getNewDispatchCaseInfoNet(mBean.CaseId);
-                            }
+                            }*/
                         }
                     }
                 });

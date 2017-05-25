@@ -12,11 +12,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.maymeng.jinkeyulv.R;
+import com.maymeng.jinkeyulv.api.Constants;
+import com.maymeng.jinkeyulv.api.RxBus;
 import com.maymeng.jinkeyulv.base.RxBaseActivity;
+import com.maymeng.jinkeyulv.bean.RxBusBean;
 import com.maymeng.jinkeyulv.utils.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import rx.functions.Action1;
 
 /**
  * Created by  leijiaxq
@@ -68,6 +72,21 @@ public class QueryActivity extends RxBaseActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void loadData() {
+        //用于--填完第五页数据后finish掉页面  ----刷新该页面的数据
+        RxBus.getDefault().toObservable(RxBusBean.class)
+                .compose(this.<RxBusBean>bindToLifecycle())
+                .subscribe(new Action1<RxBusBean>() {
+                    @Override
+                    public void call(RxBusBean bean) {
+                        if (bean.id == Constants.RXBUS_ONE) {
+                            finish();
+                        }
+                    }
+                });
     }
 
     @OnClick(R.id.query_tv)

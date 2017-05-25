@@ -1,5 +1,8 @@
 package com.maymeng.jinkeyulv.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 /**
@@ -20,7 +23,7 @@ public class SignBean extends BaseBean {
     public String ResponseMessage;
     public List<ResponseDataBean> ResponseData;
 
-    public static class ResponseDataBean {
+    public static class ResponseDataBean implements Parcelable {
         /**
          * OrderId : 82
          * CustomerName : 各个地方
@@ -36,5 +39,52 @@ public class SignBean extends BaseBean {
         public String Phone;
         public boolean IsRead;
         public int CaseId;
+
+        public String EntryApprovalForm;
+        public String AgentContract;
+
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(this.OrderId);
+            dest.writeString(this.CustomerName);
+            dest.writeString(this.ReportNumber);
+            dest.writeString(this.Phone);
+            dest.writeByte(this.IsRead ? (byte) 1 : (byte) 0);
+            dest.writeInt(this.CaseId);
+            dest.writeString(this.EntryApprovalForm);
+            dest.writeString(this.AgentContract);
+        }
+
+        public ResponseDataBean() {
+        }
+
+        protected ResponseDataBean(Parcel in) {
+            this.OrderId = in.readInt();
+            this.CustomerName = in.readString();
+            this.ReportNumber = in.readString();
+            this.Phone = in.readString();
+            this.IsRead = in.readByte() != 0;
+            this.CaseId = in.readInt();
+            this.EntryApprovalForm = in.readString();
+            this.AgentContract = in.readString();
+        }
+
+        public static final Parcelable.Creator<ResponseDataBean> CREATOR = new Parcelable.Creator<ResponseDataBean>() {
+            @Override
+            public ResponseDataBean createFromParcel(Parcel source) {
+                return new ResponseDataBean(source);
+            }
+
+            @Override
+            public ResponseDataBean[] newArray(int size) {
+                return new ResponseDataBean[size];
+            }
+        };
     }
 }

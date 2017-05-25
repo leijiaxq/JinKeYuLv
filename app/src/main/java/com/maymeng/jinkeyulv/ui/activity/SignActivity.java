@@ -138,7 +138,7 @@ public class SignActivity extends RxBaseActivity implements SwipeRefreshLayout.O
             public void onItemClick(int position) {
                 Intent intent = new Intent(SignActivity.this, SignUploadActivity.class);
                 SignBean.ResponseDataBean bean = mDatas.get(position);
-                intent.putExtra("CaseId", bean.CaseId);
+                intent.putExtra("SignBean", bean);
                 startActivity(intent);
             }
         });

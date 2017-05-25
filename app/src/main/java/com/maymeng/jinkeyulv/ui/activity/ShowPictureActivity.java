@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.maymeng.jinkeyulv.R;
+import com.maymeng.jinkeyulv.api.Constants;
 import com.maymeng.jinkeyulv.base.RxBaseActivity;
 import com.maymeng.jinkeyulv.utils.ImageUtil;
 import com.maymeng.jinkeyulv.view.PictureViewPager;
@@ -128,7 +129,16 @@ public class ShowPictureActivity extends RxBaseActivity {
             // Now just add PhotoView to ViewPager and return it
             container.addView(photoView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             //			photoView.setImageResource(sDrawables[position]);
-            ImageUtil.getInstance().displayImage(ShowPictureActivity.this, mImgUrl[position], photoView);
+
+            String path = "";
+            String str = mImgUrl[position];
+            if (mImgUrl[position].startsWith("/Image")) {
+                path = Constants.BASE_URL + str;
+            } else {
+                path = str;
+            }
+
+            ImageUtil.getInstance().displayImage(ShowPictureActivity.this, path, photoView);
 
 
             return photoView;

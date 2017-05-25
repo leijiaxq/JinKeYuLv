@@ -636,7 +636,8 @@ public class WriteInfoFiveActivity extends RxBaseActivity {
 
             for (int j = 0, length = list.size(); j < length; j++) {
                 String str = list.get(j);
-                if (str.startsWith("/storage")) {
+                if (!str.startsWith("/Image")) {
+//                if (str.startsWith("/storage")) {
                     uploadNumber++;
 //                    uploadFileNet(i, str);
                     mListIndex.add(i);

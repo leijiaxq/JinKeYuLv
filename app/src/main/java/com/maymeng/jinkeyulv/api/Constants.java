@@ -58,7 +58,7 @@ public class Constants {
 
     public static final String ERROR = "数据错误";
 
-    public static final String CHECK_ERROR = "系统异常";
+    public static final String CHECK_ERROR = "校验错误";
 
     public static final int SIZE = 15;
 

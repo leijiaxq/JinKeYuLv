@@ -24,12 +24,13 @@ import com.maymeng.jinkeyulv.api.Constants;
 import com.maymeng.jinkeyulv.api.RetrofitHelper;
 import com.maymeng.jinkeyulv.base.RxBaseActivity;
 import com.maymeng.jinkeyulv.bean.BaseBean;
+import com.maymeng.jinkeyulv.bean.SignBean;
+import com.maymeng.jinkeyulv.bean.SignUploadBean;
 import com.maymeng.jinkeyulv.bean.UploadFileBean;
 import com.maymeng.jinkeyulv.ui.adapter.SignUploadAdapter;
 import com.maymeng.jinkeyulv.ui.pop.SelectPicturePop;
 import com.maymeng.jinkeyulv.utils.ImageUtil;
 import com.maymeng.jinkeyulv.utils.ToastUtil;
-import com.maymeng.jinkeyulv.bean.SignUploadBean;
 import com.tbruyelle.rxpermissions.RxPermissions;
 import com.yancy.gallerypick.config.GalleryConfig;
 import com.yancy.gallerypick.config.GalleryPick;
@@ -78,7 +79,7 @@ public class SignUploadActivity extends RxBaseActivity {
 
     public static final int REQUEST_CAMERA = 1;
     private String mImgPath;
-    private int mCaseId;
+    private SignBean.ResponseDataBean mBean;
 
     @Override
     public int getLayoutId() {
@@ -88,9 +89,10 @@ public class SignUploadActivity extends RxBaseActivity {
     @Override
     public void initViews(Bundle savedInstanceState) {
         mTitleTv.setText("上传合同");
-        mCaseId = getIntent().getIntExtra("CaseId", 0);
+        mBean = getIntent().getParcelableExtra("SignBean");
 
     }
+
     @Override
     public void initToolBar() {
         setSupportActionBar(mToolbar);
@@ -121,7 +123,7 @@ public class SignUploadActivity extends RxBaseActivity {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         initList();
-//        setWriteInfoBeanImg();
+        setWriteInfoBeanImg();
 
         initAdapter();
 //        initGallery();
@@ -139,89 +141,24 @@ public class SignUploadActivity extends RxBaseActivity {
     }
 
     //把Image切分设置到对应的list集合中
-//    private void setWriteInfoBeanImg() {
-//        WriteInfoBean bean = BaseApplication.getInstance().getWriteInfoBean();
-//        if (bean != null) {
-//            if (!TextUtils.isEmpty(bean.SurveyImg)) {
-//                String[] split = bean.SurveyImg.split(";");
-//                List<String> list = mDatas.get(0);
-//                for (int i = 0; i < split.length; i++) {
-//                    list.add(split[i]);
-//                }
-//            }
-//            if (!TextUtils.isEmpty(bean.HomesImg)) {
-//                String[] split = bean.HomesImg.split(";");
-//                List<String> list = mDatas.get(1);
-//                for (int i = 0; i < split.length; i++) {
-//                    list.add(split[i]);
-//                }
-//            }
-//            if (!TextUtils.isEmpty(bean.WardImg)) {
-//                String[] split = bean.WardImg.split(";");
-//                List<String> list = mDatas.get(2);
-//                for (int i = 0; i < split.length; i++) {
-//                    list.add(split[i]);
-//                }
-//            }
-//            if (!TextUtils.isEmpty(bean.BedsideCardImg)) {
-//                String[] split = bean.BedsideCardImg.split(";");
-//                List<String> list = mDatas.get(3);
-//                for (int i = 0; i < split.length; i++) {
-//                    list.add(split[i]);
-//                }
-//            }
-//            if (!TextUtils.isEmpty(bean.CaseDataImg)) {
-//                String[] split = bean.CaseDataImg.split(";");
-//                List<String> list = mDatas.get(4);
-//                for (int i = 0; i < split.length; i++) {
-//                    list.add(split[i]);
-//                }
-//            }
-//            if (!TextUtils.isEmpty(bean.XCTImg)) {
-//                String[] split = bean.XCTImg.split(";");
-//                List<String> list = mDatas.get(5);
-//                for (int i = 0; i < split.length; i++) {
-//                    list.add(split[i]);
-//                }
-//            }
-//            if (!TextUtils.isEmpty(bean.CostImg)) {
-//                String[] split = bean.CostImg.split(";");
-//                List<String> list = mDatas.get(6);
-//                for (int i = 0; i < split.length; i++) {
-//                    list.add(split[i]);
-//                }
-//            }
-//            if (!TextUtils.isEmpty(bean.WholeBodyImg)) {
-//                String[] split = bean.WholeBodyImg.split(";");
-//                List<String> list = mDatas.get(7);
-//                for (int i = 0; i < split.length; i++) {
-//                    list.add(split[i]);
-//                }
-//            }
-//            if (!TextUtils.isEmpty(bean.InjuryImg)) {
-//                String[] split = bean.InjuryImg.split(";");
-//                List<String> list = mDatas.get(8);
-//                for (int i = 0; i < split.length; i++) {
-//                    list.add(split[i]);
-//                }
-//            }
-//            if (!TextUtils.isEmpty(bean.IDCardImg)) {
-//                String[] split = bean.IDCardImg.split(";");
-//                List<String> list = mDatas.get(9);
-//                for (int i = 0; i < split.length; i++) {
-//                    list.add(split[i]);
-//                }
-//            }
-//            if (!TextUtils.isEmpty(bean.NoticeLetterImg)) {
-//                String[] split = bean.NoticeLetterImg.split(";");
-//                List<String> list = mDatas.get(10);
-//                for (int i = 0; i < split.length; i++) {
-//                    list.add(split[i]);
-//                }
-//            }
-//
-//        }
-//    }
+    private void setWriteInfoBeanImg() {
+        if (mBean != null) {
+            if (!TextUtils.isEmpty(mBean.EntryApprovalForm)) {
+                String[] split = mBean.EntryApprovalForm.split(";");
+                List<String> list = mDatas.get(0);
+                for (int i = 0; i < split.length; i++) {
+                    list.add(split[i]);
+                }
+            }
+            if (!TextUtils.isEmpty(mBean.AgentContract)) {
+                String[] split = mBean.AgentContract.split(";");
+                List<String> list = mDatas.get(1);
+                for (int i = 0; i < split.length; i++) {
+                    list.add(split[i]);
+                }
+            }
+        }
+    }
 
     private void initAdapter() {
 
@@ -289,7 +226,7 @@ public class SignUploadActivity extends RxBaseActivity {
 
 
     private void showSelectPicturePop() {
-        SelectPicturePop selectPicturePop = new SelectPicturePop(this,false);
+        SelectPicturePop selectPicturePop = new SelectPicturePop(this, false);
         selectPicturePop.setShareListener(new SelectPicturePop.ShareListener() {
             @Override
             public void onItem(int position) {
@@ -504,32 +441,33 @@ public class SignUploadActivity extends RxBaseActivity {
     private void submitInfoNet() {
         StringBuilder builder1 = mListStringBuider.get(0);
         StringBuilder builder2 = mListStringBuider.get(1);
-
-        RetrofitHelper.getBaseApi()
-                .UpdateSignCaseNet(mCaseId,builder1.toString(),builder2.toString())
-                .compose(this.<SignUploadBean>bindToLifecycle())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<SignUploadBean>() {
-                    @Override
-                    public void onCompleted() {
-                        hideProgressDialog();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        showNetError();
-                    }
-
-                    @Override
-                    public void onNext(SignUploadBean bean) {
-                        if (Constants.OK.equals(bean.StateCode)) {
-                            finishTask(bean);
-                        } else {
-                            ToastUtil.showShort(TextUtils.isEmpty(bean.ResponseMessage) ? Constants.ERROR : bean.ResponseMessage);
+        if (mBean != null) {
+            RetrofitHelper.getBaseApi()
+                    .UpdateSignCaseNet(mBean.CaseId, builder1.toString(), builder2.toString())
+                    .compose(this.<SignUploadBean>bindToLifecycle())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<SignUploadBean>() {
+                        @Override
+                        public void onCompleted() {
+                            hideProgressDialog();
                         }
-                    }
-                });
+
+                        @Override
+                        public void onError(Throwable e) {
+                            showNetError();
+                        }
+
+                        @Override
+                        public void onNext(SignUploadBean bean) {
+                            if (Constants.OK.equals(bean.StateCode)) {
+                                finishTask(bean);
+                            } else {
+                                ToastUtil.showShort(TextUtils.isEmpty(bean.ResponseMessage) ? Constants.ERROR : bean.ResponseMessage);
+                            }
+                        }
+                    });
+        }
     }
 
     @Override
@@ -575,7 +513,8 @@ public class SignUploadActivity extends RxBaseActivity {
 
             for (int j = 0, length = list.size(); j < length; j++) {
                 String str = list.get(j);
-                if (str.startsWith("/storage")) {
+                if (!str.startsWith("/Image")) {
+//                if (str.startsWith("/storage")) {
                     uploadNumber++;
 //                    uploadFileNet(i, str);
                     mListIndex.add(i);

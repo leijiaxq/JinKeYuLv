@@ -188,7 +188,7 @@ public class QueryResultActivity extends RxBaseActivity {
             setImageProgressByStatus(mBean.IsStatus);
 
 
-            if (mBean.IsStatus == 0 || mBean.IsStatus == 1 || mBean.IsStatus == 2) {
+            if (mBean.IsStatus == 0 || mBean.IsStatus == 1 /*|| mBean.IsStatus == 2*/) {
 
             } else {
                 mSupplementTv.setBackgroundResource(R.drawable.shape_query_gray);
@@ -235,10 +235,10 @@ public class QueryResultActivity extends RxBaseActivity {
                     @Override
                     public void call(RxBusBean bean) {
                         if (bean.id == Constants.RXBUS_ONE) {
-//                            finish();
-                            if (mBean != null) {
+                            finish();
+                           /* if (mBean != null) {
                                 getNewDispatchCaseInfoNet(mBean.CaseId);
-                            }
+                            }*/
                         }
                     }
                 });

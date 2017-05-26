@@ -5,7 +5,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -82,6 +85,11 @@ public class WriteInfoTwoActivity extends RxBaseActivity {
     @BindView(R.id.next_tv)
     TextView mNextTv;
 
+    @BindView(R.id.name_tv)
+    TextView mNameTv;            //名称TV
+    @BindView(R.id.number_tv)
+    TextView mNumberTv;           //身份证号TV
+
     TimePickerView mPvCustomTime;
 
     //true 为入住时间，false为至今居住时间
@@ -138,9 +146,21 @@ public class WriteInfoTwoActivity extends RxBaseActivity {
                     mTime2tv.setText(time);
                 }
             }
-
-
         }
+
+        SpannableStringBuilder builder = new SpannableStringBuilder(mNameTv.getText().toString());
+
+        //ForegroundColorSpan 为文字前景色，BackgroundColorSpan为文字背景色
+        ForegroundColorSpan blueSpan = new ForegroundColorSpan(getResources().getColor(R.color.text_red));
+        builder.setSpan(blueSpan, 3, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        mNameTv.setText(builder);
+
+
+        SpannableStringBuilder builder2 = new SpannableStringBuilder(mNumberTv.getText().toString());
+        //ForegroundColorSpan 为文字前景色，BackgroundColorSpan为文字背景色
+        ForegroundColorSpan blueSpan2 = new ForegroundColorSpan(getResources().getColor(R.color.text_red));
+        builder2.setSpan(blueSpan2, 5, 6, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        mNumberTv.setText(builder2);
     }
 
     @Override
@@ -519,6 +539,7 @@ public class WriteInfoTwoActivity extends RxBaseActivity {
                             if (Constants.TOKEN_ERROR.equals(bean.ResponseMessage)) {
                                 hideProgressDialog();
                                 ToastUtil.showLong(Constants.TOKEN_RELOGIN);
+                                SPUtil.clear(WriteInfoTwoActivity.this);
                                 Intent intent = new Intent(WriteInfoTwoActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 finish();

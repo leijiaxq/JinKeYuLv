@@ -7,6 +7,7 @@ import com.maymeng.jinkeyulv.bean.CheckUserBean;
 import com.maymeng.jinkeyulv.bean.LoginBean;
 import com.maymeng.jinkeyulv.bean.WriteInfoBean;
 import com.maymeng.jinkeyulv.utils.LogUtil;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
 
@@ -46,6 +47,9 @@ public class BaseApplication extends Application {
             return;
         }
         LeakCanary.install(this);*/
+
+        CrashReport.initCrashReport(getApplicationContext(), "00e9685c88", false);
+
         mHandler = new Handler();
 
         PushAgent mPushAgent = PushAgent.getInstance(this);

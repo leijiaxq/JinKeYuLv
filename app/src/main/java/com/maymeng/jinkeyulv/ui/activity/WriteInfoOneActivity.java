@@ -315,6 +315,7 @@ public class WriteInfoOneActivity extends RxBaseActivity {
                             if (Constants.TOKEN_ERROR.equals(bean.ResponseMessage)) {
                                 hideProgressDialog();
                                 ToastUtil.showLong(Constants.TOKEN_RELOGIN);
+                                SPUtil.clear(WriteInfoOneActivity.this);
                                 Intent intent = new Intent(WriteInfoOneActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 finish();

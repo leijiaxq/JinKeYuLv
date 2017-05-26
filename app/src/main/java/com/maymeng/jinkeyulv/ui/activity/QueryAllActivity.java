@@ -246,6 +246,7 @@ public class QueryAllActivity extends RxBaseActivity implements SwipeRefreshLayo
                             if (Constants.TOKEN_ERROR.equals(newDispatchBean.ResponseMessage)) {
                                 hideProgressDialog();
                                 ToastUtil.showLong(Constants.TOKEN_RELOGIN);
+                                SPUtil.clear(QueryAllActivity.this);
                                 Intent intent = new Intent(QueryAllActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 finish();
@@ -301,6 +302,7 @@ public class QueryAllActivity extends RxBaseActivity implements SwipeRefreshLayo
                             if (Constants.TOKEN_ERROR.equals(newDispatchBean.ResponseMessage)) {
                                 hideProgressDialog();
                                 ToastUtil.showLong(Constants.TOKEN_RELOGIN);
+                                SPUtil.clear(QueryAllActivity.this);
                                 Intent intent = new Intent(QueryAllActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 finish();

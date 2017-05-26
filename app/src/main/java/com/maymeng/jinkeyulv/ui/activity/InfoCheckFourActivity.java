@@ -184,6 +184,7 @@ public class InfoCheckFourActivity extends RxBaseActivity {
 
                             if (Constants.TOKEN_ERROR.equals(baseNetBean.ResponseMessage)) {
                                 ToastUtil.showLong(Constants.TOKEN_RELOGIN);
+                                SPUtil.clear(InfoCheckFourActivity.this);
                                 Intent intent = new Intent(InfoCheckFourActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 finish();

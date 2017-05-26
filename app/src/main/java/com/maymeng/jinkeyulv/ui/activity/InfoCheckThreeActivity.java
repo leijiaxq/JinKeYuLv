@@ -241,6 +241,7 @@ public class InfoCheckThreeActivity extends RxBaseActivity {
                             if (Constants.TOKEN_ERROR.equals(baseNetBean.ResponseMessage)) {
                                 hideProgressDialog();
                                 ToastUtil.showLong(Constants.TOKEN_RELOGIN);
+                                SPUtil.clear(InfoCheckThreeActivity.this);
                                 Intent intent = new Intent(InfoCheckThreeActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 finish();

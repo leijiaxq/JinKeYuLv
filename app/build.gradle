@@ -91,4 +91,7 @@ dependencies {
 
     //仿iOS加载动画loading
     compile 'com.kaopiz:kprogresshud:1.0.5'
+
+    //bugly
+    compile 'com.tencent.bugly:crashreport:latest.release'
 }

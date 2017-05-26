@@ -45,7 +45,7 @@ public class ActivityStackUtil {
 
     public static void AppExit() {
         removeAllActivities();
-        System.exit(0);
+//        System.exit(0);
     }
 
     /**清除其他的aciticyt*/

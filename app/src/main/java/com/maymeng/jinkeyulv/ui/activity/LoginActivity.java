@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.maymeng.jinkeyulv.R;
 import com.maymeng.jinkeyulv.api.Constants;
@@ -17,6 +18,7 @@ import com.maymeng.jinkeyulv.base.RxBaseActivity;
 import com.maymeng.jinkeyulv.bean.BaseBean;
 import com.maymeng.jinkeyulv.bean.LoginBean;
 import com.maymeng.jinkeyulv.bean.VerificationCodeBean;
+import com.maymeng.jinkeyulv.utils.ActivityStackUtil;
 import com.maymeng.jinkeyulv.utils.CommonUtil;
 import com.maymeng.jinkeyulv.utils.RegexUtil;
 import com.maymeng.jinkeyulv.utils.SPUtil;
@@ -72,17 +74,25 @@ public class LoginActivity extends RxBaseActivity {
 
     }
 
+    boolean isBlack = true;
+
     @Override
     public void loadData() {
         mTimer = new CountDownTimer(60000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                mPasswordTv.setTextColor(getResources().getColor(R.color.gray_ccc));
-                mPasswordTv.setText("重新获取(" + millisUntilFinished / 1000 + "S)");
+                if (isBlack) {
+                    isBlack = false;
+                    mPasswordTv.setTextColor(getResources().getColor(R.color.gray_ccc));
+                }
+                long l = millisUntilFinished / 1000;
+
+                mPasswordTv.setText("重新获取(" + l+ "S)");
             }
 
             @Override
             public void onFinish() {
+                isBlack = true;
                 mPasswordTv.setTextColor(getResources().getColor(R.color.text_gray999));
                 mPasswordTv.setEnabled(true);
                 mPasswordTv.setText("获取验证码");
@@ -93,7 +103,10 @@ public class LoginActivity extends RxBaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mTimer.cancel();
+        if (mTimer != null) {
+            mTimer.cancel();
+
+        }
     }
 
     //发送验证码
@@ -109,7 +122,10 @@ public class LoginActivity extends RxBaseActivity {
             return;
         }
         view.setEnabled(false);
-        mTimer.start();
+
+        if (mTimer != null) {
+            mTimer.start();
+        }
 
         mPhoneNumber = phone;
         mVerificationCode = "";
@@ -178,7 +194,7 @@ public class LoginActivity extends RxBaseActivity {
     }
 
 
-    @Override
+  /*  @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
 
@@ -187,8 +203,28 @@ public class LoginActivity extends RxBaseActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
-    }
+    }*/
 
+
+    private long exitTime = 0;
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if ((System.currentTimeMillis() - exitTime) > 2000) {
+                Toast.makeText(getApplicationContext(),
+                        "再按一次退出",
+                        Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                ActivityStackUtil.AppExit();
+                finish();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
     private void getVerificationCodeNet(String phone) {
         RetrofitHelper.getBaseApi()

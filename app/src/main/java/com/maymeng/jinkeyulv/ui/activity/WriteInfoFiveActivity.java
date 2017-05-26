@@ -602,6 +602,7 @@ public class WriteInfoFiveActivity extends RxBaseActivity {
                             if (Constants.TOKEN_ERROR.equals(bean.ResponseMessage)) {
                                 hideProgressDialog();
                                 ToastUtil.showLong(Constants.TOKEN_RELOGIN);
+                                SPUtil.clear(WriteInfoFiveActivity.this);
                                 Intent intent = new Intent(WriteInfoFiveActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 finish();
@@ -753,6 +754,7 @@ public class WriteInfoFiveActivity extends RxBaseActivity {
                             if (Constants.TOKEN_ERROR.equals(bean.ResponseMessage)) {
                                 hideProgressDialog();
                                 ToastUtil.showLong(Constants.TOKEN_RELOGIN);
+                                SPUtil.clear(WriteInfoFiveActivity.this);
                                 Intent intent = new Intent(WriteInfoFiveActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 finish();

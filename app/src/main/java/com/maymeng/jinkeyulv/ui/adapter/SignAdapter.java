@@ -60,8 +60,8 @@ public class SignAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private void setDataType1(ViewHolderType1 holder, final int position) {
         SignBean.ResponseDataBean bean = mDatas.get(position);
+        holder.mItemNameTv.setSelected(true);
         holder.mItemNameTv.setText(TextUtils.isEmpty(bean.CustomerName) ? "" : bean.CustomerName);
-
         String phone = "";
         if (!TextUtils.isEmpty(bean.Phone)) {
             if (bean.Phone.length() == 11) {

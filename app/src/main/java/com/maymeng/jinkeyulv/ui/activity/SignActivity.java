@@ -164,7 +164,7 @@ public class SignActivity extends RxBaseActivity implements SwipeRefreshLayout.O
             public void run() {
                 getSignByAccountID();
             }
-        },Constants.WAIT_TIME_LOADMORE);
+        }, Constants.WAIT_TIME_LOADMORE);
 
     }
 
@@ -175,13 +175,15 @@ public class SignActivity extends RxBaseActivity implements SwipeRefreshLayout.O
 
             int account_id = (int) SPUtil.get(this, Constants.ACCOUNT_ID, 0);
             String account_name = (String) SPUtil.get(this, Constants.ACCOUNT_NAME, "");
+            String account_token = (String) SPUtil.get(this, Constants.ACCOUNT_TOKEN, "");
             bean.AccountId = account_id;
             bean.AccountName = account_name;
+            bean.Token = account_token;
             BaseApplication.getInstance().setLoginBean(bean);
         }
 
         RetrofitHelper.getBaseApi()
-                .getSignByAccountID(bean.AccountId, mPageIndex, Constants.SIZE)
+                .getSignByAccountID(bean.Token, bean.AccountId, mPageIndex, Constants.SIZE)
                 .compose(this.<SignBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -205,7 +207,15 @@ public class SignActivity extends RxBaseActivity implements SwipeRefreshLayout.O
                     @Override
                     public void onNext(SignBean signBean) {
                         if (Constants.OK.equals(signBean.StateCode)) {
-                            finishTask(signBean);
+                            if (Constants.TOKEN_ERROR.equals(signBean.ResponseMessage)) {
+                                hideProgressDialog();
+                                ToastUtil.showLong(Constants.TOKEN_RELOGIN);
+                                Intent intent = new Intent(SignActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                finishTask(signBean);
+                            }
                         } else {
                             ToastUtil.showShort(TextUtils.isEmpty(signBean.ResponseMessage) ? Constants.ERROR : signBean.ResponseMessage);
                         }

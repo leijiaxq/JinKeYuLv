@@ -25,6 +25,7 @@ import com.maymeng.jinkeyulv.api.RetrofitHelper;
 import com.maymeng.jinkeyulv.api.RxBus;
 import com.maymeng.jinkeyulv.base.BaseApplication;
 import com.maymeng.jinkeyulv.base.RxBaseActivity;
+import com.maymeng.jinkeyulv.bean.LoginBean;
 import com.maymeng.jinkeyulv.bean.UploadFileBean;
 import com.maymeng.jinkeyulv.bean.BaseBean;
 import com.maymeng.jinkeyulv.bean.RxBusBean;
@@ -33,6 +34,7 @@ import com.maymeng.jinkeyulv.bean.WriteInfoBean;
 import com.maymeng.jinkeyulv.ui.adapter.WriteInfoFiveAdapter;
 import com.maymeng.jinkeyulv.ui.pop.SelectPicturePop;
 import com.maymeng.jinkeyulv.utils.ImageUtil;
+import com.maymeng.jinkeyulv.utils.SPUtil;
 import com.maymeng.jinkeyulv.utils.ToastUtil;
 import com.tbruyelle.rxpermissions.RxPermissions;
 import com.yancy.gallerypick.config.GalleryConfig;
@@ -309,7 +311,7 @@ public class WriteInfoFiveActivity extends RxBaseActivity {
 
 
     private void showSelectPicturePop() {
-        SelectPicturePop selectPicturePop = new SelectPicturePop(this,true);
+        SelectPicturePop selectPicturePop = new SelectPicturePop(this, true);
         selectPicturePop.setShareListener(new SelectPicturePop.ShareListener() {
             @Override
             public void onItem(int position) {
@@ -562,8 +564,20 @@ public class WriteInfoFiveActivity extends RxBaseActivity {
 
 //        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"),strJson);
 
+        LoginBean.ResponseDataBean bean2 = BaseApplication.getInstance().getLoginBean();
+        if (bean2 == null) {
+            bean2 = new LoginBean.ResponseDataBean();
+            int account_id = (int) SPUtil.get(this, Constants.ACCOUNT_ID, 0);
+            String account_name = (String) SPUtil.get(this, Constants.ACCOUNT_NAME, "");
+            String account_token = (String) SPUtil.get(this, Constants.ACCOUNT_TOKEN, "");
+            bean2.AccountId = account_id;
+            bean2.AccountName = account_name;
+            bean2.Token = account_token;
+            BaseApplication.getInstance().setLoginBean(bean2);
+        }
+
         RetrofitHelper.getBaseApi()
-                .submitInfoNet(bean.OrderId, bean.CaseId, bean.CustomerName, bean.Sex, bean.Age, bean.Phone, bean.HouseholdRegisterAddress
+                .submitInfoNet(bean2.Token, bean.OrderId, bean.CaseId, bean.CustomerName, bean.Sex, bean.Age, bean.Phone, bean.HouseholdRegisterAddress
                         , bean.HouseholdRegisterType, bean.IDCard, bean.LiveInfo, bean.LiveStartTime, bean.LiveEndTime, bean.JobStartTime, bean.JobEndTime
                         , bean.SocialSecurity, bean.LaborContract, bean.SalaryFrom, bean.HospitalName, bean.SectionBed, bean.AuditTime
                         , bean.SurveyImg, bean.HomesImg, bean.WardImg, bean.BedsideCardImg, bean.CaseDataImg, bean.XCTImg, bean.CostImg, bean.WholeBodyImg, bean.InjuryImg
@@ -585,7 +599,16 @@ public class WriteInfoFiveActivity extends RxBaseActivity {
                     @Override
                     public void onNext(SubmitInfoBean bean) {
                         if (Constants.OK.equals(bean.StateCode)) {
-                            finishTask(bean);
+                            if (Constants.TOKEN_ERROR.equals(bean.ResponseMessage)) {
+                                hideProgressDialog();
+                                ToastUtil.showLong(Constants.TOKEN_RELOGIN);
+                                Intent intent = new Intent(WriteInfoFiveActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+
+                                finishTask(bean);
+                            }
                         } else {
                             ToastUtil.showShort(TextUtils.isEmpty(bean.ResponseMessage) ? Constants.ERROR : bean.ResponseMessage);
                         }
@@ -643,6 +666,12 @@ public class WriteInfoFiveActivity extends RxBaseActivity {
                     mListIndex.add(i);
                     mListPath.add(str);
 
+                } else if (!str.startsWith("/image")) {
+                    //                if (str.startsWith("/storage")) {
+                    uploadNumber++;
+//                    uploadFileNet(i, str);
+                    mListIndex.add(i);
+                    mListPath.add(str);
                 } else {
                     builder.append(str).append(";");
                 }
@@ -666,6 +695,8 @@ public class WriteInfoFiveActivity extends RxBaseActivity {
         //构建要上传的文件
         File file = new File(path);
         if (!file.exists()) {
+            hideProgressDialog();
+            ToastUtil.showShort("图片有误");
             return;
         }
         //构建要上传的文件
@@ -674,8 +705,20 @@ public class WriteInfoFiveActivity extends RxBaseActivity {
         MultipartBody.Part body =
                 MultipartBody.Part.createFormData("picture", file.getName(), requestFile);
 
+        LoginBean.ResponseDataBean bean = BaseApplication.getInstance().getLoginBean();
+        if (bean == null) {
+            bean = new LoginBean.ResponseDataBean();
+            int account_id = (int) SPUtil.get(this, Constants.ACCOUNT_ID, 0);
+            String account_name = (String) SPUtil.get(this, Constants.ACCOUNT_NAME, "");
+            String account_token = (String) SPUtil.get(this, Constants.ACCOUNT_TOKEN, "");
+            bean.AccountId = account_id;
+            bean.AccountName = account_name;
+            bean.Token = account_token;
+            BaseApplication.getInstance().setLoginBean(bean);
+        }
+
         RetrofitHelper.getBaseApi()
-                .uploadFileNet(flag, body)
+                .uploadFileNet(bean.Token, flag, body)
                 .compose(this.<UploadFileBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -707,7 +750,17 @@ public class WriteInfoFiveActivity extends RxBaseActivity {
                         uploadNUM++;
 
                         if (Constants.OK.equals(bean.StateCode)) {
-                            finishTask(bean);
+                            if (Constants.TOKEN_ERROR.equals(bean.ResponseMessage)) {
+                                hideProgressDialog();
+                                ToastUtil.showLong(Constants.TOKEN_RELOGIN);
+                                Intent intent = new Intent(WriteInfoFiveActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                finishTask(bean);
+
+                            }
+
                         } else {
                             hideProgressDialog();
                             ToastUtil.showShort(TextUtils.isEmpty(bean.ResponseMessage) ? Constants.ERROR : bean.ResponseMessage);

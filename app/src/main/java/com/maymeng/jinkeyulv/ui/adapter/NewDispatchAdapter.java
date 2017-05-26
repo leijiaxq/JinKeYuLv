@@ -81,9 +81,12 @@ public class NewDispatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         if (bean.IsRead) {
             holder.mItemStatusTv.setSelected(false);
             holder.mItemStatusTv.setText("已读");
+            holder.mItemNameTv.setSelected(false);
+
         } else {
             holder.mItemStatusTv.setSelected(true);
             holder.mItemStatusTv.setText("未读");
+            holder.mItemNameTv.setSelected(true);
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

@@ -20,10 +20,12 @@ import com.maymeng.jinkeyulv.api.RxBus;
 import com.maymeng.jinkeyulv.base.BaseApplication;
 import com.maymeng.jinkeyulv.base.RxBaseActivity;
 import com.maymeng.jinkeyulv.bean.BaseNetBean;
+import com.maymeng.jinkeyulv.bean.LoginBean;
 import com.maymeng.jinkeyulv.bean.RxBusBean;
 import com.maymeng.jinkeyulv.bean.WriteInfoBean;
 import com.maymeng.jinkeyulv.utils.DateUtil;
 import com.maymeng.jinkeyulv.utils.KeyboardUtil;
+import com.maymeng.jinkeyulv.utils.SPUtil;
 import com.maymeng.jinkeyulv.utils.ToastUtil;
 
 import java.util.Calendar;
@@ -278,8 +280,19 @@ public class WriteInfoOneActivity extends RxBaseActivity {
     }
 
     private void updateCaseNet(int orderID, String number, String time, String addreess, String type, String process) {
+        LoginBean.ResponseDataBean bean = BaseApplication.getInstance().getLoginBean();
+        if (bean == null) {
+            bean = new LoginBean.ResponseDataBean();
+            int account_id = (int) SPUtil.get(this, Constants.ACCOUNT_ID, 0);
+            String account_name = (String) SPUtil.get(this, Constants.ACCOUNT_NAME, "");
+            String account_token = (String) SPUtil.get(this, Constants.ACCOUNT_TOKEN, "");
+            bean.AccountId = account_id;
+            bean.AccountName = account_name;
+            bean.Token = account_token;
+            BaseApplication.getInstance().setLoginBean(bean);
+        }
         RetrofitHelper.getBaseApi()
-                .updateCaseNet(orderID, number, time, addreess, type, process)
+                .updateCaseNet(bean.Token, orderID, number, time, addreess, type, process)
                 .compose(this.<BaseNetBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -295,32 +308,40 @@ public class WriteInfoOneActivity extends RxBaseActivity {
                     }
 
                     @Override
-                    public void onNext( BaseNetBean bean) {
+                    public void onNext(BaseNetBean bean) {
 //                        hideProgressDialog();
 //                        ToastUtil.showShort(TextUtils.isEmpty(bean.ResponseMessage) ? Constants.ERROR : bean.ResponseMessage);
                         if (Constants.OK.equals(bean.StateCode)) {
+                            if (Constants.TOKEN_ERROR.equals(bean.ResponseMessage)) {
+                                hideProgressDialog();
+                                ToastUtil.showLong(Constants.TOKEN_RELOGIN);
+                                Intent intent = new Intent(WriteInfoOneActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
 
 //                            finishTask(bean);
-                            final String str = bean.ResponseMessage;
+                                final String str = bean.ResponseMessage;
 
-                            long l = System.currentTimeMillis();
-                            if (l - mWaitTime >= Constants.WAIT_TIME) {
-                                hideProgressDialog();
-                                ToastUtil.showShort(TextUtils.isEmpty(str) ? "提交成功" : str);
-                                Intent intent = new Intent(WriteInfoOneActivity.this, WriteInfoTwoActivity.class);
-                                startActivity(intent);
-                            } else {
-                                BaseApplication.getInstance().mHandler.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        hideProgressDialog();
-                                        ToastUtil.showShort(TextUtils.isEmpty(str) ? "提交成功" : str);
-                                        Intent intent = new Intent(WriteInfoOneActivity.this, WriteInfoTwoActivity.class);
-                                        startActivity(intent);
-                                    }
-                                }, Constants.WAIT_TIME);
+                                long l = System.currentTimeMillis();
+                                if (l - mWaitTime >= Constants.WAIT_TIME) {
+                                    hideProgressDialog();
+                                    ToastUtil.showShort(TextUtils.isEmpty(str) ? "提交成功" : str);
+                                    Intent intent = new Intent(WriteInfoOneActivity.this, WriteInfoTwoActivity.class);
+                                    startActivity(intent);
+                                } else {
+                                    BaseApplication.getInstance().mHandler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            hideProgressDialog();
+                                            ToastUtil.showShort(TextUtils.isEmpty(str) ? "提交成功" : str);
+                                            Intent intent = new Intent(WriteInfoOneActivity.this, WriteInfoTwoActivity.class);
+                                            startActivity(intent);
+                                        }
+                                    }, Constants.WAIT_TIME);
+                                }
+
                             }
-
                         } else {
                             hideProgressDialog();
                             ToastUtil.showShort(TextUtils.isEmpty(bean.ResponseMessage) ? Constants.ERROR : bean.ResponseMessage);

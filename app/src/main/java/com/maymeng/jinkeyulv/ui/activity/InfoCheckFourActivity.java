@@ -1,6 +1,7 @@
 package com.maymeng.jinkeyulv.ui.activity;
 
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.database.Cursor;
 import android.media.ExifInterface;
 import android.os.Bundle;
@@ -23,10 +24,12 @@ import com.maymeng.jinkeyulv.base.RxBaseActivity;
 import com.maymeng.jinkeyulv.bean.BaseBean;
 import com.maymeng.jinkeyulv.bean.BaseNetBean;
 import com.maymeng.jinkeyulv.bean.CheckUserBean;
+import com.maymeng.jinkeyulv.bean.LoginBean;
 import com.maymeng.jinkeyulv.bean.PictureInfoBean;
 import com.maymeng.jinkeyulv.bean.RxBusBean;
 import com.maymeng.jinkeyulv.ui.pop.ReadDataPop;
 import com.maymeng.jinkeyulv.utils.DateUtil;
+import com.maymeng.jinkeyulv.utils.SPUtil;
 import com.maymeng.jinkeyulv.utils.ToastUtil;
 
 import java.io.IOException;
@@ -145,9 +148,21 @@ public class InfoCheckFourActivity extends RxBaseActivity {
     }
 
     private void submitPictureInfoNet() {
+
         if (mDatas != null && mDatas.size() != 0) {
+            LoginBean.ResponseDataBean bean = BaseApplication.getInstance().getLoginBean();
+            if (bean == null) {
+                bean = new LoginBean.ResponseDataBean();
+                int account_id = (int) SPUtil.get(this, Constants.ACCOUNT_ID, 0);
+                String account_name = (String) SPUtil.get(this, Constants.ACCOUNT_NAME, "");
+                String account_token = (String) SPUtil.get(this, Constants.ACCOUNT_TOKEN, "");
+                bean.AccountId = account_id;
+                bean.AccountName = account_name;
+                bean.Token = account_token;
+                BaseApplication.getInstance().setLoginBean(bean);
+            }
             RetrofitHelper.getBaseApi()
-                    .submitPictureInfoNet(mDatas)
+                    .submitPictureInfoNet(bean.Token,mDatas)
                     .compose(this.<BaseNetBean>bindToLifecycle())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -166,10 +181,19 @@ public class InfoCheckFourActivity extends RxBaseActivity {
                         @Override
                         public void onNext(BaseNetBean baseNetBean) {
                             mReadDataPop.dismiss();
-                            ToastUtil.showShort(TextUtils.isEmpty(baseNetBean.ResponseMessage) ? Constants.CHECK_ERROR : baseNetBean.ResponseMessage);
-                            //用于--完结验证后，finish掉页面
-                            RxBus.getDefault().post(new RxBusBean(Constants.TYPE_TWO, new BaseBean()));
-                            finish();
+
+                            if (Constants.TOKEN_ERROR.equals(baseNetBean.ResponseMessage)) {
+                                ToastUtil.showLong(Constants.TOKEN_RELOGIN);
+                                Intent intent = new Intent(InfoCheckFourActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                ToastUtil.showShort(TextUtils.isEmpty(baseNetBean.ResponseMessage) ? Constants.CHECK_ERROR : baseNetBean.ResponseMessage);
+                                //用于--完结验证后，finish掉页面
+                                RxBus.getDefault().post(new RxBusBean(Constants.TYPE_TWO, new BaseBean()));
+                                finish();
+                            }
+
                         }
                     });
         } else {

@@ -22,14 +22,17 @@ import android.widget.TextView;
 import com.maymeng.jinkeyulv.R;
 import com.maymeng.jinkeyulv.api.Constants;
 import com.maymeng.jinkeyulv.api.RetrofitHelper;
+import com.maymeng.jinkeyulv.base.BaseApplication;
 import com.maymeng.jinkeyulv.base.RxBaseActivity;
 import com.maymeng.jinkeyulv.bean.BaseBean;
+import com.maymeng.jinkeyulv.bean.LoginBean;
 import com.maymeng.jinkeyulv.bean.SignBean;
 import com.maymeng.jinkeyulv.bean.SignUploadBean;
 import com.maymeng.jinkeyulv.bean.UploadFileBean;
 import com.maymeng.jinkeyulv.ui.adapter.SignUploadAdapter;
 import com.maymeng.jinkeyulv.ui.pop.SelectPicturePop;
 import com.maymeng.jinkeyulv.utils.ImageUtil;
+import com.maymeng.jinkeyulv.utils.SPUtil;
 import com.maymeng.jinkeyulv.utils.ToastUtil;
 import com.tbruyelle.rxpermissions.RxPermissions;
 import com.yancy.gallerypick.config.GalleryConfig;
@@ -442,8 +445,20 @@ public class SignUploadActivity extends RxBaseActivity {
         StringBuilder builder1 = mListStringBuider.get(0);
         StringBuilder builder2 = mListStringBuider.get(1);
         if (mBean != null) {
+            LoginBean.ResponseDataBean bean = BaseApplication.getInstance().getLoginBean();
+            if (bean == null) {
+                bean = new LoginBean.ResponseDataBean();
+                int account_id = (int) SPUtil.get(this, Constants.ACCOUNT_ID, 0);
+                String account_name = (String) SPUtil.get(this, Constants.ACCOUNT_NAME, "");
+                String account_token = (String) SPUtil.get(this, Constants.ACCOUNT_TOKEN, "");
+                bean.AccountId = account_id;
+                bean.AccountName = account_name;
+                bean.Token = account_token;
+                BaseApplication.getInstance().setLoginBean(bean);
+            }
+
             RetrofitHelper.getBaseApi()
-                    .UpdateSignCaseNet(mBean.CaseId, builder1.toString(), builder2.toString())
+                    .UpdateSignCaseNet(bean.Token, mBean.CaseId, builder1.toString(), builder2.toString())
                     .compose(this.<SignUploadBean>bindToLifecycle())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -461,7 +476,15 @@ public class SignUploadActivity extends RxBaseActivity {
                         @Override
                         public void onNext(SignUploadBean bean) {
                             if (Constants.OK.equals(bean.StateCode)) {
-                                finishTask(bean);
+                                if (Constants.TOKEN_ERROR.equals(bean.ResponseMessage)) {
+                                    hideProgressDialog();
+                                    ToastUtil.showLong(Constants.TOKEN_RELOGIN);
+                                    Intent intent = new Intent(SignUploadActivity.this, LoginActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                } else {
+                                    finishTask(bean);
+                                }
                             } else {
                                 ToastUtil.showShort(TextUtils.isEmpty(bean.ResponseMessage) ? Constants.ERROR : bean.ResponseMessage);
                             }
@@ -520,6 +543,12 @@ public class SignUploadActivity extends RxBaseActivity {
                     mListIndex.add(i);
                     mListPath.add(str);
 
+                } else if (!str.startsWith("/image")) {
+                    //                if (str.startsWith("/storage")) {
+                    uploadNumber++;
+//                    uploadFileNet(i, str);
+                    mListIndex.add(i);
+                    mListPath.add(str);
                 } else {
                     builder.append(str).append(";");
                 }
@@ -543,6 +572,8 @@ public class SignUploadActivity extends RxBaseActivity {
         //构建要上传的文件
         File file = new File(path);
         if (!file.exists()) {
+            hideProgressDialog();
+            ToastUtil.showShort("图片有误");
             return;
         }
         //构建要上传的文件
@@ -551,8 +582,19 @@ public class SignUploadActivity extends RxBaseActivity {
         MultipartBody.Part body =
                 MultipartBody.Part.createFormData("picture", file.getName(), requestFile);
 
+        LoginBean.ResponseDataBean bean = BaseApplication.getInstance().getLoginBean();
+        if (bean == null) {
+            bean = new LoginBean.ResponseDataBean();
+            int account_id = (int) SPUtil.get(this, Constants.ACCOUNT_ID, 0);
+            String account_name = (String) SPUtil.get(this, Constants.ACCOUNT_NAME, "");
+            String account_token = (String) SPUtil.get(this, Constants.ACCOUNT_TOKEN, "");
+            bean.AccountId = account_id;
+            bean.AccountName = account_name;
+            bean.Token = account_token;
+            BaseApplication.getInstance().setLoginBean(bean);
+        }
         RetrofitHelper.getBaseApi()
-                .uploadFileNet(flag, body)
+                .uploadFileNet(bean.Token, flag, body)
                 .compose(this.<UploadFileBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -584,7 +626,16 @@ public class SignUploadActivity extends RxBaseActivity {
                         uploadNUM++;
 
                         if (Constants.OK.equals(bean.StateCode)) {
-                            finishTask(bean);
+                            if (Constants.TOKEN_ERROR.equals(bean.ResponseMessage)) {
+                                hideProgressDialog();
+                                ToastUtil.showLong(Constants.TOKEN_RELOGIN);
+                                Intent intent = new Intent(SignUploadActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                finishTask(bean);
+                            }
+
                         } else {
                             hideProgressDialog();
                             ToastUtil.showShort(TextUtils.isEmpty(bean.ResponseMessage) ? Constants.ERROR : bean.ResponseMessage);

@@ -17,10 +17,12 @@ import com.maymeng.jinkeyulv.api.RxBus;
 import com.maymeng.jinkeyulv.base.BaseApplication;
 import com.maymeng.jinkeyulv.base.RxBaseActivity;
 import com.maymeng.jinkeyulv.bean.BaseBean;
+import com.maymeng.jinkeyulv.bean.LoginBean;
 import com.maymeng.jinkeyulv.bean.NewDispatchBean;
 import com.maymeng.jinkeyulv.bean.NewDispatchCaseInfoBean;
 import com.maymeng.jinkeyulv.bean.RxBusBean;
 import com.maymeng.jinkeyulv.bean.WriteInfoBean;
+import com.maymeng.jinkeyulv.utils.SPUtil;
 import com.maymeng.jinkeyulv.utils.ToastUtil;
 
 import butterknife.BindView;
@@ -307,8 +309,20 @@ public class QueryResultActivity extends RxBaseActivity {
 
 
     private void getNewDispatchCaseInfoNet(int caseID) {
+        LoginBean.ResponseDataBean bean = BaseApplication.getInstance().getLoginBean();
+        if (bean == null) {
+            bean = new LoginBean.ResponseDataBean();
+            int account_id = (int) SPUtil.get(this, Constants.ACCOUNT_ID, 0);
+            String account_name = (String) SPUtil.get(this, Constants.ACCOUNT_NAME, "");
+            String account_token = (String) SPUtil.get(this, Constants.ACCOUNT_TOKEN, "");
+            bean.AccountId = account_id;
+            bean.AccountName = account_name;
+            bean.Token = account_token;
+            BaseApplication.getInstance().setLoginBean(bean);
+        }
+
         RetrofitHelper.getBaseApi()
-                .getNewDispatchCaseInfoNet(caseID)
+                .getNewDispatchCaseInfoNet(bean.Token, caseID)
                 .compose(this.<NewDispatchCaseInfoBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -326,7 +340,15 @@ public class QueryResultActivity extends RxBaseActivity {
                     @Override
                     public void onNext(NewDispatchCaseInfoBean bean) {
                         if (Constants.OK.equals(bean.StateCode)) {
-                            finishTask(bean);
+                            if (Constants.TOKEN_ERROR.equals(bean.ResponseMessage)) {
+                                hideProgressDialog();
+                                ToastUtil.showLong(Constants.TOKEN_RELOGIN);
+                                Intent intent = new Intent(QueryResultActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                finishTask(bean);
+                            }
                         } else {
                             ToastUtil.showShort(TextUtils.isEmpty(bean.ResponseMessage) ? Constants.ERROR : bean.ResponseMessage);
                         }

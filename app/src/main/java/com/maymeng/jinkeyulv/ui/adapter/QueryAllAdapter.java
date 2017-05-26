@@ -81,12 +81,18 @@ public class QueryAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (bean.IsStatus == 100) {
 //            holder.mItemStatusTv.setSelected(false);
             holder.mItemStatusTv.setText("已完成");
+            holder.mItemStatusTv.setSelected(false);
+            holder.mItemNameTv.setSelected(false);
+
         } else if (bean.IsStatus == 0) {
 //            holder.mItemStatusTv.setSelected(true);
             holder.mItemStatusTv.setText("未开始");
+            holder.mItemStatusTv.setSelected(true);
+            holder.mItemNameTv.setSelected(true);
         } else {
             holder.mItemStatusTv.setText("进行中");
-
+            holder.mItemStatusTv.setSelected(true);
+            holder.mItemNameTv.setSelected(true);
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

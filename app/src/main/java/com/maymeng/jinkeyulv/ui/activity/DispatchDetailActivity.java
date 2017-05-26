@@ -9,7 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.maymeng.jinkeyulv.R;
@@ -20,10 +20,12 @@ import com.maymeng.jinkeyulv.base.BaseApplication;
 import com.maymeng.jinkeyulv.base.RxBaseActivity;
 import com.maymeng.jinkeyulv.bean.BaseBean;
 import com.maymeng.jinkeyulv.bean.BaseNetBean;
+import com.maymeng.jinkeyulv.bean.LoginBean;
 import com.maymeng.jinkeyulv.bean.NewDispatchBean;
 import com.maymeng.jinkeyulv.bean.NewDispatchCaseInfoBean;
 import com.maymeng.jinkeyulv.bean.RxBusBean;
 import com.maymeng.jinkeyulv.bean.WriteInfoBean;
+import com.maymeng.jinkeyulv.utils.SPUtil;
 import com.maymeng.jinkeyulv.utils.ToastUtil;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
@@ -50,10 +52,12 @@ public class DispatchDetailActivity extends RxBaseActivity {
     TextView mPhoneTv;
     @BindView(R.id.report_tv)
     TextView mReportTv;
-    @BindView(R.id.phone_iv)
-    ImageView mPhoneIv;
     @BindView(R.id.write_info_tv)
     TextView mWriteInfoTv;
+    @BindView(R.id.phone_layout)
+    LinearLayout mPhoneLayout;
+    @BindView(R.id.phone_layout2)
+    LinearLayout mPhoneLayout2;
 
     private NewDispatchBean.ResponseDataBean mBean;
     private NewDispatchCaseInfoBean.ResponseDataBean mNewDispatchCaseInfoBean;
@@ -69,6 +73,17 @@ public class DispatchDetailActivity extends RxBaseActivity {
 
         mTitleTv.setText("派单详情");
         if (mBean != null) {
+            if (mBean.IsStatus == 2) {
+                mPhoneLayout.setVisibility(View.GONE);
+                mPhoneLayout2.setVisibility(View.VISIBLE);
+                mWriteInfoTv.setSelected(true);
+                mWriteInfoTv.setEnabled(false);
+            } else {
+                mPhoneLayout.setVisibility(View.VISIBLE);
+                mPhoneLayout2.setVisibility(View.GONE);
+            }
+
+
             mNameTv.setText(TextUtils.isEmpty(mBean.CustomerName) ? "" : mBean.CustomerName);
 
             String phone = "";
@@ -206,6 +221,16 @@ public class DispatchDetailActivity extends RxBaseActivity {
     //拨打电话
     @OnClick(R.id.phone_iv)
     void clickPhone(View view) {
+        callPhoneByNumber();
+    }
+
+    //拨打电话
+    @OnClick(R.id.phone_iv2)
+    void clickPhone2(View view) {
+        callPhoneByNumber();
+    }
+
+    private void callPhoneByNumber() {
         if (mBean != null) {
             if (TextUtils.isEmpty(mBean.Phone)) {
                 ToastUtil.showShort("手机号码为空");
@@ -233,8 +258,20 @@ public class DispatchDetailActivity extends RxBaseActivity {
     }
 
     private void getNewDispatchCaseInfoNet(int caseID) {
+        LoginBean.ResponseDataBean bean = BaseApplication.getInstance().getLoginBean();
+        if (bean == null) {
+            bean = new LoginBean.ResponseDataBean();
+            int account_id = (int) SPUtil.get(this, Constants.ACCOUNT_ID, 0);
+            String account_name = (String) SPUtil.get(this, Constants.ACCOUNT_NAME, "");
+            String account_token = (String) SPUtil.get(this, Constants.ACCOUNT_TOKEN, "");
+            bean.AccountId = account_id;
+            bean.AccountName = account_name;
+            bean.Token = account_token;
+            BaseApplication.getInstance().setLoginBean(bean);
+        }
+
         RetrofitHelper.getBaseApi()
-                .getNewDispatchCaseInfoNet(caseID)
+                .getNewDispatchCaseInfoNet(bean.Token, caseID)
                 .compose(this.<NewDispatchCaseInfoBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -252,7 +289,15 @@ public class DispatchDetailActivity extends RxBaseActivity {
                     @Override
                     public void onNext(NewDispatchCaseInfoBean bean) {
                         if (Constants.OK.equals(bean.StateCode)) {
-                            finishTask(bean);
+                            if (Constants.TOKEN_ERROR.equals(bean.ResponseMessage)) {
+                                ToastUtil.showLong(Constants.TOKEN_RELOGIN);
+                                Intent intent = new Intent(DispatchDetailActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                finishTask(bean);
+                            }
+
                         } else {
                             ToastUtil.showShort(TextUtils.isEmpty(bean.ResponseMessage) ? Constants.ERROR : bean.ResponseMessage);
                         }
@@ -262,8 +307,20 @@ public class DispatchDetailActivity extends RxBaseActivity {
 
     //更改指定派单为已读
     private void setNewDispatchReadNet(int orderID) {
+        LoginBean.ResponseDataBean bean = BaseApplication.getInstance().getLoginBean();
+        if (bean == null) {
+            bean = new LoginBean.ResponseDataBean();
+            int account_id = (int) SPUtil.get(this, Constants.ACCOUNT_ID, 0);
+            String account_name = (String) SPUtil.get(this, Constants.ACCOUNT_NAME, "");
+            String account_token = (String) SPUtil.get(this, Constants.ACCOUNT_TOKEN, "");
+            bean.AccountId = account_id;
+            bean.AccountName = account_name;
+            bean.Token = account_token;
+            BaseApplication.getInstance().setLoginBean(bean);
+        }
+
         RetrofitHelper.getBaseApi()
-                .setNewDispatchReadNet(orderID)
+                .setNewDispatchReadNet(bean.Token, orderID)
                 .compose(this.<BaseNetBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -318,4 +375,5 @@ public class DispatchDetailActivity extends RxBaseActivity {
             mPhoneTv.setText("联系电话：" + phone);
         }
     }
+
 }

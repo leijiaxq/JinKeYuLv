@@ -34,5 +34,7 @@ public class LoginBean extends BaseBean{
         public String LastLoginIP;
         public String LastLoginDate;
         public int LoginCount;
+
+        public String Token;
     }
 }

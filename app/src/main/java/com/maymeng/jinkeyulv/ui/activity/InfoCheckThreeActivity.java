@@ -21,8 +21,10 @@ import com.maymeng.jinkeyulv.bean.BaseBean;
 import com.maymeng.jinkeyulv.bean.BaseNetBean;
 import com.maymeng.jinkeyulv.bean.CheckBankCardBean;
 import com.maymeng.jinkeyulv.bean.CheckUserBean;
+import com.maymeng.jinkeyulv.bean.LoginBean;
 import com.maymeng.jinkeyulv.bean.RxBusBean;
 import com.maymeng.jinkeyulv.utils.RegexUtil;
+import com.maymeng.jinkeyulv.utils.SPUtil;
 import com.maymeng.jinkeyulv.utils.ToastUtil;
 
 import butterknife.BindView;
@@ -204,8 +206,20 @@ public class InfoCheckThreeActivity extends RxBaseActivity {
     }
 
     private void submitCheckInfoToServiceNet(String idCard) {
+        LoginBean.ResponseDataBean bean = BaseApplication.getInstance().getLoginBean();
+        if (bean == null) {
+            bean = new LoginBean.ResponseDataBean();
+            int account_id = (int) SPUtil.get(this, Constants.ACCOUNT_ID, 0);
+            String account_name = (String) SPUtil.get(this, Constants.ACCOUNT_NAME, "");
+            String account_token = (String) SPUtil.get(this, Constants.ACCOUNT_TOKEN, "");
+            bean.AccountId = account_id;
+            bean.AccountName = account_name;
+            bean.Token = account_token;
+            BaseApplication.getInstance().setLoginBean(bean);
+        }
+
         RetrofitHelper.getBaseApi()
-                .submitCheckInfoToServiceNet(2, idCard, "")
+                .submitCheckInfoToServiceNet(bean.Token,2, idCard, "")
                 .compose(this.<BaseNetBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -224,22 +238,30 @@ public class InfoCheckThreeActivity extends RxBaseActivity {
                     @Override
                     public void onNext(BaseNetBean baseNetBean) {
                         if (Constants.OK.equals(baseNetBean.StateCode)) {
-                            long l = System.currentTimeMillis();
-                            if (l - mWaitTime >= Constants.WAIT_TIME) {
+                            if (Constants.TOKEN_ERROR.equals(baseNetBean.ResponseMessage)) {
                                 hideProgressDialog();
-                                Intent intent = new Intent(InfoCheckThreeActivity.this, InfoCheckThreeResultActivity.class);
+                                ToastUtil.showLong(Constants.TOKEN_RELOGIN);
+                                Intent intent = new Intent(InfoCheckThreeActivity.this, LoginActivity.class);
                                 startActivity(intent);
+                                finish();
                             } else {
-                                BaseApplication.getInstance().mHandler.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        hideProgressDialog();
-                                        Intent intent = new Intent(InfoCheckThreeActivity.this, InfoCheckThreeResultActivity.class);
-                                        startActivity(intent);
-                                    }
-                                }, Constants.WAIT_TIME);
-                            }
 
+                                long l = System.currentTimeMillis();
+                                if (l - mWaitTime >= Constants.WAIT_TIME) {
+                                    hideProgressDialog();
+                                    Intent intent = new Intent(InfoCheckThreeActivity.this, InfoCheckThreeResultActivity.class);
+                                    startActivity(intent);
+                                } else {
+                                    BaseApplication.getInstance().mHandler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            hideProgressDialog();
+                                            Intent intent = new Intent(InfoCheckThreeActivity.this, InfoCheckThreeResultActivity.class);
+                                            startActivity(intent);
+                                        }
+                                    }, Constants.WAIT_TIME);
+                                }
+                            }
 //                            hideProgressDialog();
 //                            Intent intent = new Intent(InfoCheckOneActivity.this, InfoCheckOneResultActivity.class);
 //                            startActivity(intent);

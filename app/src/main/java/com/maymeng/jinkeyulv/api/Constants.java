@@ -60,6 +60,10 @@ public class Constants {
 
     public static final String CHECK_ERROR = "校验错误";
 
+
+    public static final String TOKEN_ERROR = "缺少token";
+    public static final String TOKEN_RELOGIN = "登录信息过期，请重新登录";
+
     public static final int SIZE = 15;
 
     //loading等待时间
@@ -86,5 +90,6 @@ public class Constants {
      */
     public static final String ACCOUNT_ID = "AccountId";  //用户ID
     public static final String ACCOUNT_NAME = "AccountName";//用户姓名
+    public static final String ACCOUNT_TOKEN = "AccountToten";//用户token
 
 }

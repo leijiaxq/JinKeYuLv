@@ -107,7 +107,7 @@ public class WriteInfoFiveAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             String path = "";
             String str = list.get(0);
-            if (str.startsWith("/Image")) {
+            if (str.startsWith("/Image")||str.startsWith("/image")) {
                 path = Constants.BASE_URL + str;
             } else {
                 path = str;
@@ -125,7 +125,7 @@ public class WriteInfoFiveAdapter extends RecyclerView.Adapter<RecyclerView.View
             holder.mDelete13Iv.setVisibility(View.GONE);
             String path = "";
             String str = list.get(0);
-            if (str.startsWith("/Image")) {
+            if (str.startsWith("/Image")||str.startsWith("/image")) {
                 path = Constants.BASE_URL + str;
             } else {
                 path = str;
@@ -135,7 +135,7 @@ public class WriteInfoFiveAdapter extends RecyclerView.Adapter<RecyclerView.View
 //            ImageUtil.getInstance().displayRoundImage(mContext, path, holder.mIamge11Iv, 50);
             String path2 = "";
             String str2 = list.get(1);
-            if (str2.startsWith("/Image")) {
+            if (str2.startsWith("/Image")||str2.startsWith("/image")) {
                 path2 = Constants.BASE_URL + str2;
             } else {
                 path2 = str2;
@@ -155,7 +155,7 @@ public class WriteInfoFiveAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             String path = "";
             String str = list.get(0);
-            if (str.startsWith("/Image")) {
+            if (str.startsWith("/Image")||str.startsWith("/image")) {
                 path = Constants.BASE_URL + str;
             } else {
                 path = str;
@@ -164,7 +164,7 @@ public class WriteInfoFiveAdapter extends RecyclerView.Adapter<RecyclerView.View
             ImageUtil.getInstance().displayImage(mContext, path, holder.mIamge11Iv);
             String path2 = "";
             String str2 = list.get(1);
-            if (str2.startsWith("/Image")) {
+            if (str2.startsWith("/Image")||str2.startsWith("/image")) {
                 path2 = Constants.BASE_URL + str2;
             } else {
                 path2 = str2;
@@ -174,7 +174,7 @@ public class WriteInfoFiveAdapter extends RecyclerView.Adapter<RecyclerView.View
 //            ImageUtil.getInstance().displayRoundImage(mContext, path2, holder.mIamge12Iv, 50);
             String path3 = "";
             String str3 = list.get(2);
-            if (str3.startsWith("/Image")) {
+            if (str3.startsWith("/Image")||str3.startsWith("/image")) {
                 path3 = Constants.BASE_URL + str3;
             } else {
                 path3 = str3;

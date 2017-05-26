@@ -157,8 +157,8 @@ public class LoginActivity extends RxBaseActivity {
             return;
         }
 
-        phoneNumber = "13833333333";
-        passwordNumber = "13833333333";
+//        phoneNumber = "13833333333";
+//        passwordNumber = "13833333333";
 
         showProgressDialog("正在登陆中...");
         mWaitTime = System.currentTimeMillis();
@@ -284,6 +284,7 @@ public class LoginActivity extends RxBaseActivity {
         if (bean.ResponseData != null) {
             SPUtil.put(this, Constants.ACCOUNT_ID, bean.ResponseData.AccountId);
             SPUtil.put(this, Constants.ACCOUNT_NAME, bean.ResponseData.AccountName);
+            SPUtil.put(this, Constants.ACCOUNT_TOKEN, bean.ResponseData.Token);
 
             BaseApplication.getInstance().setLoginBean(bean.ResponseData);
         }

@@ -86,7 +86,7 @@ public class SignUploadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             holder.mLayout14.setVisibility(View.GONE);
             String path = "";
             String str = list.get(0);
-            if (str.startsWith("/Image")) {
+            if (str.startsWith("/Image")||str.startsWith("/image")) {
                 path = Constants.BASE_URL + str;
             } else {
                 path = str;
@@ -105,7 +105,7 @@ public class SignUploadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             holder.mDelete13Iv.setVisibility(View.GONE);
             String path = "";
             String str = list.get(0);
-            if (str.startsWith("/Image")) {
+            if (str.startsWith("/Image")||str.startsWith("/image")) {
                 path = Constants.BASE_URL + str;
             } else {
                 path = str;
@@ -114,7 +114,7 @@ public class SignUploadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 //            ImageUtil.getInstance().displayRoundImage(mContext, path, holder.mIamge11Iv, 50);
             String path2 = "";
             String str2 = list.get(1);
-            if (str2.startsWith("/Image")) {
+            if (str2.startsWith("/Image")||str2.startsWith("/image")) {
                 path2 = Constants.BASE_URL + str2;
             } else {
                 path2 = str2;
@@ -135,7 +135,7 @@ public class SignUploadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             holder.mDelete14Iv.setVisibility(View.GONE);
             String path = "";
             String str = list.get(0);
-            if (str.startsWith("/Image")) {
+            if (str.startsWith("/Image")||str.startsWith("/image")) {
                 path = Constants.BASE_URL + str;
             } else {
                 path = str;
@@ -144,7 +144,7 @@ public class SignUploadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ImageUtil.getInstance().displayImage(mContext, path, holder.mIamge11Iv);
             String path2 = "";
             String str2 = list.get(1);
-            if (str2.startsWith("/Image")) {
+            if (str2.startsWith("/Image")||str2.startsWith("/image")) {
                 path2 = Constants.BASE_URL + str2;
             } else {
                 path2 = str2;
@@ -153,7 +153,7 @@ public class SignUploadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 //            ImageUtil.getInstance().displayRoundImage(mContext, path2, holder.mIamge12Iv, 50);
             String path3 = "";
             String str3 = list.get(2);
-            if (str3.startsWith("/Image")) {
+            if (str3.startsWith("/Image")||str3.startsWith("/image")) {
                 path3 = Constants.BASE_URL + str3;
             } else {
                 path3 = str3;
@@ -173,7 +173,7 @@ public class SignUploadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             holder.mDelete14Iv.setVisibility(View.VISIBLE);
             String path = "";
             String str = list.get(0);
-            if (str.startsWith("/Image")) {
+            if (str.startsWith("/Image")||str.startsWith("/image")) {
                 path = Constants.BASE_URL + str;
             } else {
                 path = str;
@@ -182,7 +182,7 @@ public class SignUploadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ImageUtil.getInstance().displayImage(mContext, path, holder.mIamge11Iv);
             String path2 = "";
             String str2 = list.get(1);
-            if (str2.startsWith("/Image")) {
+            if (str2.startsWith("/Image")||str2.startsWith("/image")) {
                 path2 = Constants.BASE_URL + str2;
             } else {
                 path2 = str2;
@@ -191,7 +191,7 @@ public class SignUploadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 //            ImageUtil.getInstance().displayRoundImage(mContext, path2, holder.mIamge12Iv, 50);
             String path3 = "";
             String str3 = list.get(2);
-            if (str3.startsWith("/Image")) {
+            if (str3.startsWith("/Image")||str3.startsWith("/image")) {
                 path3 = Constants.BASE_URL + str3;
             } else {
                 path3 = str3;
@@ -200,7 +200,7 @@ public class SignUploadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 //            ImageUtil.getInstance().displayRoundImage(mContext, path3, holder.mIamge13Iv, 50);
             String path4 = "";
             String str4 = list.get(3);
-            if (str4.startsWith("/Image")) {
+            if (str4.startsWith("/Image")||str4.startsWith("/image")) {
                 path4 = Constants.BASE_URL + str4;
             } else {
                 path4 = str4;

@@ -42,9 +42,12 @@ public class SplashActivity extends Activity {
         int account_id = (int) SPUtil.get(this, Constants.ACCOUNT_ID, 0);
         if (account_id != 0) {
             String account_name = (String) SPUtil.get(this, Constants.ACCOUNT_NAME, "");
+            String account_token = (String) SPUtil.get(this, Constants.ACCOUNT_TOKEN, "");
+
             LoginBean.ResponseDataBean bean = new LoginBean.ResponseDataBean();
             bean.AccountId = account_id;
             bean.AccountName = account_name;
+            bean.Token = account_token;
             BaseApplication.getInstance().setLoginBean(bean);
 
             Intent intent = new Intent(SplashActivity.this, MainActivity.class);

@@ -189,24 +189,25 @@ public class NewDispatchActivity extends RxBaseActivity implements SwipeRefreshL
             public void run() {
                 getNewDispatchListNet();
             }
-        },Constants.WAIT_TIME_LOADMORE);
+        }, Constants.WAIT_TIME_LOADMORE);
     }
 
     private void getNewDispatchListNet() {
         LoginBean.ResponseDataBean bean = BaseApplication.getInstance().getLoginBean();
         if (bean == null) {
             bean = new LoginBean.ResponseDataBean();
-
             int account_id = (int) SPUtil.get(this, Constants.ACCOUNT_ID, 0);
             String account_name = (String) SPUtil.get(this, Constants.ACCOUNT_NAME, "");
+            String account_token = (String) SPUtil.get(this, Constants.ACCOUNT_TOKEN, "");
             bean.AccountId = account_id;
             bean.AccountName = account_name;
+            bean.Token = account_token;
             BaseApplication.getInstance().setLoginBean(bean);
         }
 
 
         RetrofitHelper.getBaseApi()
-                .getNewDispatchNet(bean.AccountId, mPageIndex, Constants.SIZE)
+                .getNewDispatchNet(bean.Token, bean.AccountId, mPageIndex, Constants.SIZE)
                 .compose(this.<NewDispatchBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -230,7 +231,15 @@ public class NewDispatchActivity extends RxBaseActivity implements SwipeRefreshL
                     @Override
                     public void onNext(NewDispatchBean newDispatchBean) {
                         if (Constants.OK.equals(newDispatchBean.StateCode)) {
-                            finishTask(newDispatchBean);
+                            if (Constants.TOKEN_ERROR.equals(newDispatchBean.ResponseMessage)) {
+                                hideProgressDialog();
+                                ToastUtil.showLong(Constants.TOKEN_RELOGIN);
+                                Intent intent = new Intent(NewDispatchActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                finishTask(newDispatchBean);
+                            }
                         } else {
                             ToastUtil.showShort(TextUtils.isEmpty(newDispatchBean.ResponseMessage) ? Constants.ERROR : newDispatchBean.ResponseMessage);
                         }

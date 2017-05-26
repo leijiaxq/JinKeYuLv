@@ -132,7 +132,7 @@ public class ShowPictureActivity extends RxBaseActivity {
 
             String path = "";
             String str = mImgUrl[position];
-            if (mImgUrl[position].startsWith("/Image")) {
+            if (str.startsWith("/Image")||str.startsWith("/image")) {
                 path = Constants.BASE_URL + str;
             } else {
                 path = str;

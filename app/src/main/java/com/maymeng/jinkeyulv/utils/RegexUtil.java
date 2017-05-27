@@ -39,7 +39,8 @@ public class RegexUtil {
      * @return {@code true}: 匹配<br>{@code false}: 不匹配
      */
     public static boolean isMobileExact(CharSequence input) {
-        return isMatch("^((13[0-9])|(14[5,7])|(15[0-3,5-9])|(17[0,3,5-8])|(18[0-9])|(147))\\d{8}$", input);
+        return isMatch("^[1][3,4,5,7,8][0-9]{9}$", input);
+//        return isMatch("^((13[0-9])|(14[0-9])|(15[0-9])|(17[0-9])|(18[0-9])|(147))\\d{8}$", input);
     }
 
     /**

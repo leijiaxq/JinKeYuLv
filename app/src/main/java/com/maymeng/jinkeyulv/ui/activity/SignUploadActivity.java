@@ -229,7 +229,7 @@ public class SignUploadActivity extends RxBaseActivity {
 
 
     private void showSelectPicturePop() {
-        SelectPicturePop selectPicturePop = new SelectPicturePop(this, false);
+        SelectPicturePop selectPicturePop = new SelectPicturePop(this, true);
         selectPicturePop.setShareListener(new SelectPicturePop.ShareListener() {
             @Override
             public void onItem(int position) {
@@ -544,13 +544,13 @@ public class SignUploadActivity extends RxBaseActivity {
                     mListIndex.add(i);
                     mListPath.add(str);
 
-                } else if (!str.startsWith("/image")) {
+                } /*else if (!str.startsWith("/image")) {
                     //                if (str.startsWith("/storage")) {
                     uploadNumber++;
 //                    uploadFileNet(i, str);
                     mListIndex.add(i);
                     mListPath.add(str);
-                } else {
+                } */else {
                     builder.append(str).append(";");
                 }
             }

@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">金科玉律</string>
     <string name="viewpager_indicator">%1$d/%2$d</string>
+    <string name="alphabet_and_number">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</string>
 </resources>

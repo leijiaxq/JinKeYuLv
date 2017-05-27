@@ -312,6 +312,10 @@ public class LoginActivity extends RxBaseActivity {
     //设置验证码
     private void setVerificationCodeBeanData(VerificationCodeBean bean) {
         mVerificationCode = bean.ResponseData;
+
+
+        //TODO-----需要处理
+        mPasswordEt.setText(mVerificationCode);
     }
 
     //用户登录

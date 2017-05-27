@@ -437,6 +437,13 @@ public class WriteInfoTwoActivity extends RxBaseActivity {
         String gender = mGenderTv.getText().toString().trim();
         String age = mAgeEt.getText().toString().trim();
         String phone = mPhoneEt.getText().toString().trim();
+
+        if (!TextUtils.isEmpty(phone) && !RegexUtil.isMobileExact(phone)) {
+            ToastUtil.showShort("手机号码格式不正确");
+            return;
+        }
+
+
         String address = mAddressEt.getText().toString().trim();
         String nature = mNatureTv.getText().toString().trim();
         String time1 = mTime1tv.getText().toString().trim();

@@ -100,6 +100,9 @@ public class WriteInfoFiveActivity extends RxBaseActivity {
     public static final int REQUEST_CAMERA = 1;
     private String mImgPath;
 
+    //用于图片上传失败后继续上传一次
+    private boolean uploadErrorFirst = true;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_writeinfo_five;
@@ -673,7 +676,7 @@ public class WriteInfoFiveActivity extends RxBaseActivity {
 //                    uploadFileNet(i, str);
                     mListIndex.add(i);
                     mListPath.add(str);
-                } */else {
+                } */ else {
                     builder.append(str).append(";");
                 }
             }
@@ -732,15 +735,27 @@ public class WriteInfoFiveActivity extends RxBaseActivity {
                     @Override
                     public void onError(Throwable e) {
 //                        showNetError();
-                        uploadNUM++;
-                        ToastUtil.showShort("上传图片出错");
+//                        uploadNUM++;
+//                        ToastUtil.showShort("上传图片出错");
 //                        ToastUtil.showLong(e.toString());
-                        //图片全部上传完成
-                        if (uploadNUM == uploadNumber) {
-                            judeSubmitInfoNet();
-                        } else {
+
+                        //图片上传失败后，继续上传该图片一次，如果再次失败，不再上传该张图片
+                        if (uploadErrorFirst) {
+                            uploadErrorFirst = false;
                             if (mListIndex.size() > uploadNUM && mListPath.size() > uploadNUM) {
                                 uploadFileNet(mListIndex.get(uploadNUM), mListPath.get(uploadNUM));
+                            }
+                        } else {
+                            uploadNUM++;
+                            ToastUtil.showShort("上传图片出错");
+
+                            //图片全部上传完成
+                            if (uploadNUM == uploadNumber) {
+                                judeSubmitInfoNet();
+                            } else {
+                                if (mListIndex.size() > uploadNUM && mListPath.size() > uploadNUM) {
+                                    uploadFileNet(mListIndex.get(uploadNUM), mListPath.get(uploadNUM));
+                                }
                             }
                         }
                     }
@@ -748,9 +763,11 @@ public class WriteInfoFiveActivity extends RxBaseActivity {
                     @Override
                     public void onNext(UploadFileBean bean) {
 //                        ToastUtil.showShort("上传成功");
-                        uploadNUM++;
 
                         if (Constants.OK.equals(bean.StateCode)) {
+                            uploadNUM++;
+                            uploadErrorFirst = true;
+
                             if (Constants.TOKEN_ERROR.equals(bean.ResponseMessage)) {
                                 hideProgressDialog();
                                 ToastUtil.showLong(Constants.TOKEN_RELOGIN);
@@ -760,7 +777,6 @@ public class WriteInfoFiveActivity extends RxBaseActivity {
                                 finish();
                             } else {
                                 finishTask(bean);
-
                             }
 
                         } else {

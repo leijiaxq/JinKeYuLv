@@ -43,7 +43,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="18dp"
-                        android:text="张三"
+                        android:text=""
                         android:textColor="@color/text_black"/>
 
                     <TextView
@@ -51,7 +51,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="联系电话：159-2635-6744"
+                        android:text="联系电话："
                         android:textColor="@color/text_gray999"
                         android:textSize="12sp"/>
 
@@ -60,7 +60,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:text="报案号：003333455"
+                        android:text="报案号："
+                        android:textColor="@color/text_gray999"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/hospital_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="医院名称："
                         android:textColor="@color/text_gray999"
                         android:textSize="12sp"/>
                 </LinearLayout>
@@ -88,14 +97,14 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:visibility="gone"
                     android:id="@+id/phone_layout2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="14dp"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical">
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="wrap_content"

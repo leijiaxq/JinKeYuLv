@@ -22,10 +22,12 @@ import android.widget.TextView;
 import com.maymeng.jinkeyulv.R;
 import com.maymeng.jinkeyulv.api.Constants;
 import com.maymeng.jinkeyulv.api.RetrofitHelper;
+import com.maymeng.jinkeyulv.api.RxBus;
 import com.maymeng.jinkeyulv.base.BaseApplication;
 import com.maymeng.jinkeyulv.base.RxBaseActivity;
 import com.maymeng.jinkeyulv.bean.BaseBean;
 import com.maymeng.jinkeyulv.bean.LoginBean;
+import com.maymeng.jinkeyulv.bean.RxBusBean;
 import com.maymeng.jinkeyulv.bean.SignBean;
 import com.maymeng.jinkeyulv.bean.SignUploadBean;
 import com.maymeng.jinkeyulv.bean.UploadFileBean;
@@ -83,6 +85,9 @@ public class SignUploadActivity extends RxBaseActivity {
     public static final int REQUEST_CAMERA = 1;
     private String mImgPath;
     private SignBean.ResponseDataBean mBean;
+
+    //用于图片上传失败后继续上传一次
+    private boolean uploadErrorFirst = true;
 
     @Override
     public int getLayoutId() {
@@ -506,7 +511,7 @@ public class SignUploadActivity extends RxBaseActivity {
 
     private void setSignUploadBeanData(SignUploadBean bean) {
         ToastUtil.showShort(TextUtils.isEmpty(bean.ResponseMessage) ? "提交成功" : bean.ResponseMessage);
-//        RxBus.getDefault().post(new RxBusBean(Constants.TYPE_ONE, new BaseBean()));
+        RxBus.getDefault().post(new RxBusBean(Constants.TYPE_ONE, new BaseBean()));
         finish();
     }
 
@@ -550,7 +555,7 @@ public class SignUploadActivity extends RxBaseActivity {
 //                    uploadFileNet(i, str);
                     mListIndex.add(i);
                     mListPath.add(str);
-                } */else {
+                } */ else {
                     builder.append(str).append(";");
                 }
             }
@@ -608,15 +613,24 @@ public class SignUploadActivity extends RxBaseActivity {
                     @Override
                     public void onError(Throwable e) {
 //                        showNetError();
-                        uploadNUM++;
-                        ToastUtil.showShort("上传图片出错");
+//                        uploadNUM++;
+//                        ToastUtil.showShort("上传图片出错");
 //                        ToastUtil.showLong(e.toString());
-                        //图片全部上传完成
-                        if (uploadNUM == uploadNumber) {
-                            judeSubmitInfoNet();
-                        } else {
+
+                        //图片上传失败后，继续上传该图片一次，如果再次失败，不再上传该张图片
+                        if (uploadErrorFirst) {
+                            uploadErrorFirst = false;
                             if (mListIndex.size() > uploadNUM && mListPath.size() > uploadNUM) {
                                 uploadFileNet(mListIndex.get(uploadNUM), mListPath.get(uploadNUM));
+                            }
+                        } else {
+                            //图片全部上传完成
+                            if (uploadNUM == uploadNumber) {
+                                judeSubmitInfoNet();
+                            } else {
+                                if (mListIndex.size() > uploadNUM && mListPath.size() > uploadNUM) {
+                                    uploadFileNet(mListIndex.get(uploadNUM), mListPath.get(uploadNUM));
+                                }
                             }
                         }
                     }
@@ -624,9 +638,11 @@ public class SignUploadActivity extends RxBaseActivity {
                     @Override
                     public void onNext(UploadFileBean bean) {
 //                        ToastUtil.showShort("上传成功");
-                        uploadNUM++;
 
                         if (Constants.OK.equals(bean.StateCode)) {
+                            uploadNUM++;
+                            uploadErrorFirst = true;
+
                             if (Constants.TOKEN_ERROR.equals(bean.ResponseMessage)) {
                                 hideProgressDialog();
                                 ToastUtil.showLong(Constants.TOKEN_RELOGIN);

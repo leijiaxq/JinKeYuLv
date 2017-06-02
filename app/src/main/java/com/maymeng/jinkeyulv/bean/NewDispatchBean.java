@@ -44,6 +44,7 @@ public class NewDispatchBean extends BaseBean {
         public boolean IsRead;
         public int CaseId;
         public int IsStatus;
+        public String HospitalName;
 
 
         @Override
@@ -60,6 +61,7 @@ public class NewDispatchBean extends BaseBean {
             dest.writeByte(this.IsRead ? (byte) 1 : (byte) 0);
             dest.writeInt(this.CaseId);
             dest.writeInt(this.IsStatus);
+            dest.writeString(this.HospitalName);
         }
 
         public ResponseDataBean() {
@@ -73,6 +75,7 @@ public class NewDispatchBean extends BaseBean {
             this.IsRead = in.readByte() != 0;
             this.CaseId = in.readInt();
             this.IsStatus = in.readInt();
+            this.HospitalName = in.readString();
         }
 
         public static final Creator<ResponseDataBean> CREATOR = new Creator<ResponseDataBean>() {

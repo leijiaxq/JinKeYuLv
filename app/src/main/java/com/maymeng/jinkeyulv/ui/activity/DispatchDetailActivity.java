@@ -58,6 +58,8 @@ public class DispatchDetailActivity extends RxBaseActivity {
     LinearLayout mPhoneLayout;
     @BindView(R.id.phone_layout2)
     LinearLayout mPhoneLayout2;
+    @BindView(R.id.hospital_tv)
+    TextView mHospitalTv;
 
     private NewDispatchBean.ResponseDataBean mBean;
     private NewDispatchCaseInfoBean.ResponseDataBean mNewDispatchCaseInfoBean;
@@ -104,6 +106,7 @@ public class DispatchDetailActivity extends RxBaseActivity {
 
             mPhoneTv.setText("联系电话：" + phone);
             mReportTv.setText("报案号：" + mBean.ReportNumber);
+            mHospitalTv.setText("医院名称：" + (TextUtils.isEmpty(mBean.HospitalName)?"":mBean.HospitalName));
         }
 
     }
@@ -210,6 +213,7 @@ public class DispatchDetailActivity extends RxBaseActivity {
             bean.Phone = mBean.Phone;
             bean.CaseId = mBean.CaseId;
             bean.OrderId = mBean.OrderId;
+            bean.HospitalName = mBean.HospitalName;
         }
         instance.setWriteInfoBean(bean);
 

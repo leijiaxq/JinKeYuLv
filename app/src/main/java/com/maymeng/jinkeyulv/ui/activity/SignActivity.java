@@ -15,10 +15,12 @@ import android.widget.TextView;
 import com.maymeng.jinkeyulv.R;
 import com.maymeng.jinkeyulv.api.Constants;
 import com.maymeng.jinkeyulv.api.RetrofitHelper;
+import com.maymeng.jinkeyulv.api.RxBus;
 import com.maymeng.jinkeyulv.base.BaseApplication;
 import com.maymeng.jinkeyulv.base.RxBaseActivity;
 import com.maymeng.jinkeyulv.bean.BaseBean;
 import com.maymeng.jinkeyulv.bean.LoginBean;
+import com.maymeng.jinkeyulv.bean.RxBusBean;
 import com.maymeng.jinkeyulv.bean.SignBean;
 import com.maymeng.jinkeyulv.ui.adapter.SignAdapter;
 import com.maymeng.jinkeyulv.utils.SPUtil;
@@ -30,6 +32,7 @@ import java.util.List;
 import butterknife.BindView;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -128,6 +131,19 @@ public class SignActivity extends RxBaseActivity implements SwipeRefreshLayout.O
         showProgressDialog("正在加载");
         onRefresh();
 //        makeData();
+
+        //用于--填完第五页数据后finish掉页面
+        RxBus.getDefault().toObservable(RxBusBean.class)
+                .compose(this.<RxBusBean>bindToLifecycle())
+                .subscribe(new Action1<RxBusBean>() {
+                    @Override
+                    public void call(RxBusBean bean) {
+                        if (bean.id == Constants.RXBUS_ONE) {
+                            finish();
+                        }
+                    }
+                });
+
     }
 
     private void initAdapter() {

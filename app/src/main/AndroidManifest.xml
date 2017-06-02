@@ -6,23 +6,27 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
 
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_LOGS"/>
 
     <application
         android:name="com.maymeng.jinkeyulv.base.BaseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:supportsRtl="true"
         android:screenOrientation="portrait"
+        android:supportsRtl="true"
         android:theme="@style/TransparencyAppTheme">
 
-        <activity android:name="com.maymeng.jinkeyulv.ui.activity.SplashActivity" android:theme="@style/AppWelcome">
+        <activity
+            android:name="com.maymeng.jinkeyulv.ui.activity.SplashActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppWelcome">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -30,31 +34,103 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.maymeng.jinkeyulv.ui.activity.MainActivity"/>
+        <activity
+            android:name="com.maymeng.jinkeyulv.ui.activity.MainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"/>
         <!--android:windowSoftInputMode="stateHidden|adjustPan"-->
-        <activity android:name="com.maymeng.jinkeyulv.ui.activity.LoginActivity"/>
+        <activity
+            android:name="com.maymeng.jinkeyulv.ui.activity.LoginActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name="com.maymeng.jinkeyulv.ui.activity.NewDispatchActivity" />
-        <activity android:name="com.maymeng.jinkeyulv.ui.activity.DispatchDetailActivity"/>
-        <activity android:name="com.maymeng.jinkeyulv.ui.activity.WriteInfoOneActivity" android:windowSoftInputMode="stateHidden|adjustPan"/>
-        <activity android:name="com.maymeng.jinkeyulv.ui.activity.WriteInfoTwoActivity" android:windowSoftInputMode="stateHidden|adjustPan"/>
-        <activity android:name="com.maymeng.jinkeyulv.ui.activity.WriteInfoThreeActivity" android:windowSoftInputMode="stateHidden|adjustPan"/>
-        <activity android:name="com.maymeng.jinkeyulv.ui.activity.WriteInfoFourActivity" android:windowSoftInputMode="stateHidden|adjustPan"/>
-        <activity android:name="com.maymeng.jinkeyulv.ui.activity.WriteInfoFiveActivity"/>
-        <activity android:name="com.maymeng.jinkeyulv.ui.activity.InfoCheckOneActivity"/>
-        <activity android:name="com.maymeng.jinkeyulv.ui.activity.InfoCheckOneResultActivity"/>
-        <activity android:name="com.maymeng.jinkeyulv.ui.activity.InfoCheckThreeActivity"/>
-        <activity android:name="com.maymeng.jinkeyulv.ui.activity.InfoCheckThreeResultActivity"/>
-        <activity android:name="com.maymeng.jinkeyulv.ui.activity.InfoCheckFourActivity"/>
-        <activity android:name="com.maymeng.jinkeyulv.ui.activity.InfoCheckWebShebaoActivity"/>
-        <activity android:name="com.maymeng.jinkeyulv.ui.activity.InfoCheckWebGJJActivity"/>
-        <activity android:name="com.maymeng.jinkeyulv.ui.activity.InfoCheckWebPhoneActivity"/>
-        <activity android:name="com.maymeng.jinkeyulv.ui.activity.QueryActivity"/>
-        <activity android:name="com.maymeng.jinkeyulv.ui.activity.QueryResultActivity"/>
-        <activity android:name="com.maymeng.jinkeyulv.ui.activity.QueryAllActivity"/>
-        <activity android:name="com.maymeng.jinkeyulv.ui.activity.ShowPictureActivity" android:theme="@style/AppTheme"/>
-        <activity android:name="com.maymeng.jinkeyulv.ui.activity.SignActivity"/>
-        <activity android:name="com.maymeng.jinkeyulv.ui.activity.SignUploadActivity"/>
+        <activity
+            android:name="com.maymeng.jinkeyulv.ui.activity.NewDispatchActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.maymeng.jinkeyulv.ui.activity.DispatchDetailActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.maymeng.jinkeyulv.ui.activity.WriteInfoOneActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+        <activity
+            android:name="com.maymeng.jinkeyulv.ui.activity.WriteInfoTwoActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+        <activity
+            android:name="com.maymeng.jinkeyulv.ui.activity.WriteInfoThreeActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+        <activity
+            android:name="com.maymeng.jinkeyulv.ui.activity.WriteInfoFourActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+        <activity
+            android:name="com.maymeng.jinkeyulv.ui.activity.WriteInfoFiveActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.maymeng.jinkeyulv.ui.activity.InfoCheckOneActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.maymeng.jinkeyulv.ui.activity.InfoCheckOneResultActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.maymeng.jinkeyulv.ui.activity.InfoCheckThreeActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.maymeng.jinkeyulv.ui.activity.InfoCheckThreeResultActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.maymeng.jinkeyulv.ui.activity.InfoCheckFourActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.maymeng.jinkeyulv.ui.activity.InfoCheckWebShebaoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.maymeng.jinkeyulv.ui.activity.InfoCheckWebGJJActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.maymeng.jinkeyulv.ui.activity.InfoCheckWebPhoneActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.maymeng.jinkeyulv.ui.activity.QueryActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.maymeng.jinkeyulv.ui.activity.QueryResultActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.maymeng.jinkeyulv.ui.activity.QueryAllActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.maymeng.jinkeyulv.ui.activity.ShowPictureActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name="com.maymeng.jinkeyulv.ui.activity.SignActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.maymeng.jinkeyulv.ui.activity.SignUploadActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"/>
 
 
         <provider
@@ -77,7 +153,7 @@
         </meta-data>
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="Channel ID" >
+            android:value="Channel ID">
         </meta-data>
 
     </application>

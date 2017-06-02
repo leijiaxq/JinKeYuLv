@@ -134,7 +134,7 @@ public class SignUploadActivity extends RxBaseActivity {
         setWriteInfoBeanImg();
 
         initAdapter();
-//        initGallery();
+        initGallery();
 
         initStringBuider();
     }
@@ -186,8 +186,10 @@ public class SignUploadActivity extends RxBaseActivity {
                 mPostion2 = position2;
                 if (mDatas.size() > position) {
                     List<String> list = mDatas.get(position);
-                    list.remove(position2);
-                    mAdapter.notifyItemChanged(position);
+                    if (list.size() > position2) {
+                        list.remove(position2);
+                        mAdapter.notifyItemChanged(position);
+                    }
                 }
             }
 
@@ -342,7 +344,8 @@ public class SignUploadActivity extends RxBaseActivity {
 
             galleryConfig = new GalleryConfig.Builder()
                     .imageLoader(new ImageUtil.GlideImageLoader())    // ImageLoader 加载框架（必填）
-                    .iHandlerCallBack(new IHandlerCallBack() {
+                    .iHandlerCallBack(iHandlerCallBack
+                            /*new IHandlerCallBack() {
                         @Override
                         public void onStart() {
 
@@ -374,7 +377,7 @@ public class SignUploadActivity extends RxBaseActivity {
                         public void onError() {
 
                         }
-                    })     // 监听接口（必填）
+                    }*/)     // 监听接口（必填）
                     .provider("com.maymeng.jinkeyulv.fileprovider")   // provider(必填)
                     .pathList(mPath)                         // 记录已选的图片
                     .multiSelect(true, 4)                   // 配置是否多选的同时 配置多选数量   默认：false ， 9
@@ -405,7 +408,6 @@ public class SignUploadActivity extends RxBaseActivity {
                 }
                 list.addAll(mPath);
                 mAdapter.notifyItemChanged(mPostion);
-
             }
 
             @Override
@@ -439,8 +441,21 @@ public class SignUploadActivity extends RxBaseActivity {
 
     private void submitInfoToCheck() {
 
+        if (mDatas.get(0).size() == 0 && mDatas.get(1).size() == 0) {
+            ToastUtil.showShort("请上传图片");
+            return;
+        }
+//        showProgressDialog("");
         showProgressDialog("正在提交...");
+
+//        BaseApplication.getInstance().mHandler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+
         judeFileNeedUpload();
+//            }
+//        }, 5000);
+
 
 //        submitInfoNet();
     }
@@ -529,6 +544,7 @@ public class SignUploadActivity extends RxBaseActivity {
 
     //判断哪些文件需要上传
     private void judeFileNeedUpload() {
+
         uploadNumber = 0;
         uploadNUM = 0;
 

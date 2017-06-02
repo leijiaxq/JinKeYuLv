@@ -314,7 +314,7 @@ public class LoginActivity extends RxBaseActivity {
         mVerificationCode = bean.ResponseData;
 
 
-        /*//TODO-----需要处理
+ /*       //TODO-----需要处理
         mPasswordEt.setText(mVerificationCode);*/
     }
 

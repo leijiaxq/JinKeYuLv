@@ -67,7 +67,7 @@ public abstract class RxBaseActivity extends RxAppCompatActivity {
 
 
     public void showProgressDialog(String message) {
-       /* if (mProgressXQ == null) {
+        /*if (mProgressXQ == null) {
             mProgressXQ = new ProgressXQ(RxBaseActivity.this);
         }
         mProgressXQ.setMessage(message);
@@ -79,18 +79,20 @@ public abstract class RxBaseActivity extends RxAppCompatActivity {
         if (TextUtils.isEmpty(message)) {
             mKProgressHUD = KProgressHUD.create(this)
                     .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                    .setAnimationSpeed(2)
                     .setCancellable(true);
         } else {
             mKProgressHUD = KProgressHUD.create(this)
                     .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                     .setLabel(message)
+                    .setAnimationSpeed(2)
                     .setCancellable(true);
         }
         mKProgressHUD.show();
     }
 
     public void hideProgressDialog() {
-       /* if (mProgressXQ != null && mProgressXQ.isShowing()) {
+        /*if (mProgressXQ != null && mProgressXQ.isShowing()) {
             mProgressXQ.dismiss();
         }*/
        /* if (mLoadXQAnim != null && mLoadXQAnim.isShowing()) {

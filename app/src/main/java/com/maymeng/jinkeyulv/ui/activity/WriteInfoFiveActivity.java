@@ -32,6 +32,7 @@ import com.maymeng.jinkeyulv.bean.RxBusBean;
 import com.maymeng.jinkeyulv.bean.SubmitInfoBean;
 import com.maymeng.jinkeyulv.bean.WriteInfoBean;
 import com.maymeng.jinkeyulv.ui.adapter.WriteInfoFiveAdapter;
+import com.maymeng.jinkeyulv.ui.dialog.ProgressXQ;
 import com.maymeng.jinkeyulv.ui.pop.SelectPicturePop;
 import com.maymeng.jinkeyulv.utils.ImageUtil;
 import com.maymeng.jinkeyulv.utils.SPUtil;
@@ -550,7 +551,7 @@ public class WriteInfoFiveActivity extends RxBaseActivity {
 
     private void submitInfoToCheck() {
 
-        showProgressDialog("正在提交...");
+        showProgressDialog2("正在提交...");
         judeFileNeedUpload();
 
 //        submitInfoNet();
@@ -591,7 +592,7 @@ public class WriteInfoFiveActivity extends RxBaseActivity {
                 .subscribe(new Subscriber<SubmitInfoBean>() {
                     @Override
                     public void onCompleted() {
-                        hideProgressDialog();
+                        hideProgressDialog2();
                     }
 
                     @Override
@@ -603,7 +604,7 @@ public class WriteInfoFiveActivity extends RxBaseActivity {
                     public void onNext(SubmitInfoBean bean) {
                         if (Constants.OK.equals(bean.StateCode)) {
                             if (Constants.TOKEN_ERROR.equals(bean.ResponseMessage)) {
-                                hideProgressDialog();
+                                hideProgressDialog2();
                                 ToastUtil.showLong(Constants.TOKEN_RELOGIN);
                                 SPUtil.clear(WriteInfoFiveActivity.this);
                                 Intent intent = new Intent(WriteInfoFiveActivity.this, LoginActivity.class);
@@ -699,7 +700,7 @@ public class WriteInfoFiveActivity extends RxBaseActivity {
         //构建要上传的文件
         File file = new File(path);
         if (!file.exists()) {
-            hideProgressDialog();
+            hideProgressDialog2();
             ToastUtil.showShort("图片有误");
             return;
         }
@@ -769,7 +770,7 @@ public class WriteInfoFiveActivity extends RxBaseActivity {
                             uploadErrorFirst = true;
 
                             if (Constants.TOKEN_ERROR.equals(bean.ResponseMessage)) {
-                                hideProgressDialog();
+                                hideProgressDialog2();
                                 ToastUtil.showLong(Constants.TOKEN_RELOGIN);
                                 SPUtil.clear(WriteInfoFiveActivity.this);
                                 Intent intent = new Intent(WriteInfoFiveActivity.this, LoginActivity.class);
@@ -780,7 +781,7 @@ public class WriteInfoFiveActivity extends RxBaseActivity {
                             }
 
                         } else {
-                            hideProgressDialog();
+                            hideProgressDialog2();
                             ToastUtil.showShort(TextUtils.isEmpty(bean.ResponseMessage) ? Constants.ERROR : bean.ResponseMessage);
                         }
                     }
@@ -839,5 +840,22 @@ public class WriteInfoFiveActivity extends RxBaseActivity {
 
 
         submitInfoNet();
+    }
+
+
+    ProgressXQ mProgressXQ;
+
+    public void showProgressDialog2(String message) {
+        if (mProgressXQ == null) {
+            mProgressXQ = new ProgressXQ(this);
+        }
+        mProgressXQ.setMessage(message);
+        mProgressXQ.show();
+    }
+
+    public void hideProgressDialog2() {
+        if (mProgressXQ != null && mProgressXQ.isShowing()) {
+            mProgressXQ.dismiss();
+        }
     }
 }

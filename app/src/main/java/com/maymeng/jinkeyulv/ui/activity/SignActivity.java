@@ -143,7 +143,6 @@ public class SignActivity extends RxBaseActivity implements SwipeRefreshLayout.O
                         }
                     }
                 });
-
     }
 
     private void initAdapter() {
@@ -270,5 +269,6 @@ public class SignActivity extends RxBaseActivity implements SwipeRefreshLayout.O
         mDatas.addAll(bean.ResponseData);
         mAdapter.notifyDataSetChanged();
     }
+
 
 }

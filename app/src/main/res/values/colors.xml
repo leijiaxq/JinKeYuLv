@@ -58,6 +58,8 @@
     <color name="gallery_blue">#4195d7</color>
 
 
+    <color name="kprogresshud_default_color">#b1000000</color>
+
 
     <!--loading动画颜色-->
     <color name="triangle">#aa72d572</color>

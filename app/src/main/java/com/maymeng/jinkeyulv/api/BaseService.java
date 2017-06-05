@@ -48,7 +48,7 @@ public interface BaseService {
     @FormUrlEncoded
     @POST("api/Case")
     Observable<AddCaseBean> addCaseNet(@Header("token") String token, @Field("AddAccountId") int AddAccountId, @Field("CustomerName") String CustomerName, @Field("CaseNumber") String CaseNumber, @Field("OutDangerTime") String OutDangerTime,
-                                       @Field("OutDangerAddress") String OutDangerAddress, @Field("CasualtiesType") String CasualtiesType, @Field("OutDangerDescription") String OutDangerDescription);
+                                       @Field("OutDangerAddress") String OutDangerAddress, @Field("CasualtiesType") String CasualtiesType, @Field("OutDangerDescription") String OutDangerDescription, @Field("IdCard") String IdCard);
 
 
     //  更新案件

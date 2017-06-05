@@ -501,7 +501,7 @@ public class WriteInfoTwoActivity extends RxBaseActivity {
 
             showProgressDialog("正在提交...");
             mWaitTime = System.currentTimeMillis();
-            addCaseNet(bean1.AccountId, name, bean.CaseNumber, bean.OutDangerTime, bean.OutDangerAddress, bean.CasualtiesType, bean.OutDangerDescription);
+            addCaseNet(bean1.AccountId, name, bean.CaseNumber, bean.OutDangerTime, bean.OutDangerAddress, bean.CasualtiesType, bean.OutDangerDescription,bean.IDCard);
 
         } else {
             Intent intent = new Intent(this, WriteInfoThreeActivity.class);
@@ -510,7 +510,7 @@ public class WriteInfoTwoActivity extends RxBaseActivity {
 
     }
 
-    private void addCaseNet(int accountId, String name, String number, String time, String addreess, String type, String process) {
+    private void addCaseNet(int accountId, String name, String number, String time, String addreess, String type, String process, String IDCard) {
 
         LoginBean.ResponseDataBean bean = BaseApplication.getInstance().getLoginBean();
         if (bean == null) {
@@ -524,7 +524,7 @@ public class WriteInfoTwoActivity extends RxBaseActivity {
             BaseApplication.getInstance().setLoginBean(bean);
         }
         RetrofitHelper.getBaseApi()
-                .addCaseNet(bean.Token, accountId, name, number, time, addreess, type, process)
+                .addCaseNet(bean.Token, accountId, name, number, time, addreess, type, process,IDCard)
                 .compose(this.<AddCaseBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

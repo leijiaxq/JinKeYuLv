@@ -408,7 +408,6 @@ public class WriteInfoFiveActivity extends RxBaseActivity {
                         }
                     }
                 });
-
     }
 
     //配置gallerypick图片选择器

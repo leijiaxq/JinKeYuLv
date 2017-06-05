@@ -11,7 +11,7 @@ public class Constants {
 
 //        public static final String BASE_URL = "http://www.qiuhongliang.com/";
 //    public static final String BASE_URL = "http://192.168.0.158/";
-    public static final String BASE_URL = "http://apptest.jk-yl.com/";
+    public static final String BASE_URL = "http://apptest1.jk-yl.com:8086/";
 //    public static final String BASE_URL = "http://apptest.jk-yl.com/";
 
     //身份证，手机号，银行卡校验地址
@@ -32,17 +32,20 @@ public class Constants {
 
 
     //社保查询H5回调地址
-    public static final String SHEBAO_CALLBACK_URL = "http://www.qiuhongliang.com/Result.aspx";
+    public static final String SHEBAO_CALLBACK_URL = "http://apptest1.jk-yl.com:8085/shebaoRollBack.aspx";
+//    public static final String SHEBAO_CALLBACK_URL = "http://www.qiuhongliang.com/Result.aspx";
     public static final String SHEBAO_SUCCESS_URL = "http://www.qiuhongliang.com/xinxi/xinxi-cg.html";
     public static final String SHEBAO_FAILED_URL = "http://www.qiuhongliang.com/xinxi/xinxi-sb.html";
 
     //公积金查询H5回调地址
-    public static final String GJJ_CALLBACK_URL = "http://www.qiuhongliang.com/Result.aspx";
+    public static final String GJJ_CALLBACK_URL = "http://apptest1.jk-yl.com:8085/gongjijinRollBack.aspx";
+//    public static final String GJJ_CALLBACK_URL = "http://www.qiuhongliang.com/Result.aspx";
     public static final String GJJ_SUCCESS_URL = "http://www.qiuhongliang.com/xinxi/xinxi-cg.html";
     public static final String GJJ_FAILED_URL = "http://www.qiuhongliang.com/xinxi/xinxi-sb.html";
 
     //手机运营商数据查询H5回调地址
-    public static final String PHONE_CALLBACK_URL = "http://www.qiuhongliang.com/Result.aspx";
+    public static final String PHONE_CALLBACK_URL = "http://apptest1.jk-yl.com:8085/phonerollBack.aspx";
+//    public static final String PHONE_CALLBACK_URL = "http://www.qiuhongliang.com/Result.aspx";
     public static final String PHONE_SUCCESS_URL = "http://www.qiuhongliang.com/xinxi/xinxi-cg.html";
     public static final String PHONE_FAILED_URL = "http://www.qiuhongliang.com/xinxi/xinxi-sb.html";
 

@@ -2,16 +2,22 @@ package com.maymeng.jinkeyulv.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.maymeng.jinkeyulv.R;
 import com.maymeng.jinkeyulv.api.Constants;
+import com.maymeng.jinkeyulv.base.BaseApplication;
 import com.maymeng.jinkeyulv.utils.ImageUtil;
+import com.maymeng.jinkeyulv.utils.ToastUtil;
 import com.maymeng.jinkeyulv.view.mask.PorterShapeImageView;
 
 import java.util.List;
@@ -29,12 +35,17 @@ public class SignUploadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private List<String> mDatas0; //名称
     private List<List<String>> mDatas;
     public boolean isAllLoad = false;
+    public String mSignFee;
+
+    //用于签约费率中使用，第一次更新使用
+    public boolean isFirst = true;
 
 
-    public SignUploadAdapter(Context context, List<String> datas0, List<List<String>> datas) {
+    public SignUploadAdapter(Context context, List<String> datas0, List<List<String>> datas,String signFee) {
         mContext = context;
         mDatas0 = datas0;
         mDatas = datas;
+        mSignFee = signFee;
     }
 
     @Override
@@ -46,6 +57,9 @@ public class SignUploadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         } else if (viewType == Constants.TYPE_ONE) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_sign_upload, parent, false);
             return new ViewHolderType1(view);
+        } else if (viewType == Constants.TYPE_TWO) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_sign_upload_typw2, parent, false);
+            return new ViewHolderType2(view);
         }
         return null;
     }
@@ -57,6 +71,8 @@ public class SignUploadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             setDataType1((ViewHolderType1) holder, position);
         } else if (holder instanceof ViewHolderFoot) {
             setDataFoot((ViewHolderFoot) holder);
+        } else if (holder instanceof ViewHolderType2) {
+            setDataType2((ViewHolderType2) holder);
         }
     }
 
@@ -86,7 +102,7 @@ public class SignUploadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             holder.mLayout14.setVisibility(View.GONE);
             String path = "";
             String str = list.get(0);
-            if (str.startsWith("/Image")||str.startsWith("/image")) {
+            if (str.startsWith("/Image") || str.startsWith("/image")) {
                 path = Constants.BASE_URL + str;
             } else {
                 path = str;
@@ -105,7 +121,7 @@ public class SignUploadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             holder.mDelete13Iv.setVisibility(View.GONE);
             String path = "";
             String str = list.get(0);
-            if (str.startsWith("/Image")||str.startsWith("/image")) {
+            if (str.startsWith("/Image") || str.startsWith("/image")) {
                 path = Constants.BASE_URL + str;
             } else {
                 path = str;
@@ -114,7 +130,7 @@ public class SignUploadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 //            ImageUtil.getInstance().displayRoundImage(mContext, path, holder.mIamge11Iv, 50);
             String path2 = "";
             String str2 = list.get(1);
-            if (str2.startsWith("/Image")||str2.startsWith("/image")) {
+            if (str2.startsWith("/Image") || str2.startsWith("/image")) {
                 path2 = Constants.BASE_URL + str2;
             } else {
                 path2 = str2;
@@ -135,7 +151,7 @@ public class SignUploadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             holder.mDelete14Iv.setVisibility(View.GONE);
             String path = "";
             String str = list.get(0);
-            if (str.startsWith("/Image")||str.startsWith("/image")) {
+            if (str.startsWith("/Image") || str.startsWith("/image")) {
                 path = Constants.BASE_URL + str;
             } else {
                 path = str;
@@ -144,7 +160,7 @@ public class SignUploadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ImageUtil.getInstance().displayImage(mContext, path, holder.mIamge11Iv);
             String path2 = "";
             String str2 = list.get(1);
-            if (str2.startsWith("/Image")||str2.startsWith("/image")) {
+            if (str2.startsWith("/Image") || str2.startsWith("/image")) {
                 path2 = Constants.BASE_URL + str2;
             } else {
                 path2 = str2;
@@ -153,7 +169,7 @@ public class SignUploadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 //            ImageUtil.getInstance().displayRoundImage(mContext, path2, holder.mIamge12Iv, 50);
             String path3 = "";
             String str3 = list.get(2);
-            if (str3.startsWith("/Image")||str3.startsWith("/image")) {
+            if (str3.startsWith("/Image") || str3.startsWith("/image")) {
                 path3 = Constants.BASE_URL + str3;
             } else {
                 path3 = str3;
@@ -173,7 +189,7 @@ public class SignUploadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             holder.mDelete14Iv.setVisibility(View.VISIBLE);
             String path = "";
             String str = list.get(0);
-            if (str.startsWith("/Image")||str.startsWith("/image")) {
+            if (str.startsWith("/Image") || str.startsWith("/image")) {
                 path = Constants.BASE_URL + str;
             } else {
                 path = str;
@@ -182,7 +198,7 @@ public class SignUploadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ImageUtil.getInstance().displayImage(mContext, path, holder.mIamge11Iv);
             String path2 = "";
             String str2 = list.get(1);
-            if (str2.startsWith("/Image")||str2.startsWith("/image")) {
+            if (str2.startsWith("/Image") || str2.startsWith("/image")) {
                 path2 = Constants.BASE_URL + str2;
             } else {
                 path2 = str2;
@@ -191,7 +207,7 @@ public class SignUploadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 //            ImageUtil.getInstance().displayRoundImage(mContext, path2, holder.mIamge12Iv, 50);
             String path3 = "";
             String str3 = list.get(2);
-            if (str3.startsWith("/Image")||str3.startsWith("/image")) {
+            if (str3.startsWith("/Image") || str3.startsWith("/image")) {
                 path3 = Constants.BASE_URL + str3;
             } else {
                 path3 = str3;
@@ -200,7 +216,7 @@ public class SignUploadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 //            ImageUtil.getInstance().displayRoundImage(mContext, path3, holder.mIamge13Iv, 50);
             String path4 = "";
             String str4 = list.get(3);
-            if (str4.startsWith("/Image")||str4.startsWith("/image")) {
+            if (str4.startsWith("/Image") || str4.startsWith("/image")) {
                 path4 = Constants.BASE_URL + str4;
             } else {
                 path4 = str4;
@@ -276,6 +292,82 @@ public class SignUploadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     }
 
+    private void setDataType2(final ViewHolderType2 holder) {
+        if (isFirst) {
+            isFirst = false;
+            holder.mItemFee.setText(TextUtils.isEmpty(mSignFee)?"":mSignFee);
+            BaseApplication.getInstance().setSignFee(mSignFee);
+        }
+
+        holder.mItemFee.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before,
+                                      int count) {
+                String str = s.toString();
+                if (TextUtils.isEmpty(str)) {
+                    BaseApplication.getInstance().setSignFee("");
+                    return;
+                }
+
+                try {
+                    Float aFloat = Float.valueOf(str);
+                    if (aFloat >=100) {
+                        String substring = str.substring(0, str.length() - 1);
+                        holder.mItemFee.setText(substring);
+                        holder.mItemFee.setSelection(substring.length());
+
+                        BaseApplication.getInstance().setSignFee(substring);
+
+                        ToastUtil.showShort("数值不能大于或等于100");
+                        return;
+                    }
+                } catch (Exception e) {
+                    BaseApplication.getInstance().setSignFee("");
+                    ToastUtil.showShort("输入数据类型有误，请重新输入");
+                    return;
+                }
+                if (s.toString().contains(".")) {
+                    if (s.length() - 1 - s.toString().indexOf(".") > 2) {
+                        s = s.toString().subSequence(0,
+                                s.toString().indexOf(".") + 3);
+                        holder.mItemFee.setText(s);
+                        holder.mItemFee.setSelection(s.length());
+                    }
+                }
+                if (s.toString().trim().substring(0).equals(".")) {
+                    s = "0" + s;
+                    holder.mItemFee.setText(s);
+                    holder.mItemFee.setSelection(2);
+                }
+
+                if (s.toString().startsWith("0")
+                        && s.toString().trim().length() > 1) {
+                    if (!s.toString().substring(1, 2).equals(".")) {
+                        holder.mItemFee.setText(s.subSequence(0, 1));
+                        holder.mItemFee.setSelection(1);
+                        return;
+                    }
+                }
+
+                BaseApplication.getInstance().setSignFee(str);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // TODO Auto-generated method stub
+
+            }
+
+        });
+
+    }
 
     //设置底部foot
     private void setDataFoot(ViewHolderFoot holder) {
@@ -292,7 +384,7 @@ public class SignUploadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public int getItemCount() {
 
-        return 3;
+        return 4;
     }
 
     @Override
@@ -300,6 +392,8 @@ public class SignUploadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         if (position + 1 == getItemCount()) {
             return Constants.TYPE_FOOT;
+        } else if (position == 2) {
+            return Constants.TYPE_TWO;
         }
         return Constants.TYPE_ONE;
 
@@ -363,6 +457,16 @@ public class SignUploadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         FrameLayout mLayout14;
 
         ViewHolderType1(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
+        }
+    }
+
+    static class ViewHolderType2 extends RecyclerView.ViewHolder {
+        @BindView(R.id.item_fee)
+        EditText mItemFee;
+
+        ViewHolderType2(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }

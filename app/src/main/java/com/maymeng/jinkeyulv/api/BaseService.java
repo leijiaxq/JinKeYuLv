@@ -145,7 +145,7 @@ public interface BaseService {
     //    提交签约文件
     @FormUrlEncoded
     @POST("api/UpdateSignCase")
-    Observable<SignUploadBean> UpdateSignCaseNet(@Header("token") String token, @Field("CaseId") int CaseId, @Field("EntryApprovalForm") String EntryApprovalForm, @Field("AgentContract") String AgentContract);
+    Observable<SignUploadBean> UpdateSignCaseNet(@Header("token") String token, @Field("CaseId") int CaseId, @Field("EntryApprovalForm") String EntryApprovalForm, @Field("AgentContract") String AgentContract, @Field("AgencyFees") String AgencyFees);
 
 
 }

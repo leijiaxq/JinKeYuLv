@@ -130,7 +130,8 @@
         <activity
             android:name="com.maymeng.jinkeyulv.ui.activity.SignUploadActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
 
 
         <provider

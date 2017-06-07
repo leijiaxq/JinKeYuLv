@@ -36,6 +36,9 @@ public class BaseApplication extends Application {
     public int mPageFlag = 0;
 
 
+    //签约费率
+    public String mSignFee;
+
 
     @Override
     public void onCreate() {
@@ -106,5 +109,13 @@ public class BaseApplication extends Application {
 
     public void setPageFlag(int pageFlag) {
         mPageFlag = pageFlag;
+    }
+
+    public String getSignFee() {
+        return mSignFee;
+    }
+
+    public void setSignFee(String signFee) {
+        mSignFee = signFee;
     }
 }

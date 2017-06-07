@@ -131,6 +131,7 @@ public class LoginActivity extends RxBaseActivity {
         mVerificationCode = "";
 
         getVerificationCodeNet(phone);
+
     }
 
     //点击了条款

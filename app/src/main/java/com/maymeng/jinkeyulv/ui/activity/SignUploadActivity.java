@@ -170,8 +170,12 @@ public class SignUploadActivity extends RxBaseActivity {
     }
 
     private void initAdapter() {
+        String signFee = null;
+        if (mBean !=null) {
+            signFee = mBean.AgencyFees;
+        }
 
-        mAdapter = new SignUploadAdapter(this, mDatas0, mDatas);
+        mAdapter = new SignUploadAdapter(this, mDatas0, mDatas,signFee);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(new SignUploadAdapter.OnItemClickListener() {
             @Override
@@ -442,7 +446,24 @@ public class SignUploadActivity extends RxBaseActivity {
 
     private void submitInfoToCheck() {
 
-        if (mDatas.get(0).size() == 0 && mDatas.get(1).size() == 0) {
+        String signFee = BaseApplication.getInstance().getSignFee();
+        if (TextUtils.isEmpty(signFee)) {
+            ToastUtil.showShort("请填写签约费率");
+            return;
+        }
+
+        try {
+            Float aFloat = Float.valueOf(signFee);
+            if (aFloat < 0 || aFloat >= 100) {
+                ToastUtil.showShort("请重新填写签约费率");
+                return;
+            }
+        } catch (Exception e) {
+            ToastUtil.showShort("请重新填写签约费率");
+            return;
+        }
+
+        if (mDatas.get(0).size() == 0 || mDatas.get(1).size() == 0) {
             ToastUtil.showShort("请上传图片");
             return;
         }
@@ -479,7 +500,7 @@ public class SignUploadActivity extends RxBaseActivity {
             }
 
             RetrofitHelper.getBaseApi()
-                    .UpdateSignCaseNet(bean.Token, mBean.CaseId, builder1.toString(), builder2.toString())
+                    .UpdateSignCaseNet(bean.Token, mBean.CaseId, builder1.toString(), builder2.toString(), BaseApplication.getInstance().getSignFee())
                     .compose(this.<SignUploadBean>bindToLifecycle())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())

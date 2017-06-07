@@ -43,6 +43,8 @@ public class SignBean extends BaseBean {
         public String EntryApprovalForm;
         public String AgentContract;
 
+        public String AgencyFees;
+
 
         @Override
         public int describeContents() {
@@ -59,6 +61,7 @@ public class SignBean extends BaseBean {
             dest.writeInt(this.CaseId);
             dest.writeString(this.EntryApprovalForm);
             dest.writeString(this.AgentContract);
+            dest.writeString(this.AgencyFees);
         }
 
         public ResponseDataBean() {
@@ -73,9 +76,10 @@ public class SignBean extends BaseBean {
             this.CaseId = in.readInt();
             this.EntryApprovalForm = in.readString();
             this.AgentContract = in.readString();
+            this.AgencyFees = in.readString();
         }
 
-        public static final Parcelable.Creator<ResponseDataBean> CREATOR = new Parcelable.Creator<ResponseDataBean>() {
+        public static final Creator<ResponseDataBean> CREATOR = new Creator<ResponseDataBean>() {
             @Override
             public ResponseDataBean createFromParcel(Parcel source) {
                 return new ResponseDataBean(source);

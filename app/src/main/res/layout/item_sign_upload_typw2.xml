@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="9dp"
+        android:layout_marginLeft="19dp"
+        android:layout_marginTop="20dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:text="签约费率"
+        android:textColor="@color/text_black"
+        android:textSize="14sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="19dp"
+        android:layout_marginRight="19dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/item_fee"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/shape_edit_bg"
+            android:hint="请输入此合同签约费率"
+            android:maxLength="5"
+            android:numeric="decimal"
+            android:paddingBottom="15dp"
+            android:paddingLeft="9dp"
+            android:paddingRight="9dp"
+            android:paddingTop="15dp"
+            android:textColor="@color/text_black"
+            android:textColorHint="@color/gray_ccc"
+            android:textCursorDrawable="@drawable/shape_cursor"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/margin_5dp"
+            android:layout_marginRight="@dimen/margin_20dp"
+            android:gravity="center"
+            android:text="%"
+            android:textColor="@color/text_black"
+            android:textSize="18sp"/>
+    </LinearLayout>
+</LinearLayout>

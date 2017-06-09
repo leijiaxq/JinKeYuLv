@@ -170,7 +170,7 @@ public class DispatchDetailActivity extends RxBaseActivity {
 
         WriteInfoBean bean = new WriteInfoBean();
         if (mNewDispatchCaseInfoBean != null) {
-            bean.CaseNumber = mNewDispatchCaseInfoBean.CaseNumber;
+            bean.ReportNumber = mNewDispatchCaseInfoBean.ReportNumber;
             bean.OutDangerTime = mNewDispatchCaseInfoBean.OutDangerTime;
             bean.OutDangerAddress = mNewDispatchCaseInfoBean.OutDangerAddress;
             bean.CasualtiesType = mNewDispatchCaseInfoBean.CasualtiesType;

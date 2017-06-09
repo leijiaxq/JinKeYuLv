@@ -501,7 +501,7 @@ public class WriteInfoTwoActivity extends RxBaseActivity {
 
             showProgressDialog("正在提交...");
             mWaitTime = System.currentTimeMillis();
-            addCaseNet(bean1.AccountId, name, bean.CaseNumber, bean.OutDangerTime, bean.OutDangerAddress, bean.CasualtiesType, bean.OutDangerDescription,bean.IDCard);
+            addCaseNet(bean1.AccountId, name, bean.ReportNumber, bean.OutDangerTime, bean.OutDangerAddress, bean.CasualtiesType, bean.OutDangerDescription,bean.IDCard);
 
         } else {
             Intent intent = new Intent(this, WriteInfoThreeActivity.class);
@@ -597,8 +597,11 @@ public class WriteInfoTwoActivity extends RxBaseActivity {
         if (bean.ResponseData != null) {
             writeInfoBean.CaseId = bean.ResponseData.CaseID;
             writeInfoBean.OrderId = bean.ResponseData.OrderID;
+            Intent intent = new Intent(this, WriteInfoThreeActivity.class);
+            startActivity(intent);
+        } else {
+            ToastUtil.showShort("数据有误");
+            return;
         }
-        Intent intent = new Intent(this, WriteInfoThreeActivity.class);
-        startActivity(intent);
     }
 }

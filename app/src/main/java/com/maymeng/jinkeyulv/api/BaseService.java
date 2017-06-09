@@ -1,17 +1,18 @@
 package com.maymeng.jinkeyulv.api;
 
 
-import com.maymeng.jinkeyulv.bean.SignBean;
-import com.maymeng.jinkeyulv.bean.UploadFileBean;
 import com.maymeng.jinkeyulv.bean.AddCaseBean;
 import com.maymeng.jinkeyulv.bean.BaseNetBean;
 import com.maymeng.jinkeyulv.bean.LoginBean;
 import com.maymeng.jinkeyulv.bean.NewDispatchBean;
 import com.maymeng.jinkeyulv.bean.NewDispatchCaseInfoBean;
 import com.maymeng.jinkeyulv.bean.PictureInfoBean;
-import com.maymeng.jinkeyulv.bean.SubmitInfoBean;
-import com.maymeng.jinkeyulv.bean.VerificationCodeBean;
+import com.maymeng.jinkeyulv.bean.ReportNumberBean;
+import com.maymeng.jinkeyulv.bean.SignBean;
 import com.maymeng.jinkeyulv.bean.SignUploadBean;
+import com.maymeng.jinkeyulv.bean.SubmitInfoBean;
+import com.maymeng.jinkeyulv.bean.UploadFileBean;
+import com.maymeng.jinkeyulv.bean.VerificationCodeBean;
 
 import java.util.List;
 
@@ -47,14 +48,14 @@ public interface BaseService {
     //  添加案件
     @FormUrlEncoded
     @POST("api/Case")
-    Observable<AddCaseBean> addCaseNet(@Header("token") String token, @Field("AddAccountId") int AddAccountId, @Field("CustomerName") String CustomerName, @Field("CaseNumber") String CaseNumber, @Field("OutDangerTime") String OutDangerTime,
+    Observable<AddCaseBean> addCaseNet(@Header("token") String token, @Field("AddAccountId") int AddAccountId, @Field("CustomerName") String CustomerName, @Field("ReportNumber") String ReportNumber, @Field("OutDangerTime") String OutDangerTime,
                                        @Field("OutDangerAddress") String OutDangerAddress, @Field("CasualtiesType") String CasualtiesType, @Field("OutDangerDescription") String OutDangerDescription, @Field("IdCard") String IdCard);
 
 
     //  更新案件
     @FormUrlEncoded
     @POST("api/UpdatePost")
-    Observable<BaseNetBean> updateCaseNet(@Header("token") String token, @Field("OrderId") int orderId, @Field("CaseNumber") String CaseNumber, @Field("OutDangerTime") String OutDangerTime,
+    Observable<BaseNetBean> updateCaseNet(@Header("token") String token, @Field("OrderId") int orderId,/* @Field("CaseNumber") String CaseNumber,*/ @Field("OutDangerTime") String OutDangerTime,
                                           @Field("OutDangerAddress") String OutDangerAddress, @Field("CasualtiesType") String CasualtiesType, @Field("OutDangerDescription") String OutDangerDescription);
 
     //     提交填写的信息
@@ -142,10 +143,18 @@ public interface BaseService {
     @GET("api/GetSignCase")
     Observable<SignBean> getSignByAccountID(@Header("token") String token, @Query("accountId") int accountId, @Query("currentPage") int currentPage, @Query("pageSize") int pageSize);
 
+
     //    提交签约文件
     @FormUrlEncoded
     @POST("api/UpdateSignCase")
     Observable<SignUploadBean> UpdateSignCaseNet(@Header("token") String token, @Field("CaseId") int CaseId, @Field("EntryApprovalForm") String EntryApprovalForm, @Field("AgentContract") String AgentContract, @Field("AgencyFees") String AgencyFees);
 
+     //    根据用户ID获取报案编号
+    @GET("api/GetReportNumber")
+    Observable<ReportNumberBean> getReportNumberByAccountID(@Header("token") String token, @Query("accountId") int accountId);
 
+  //    完结验证
+    @FormUrlEncoded
+    @POST("api/EndValid")
+    Observable<BaseNetBean> endValidNet(@Header("token") String token, @Field("AccountId") int AccountId, @Field("IdCard") String IdCard);
 }

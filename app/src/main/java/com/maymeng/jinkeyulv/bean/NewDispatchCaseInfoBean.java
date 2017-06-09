@@ -56,7 +56,7 @@ public class NewDispatchCaseInfoBean extends BaseBean{
          * NoticeLetterImg :
          */
 
-        public String CaseNumber;
+        public String ReportNumber;
         public String OutDangerTime;
         public String OutDangerAddress;
         public String CasualtiesType;

@@ -11,8 +11,8 @@ public class WriteInfoBean {
     public int OrderId = 0;//: 0,
     //案件ID
     public int CaseId = 0;//: 0,
-    //备案号
-    public String CaseNumber = "";//     ": "string",
+    //报案编号
+    public String ReportNumber = "";//     ": "string",
     //出险时间
     public String OutDangerTime = "";//   ": "2017-04-28T05:44:55.326Z",
     //出险地点

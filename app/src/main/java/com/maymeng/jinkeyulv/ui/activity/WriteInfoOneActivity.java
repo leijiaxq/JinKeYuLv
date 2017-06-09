@@ -19,8 +19,10 @@ import com.maymeng.jinkeyulv.api.RetrofitHelper;
 import com.maymeng.jinkeyulv.api.RxBus;
 import com.maymeng.jinkeyulv.base.BaseApplication;
 import com.maymeng.jinkeyulv.base.RxBaseActivity;
+import com.maymeng.jinkeyulv.bean.BaseBean;
 import com.maymeng.jinkeyulv.bean.BaseNetBean;
 import com.maymeng.jinkeyulv.bean.LoginBean;
+import com.maymeng.jinkeyulv.bean.ReportNumberBean;
 import com.maymeng.jinkeyulv.bean.RxBusBean;
 import com.maymeng.jinkeyulv.bean.WriteInfoBean;
 import com.maymeng.jinkeyulv.utils.DateUtil;
@@ -52,8 +54,8 @@ public class WriteInfoOneActivity extends RxBaseActivity {
     TextView mRound1Tv;
     @BindView(R.id.status1_tv)
     TextView mStatus1Tv;
-    @BindView(R.id.number_et)
-    EditText mNumberEt;             //备案号
+    @BindView(R.id.report_tv)
+    TextView mReportTv;             //报案编号
     @BindView(R.id.time_tv)
     TextView mTimeTv;//出险时间
     @BindView(R.id.address_et)
@@ -83,11 +85,10 @@ public class WriteInfoOneActivity extends RxBaseActivity {
 
         WriteInfoBean bean = BaseApplication.getInstance().getWriteInfoBean();
         if (bean != null) {
-            if (TextUtils.isEmpty(bean.CaseNumber)) {
-                mNumberEt.setText("");
+            if (TextUtils.isEmpty(bean.ReportNumber)) {
+                mReportTv.setText("");
             } else {
-                mNumberEt.setText(bean.CaseNumber);
-                mNumberEt.setSelection(bean.CaseNumber.length());
+                mReportTv.setText(bean.ReportNumber);
             }
 
             if (!TextUtils.isEmpty(bean.OutDangerTime)) {
@@ -97,7 +98,12 @@ public class WriteInfoOneActivity extends RxBaseActivity {
                     mTimeTv.setText(time);
                 }
             }
-            mAddressEt.setText(TextUtils.isEmpty(bean.OutDangerAddress) ? "" : bean.OutDangerAddress);
+            if (TextUtils.isEmpty(bean.OutDangerAddress)) {
+                mAddressEt.setText("");
+            } else {
+                mAddressEt.setText(bean.OutDangerAddress);
+                mAddressEt.setSelection(bean.OutDangerAddress.length());
+            }
             mTypeEt.setText(TextUtils.isEmpty(bean.CasualtiesType) ? "" : bean.CasualtiesType);
             mProcessEt.setText(TextUtils.isEmpty(bean.OutDangerDescription) ? "" : bean.OutDangerDescription);
         }
@@ -138,6 +144,86 @@ public class WriteInfoOneActivity extends RxBaseActivity {
 //                        getCartListDataNet();
                         if (bean.id == Constants.RXBUS_ONE) {
                             finish();
+                        }
+                    }
+                });
+
+        int pageFlag = BaseApplication.getInstance().getPageFlag();
+
+        //前端新建派单，需要获取报单编号
+        if (pageFlag == 1) {
+            showProgressDialog("正在加载...");
+            mWaitTime = System.currentTimeMillis();
+            getReportNumberByAccountID();
+        }
+    }
+
+
+    private void getReportNumberByAccountID() {
+        LoginBean.ResponseDataBean bean = BaseApplication.getInstance().getLoginBean();
+        if (bean == null) {
+            bean = new LoginBean.ResponseDataBean();
+            int account_id = (int) SPUtil.get(this, Constants.ACCOUNT_ID, 0);
+            String account_name = (String) SPUtil.get(this, Constants.ACCOUNT_NAME, "");
+            String account_token = (String) SPUtil.get(this, Constants.ACCOUNT_TOKEN, "");
+            bean.AccountId = account_id;
+            bean.AccountName = account_name;
+            bean.Token = account_token;
+            BaseApplication.getInstance().setLoginBean(bean);
+        }
+        RetrofitHelper.getBaseApi()
+                .getReportNumberByAccountID(bean.Token, bean.AccountId)
+                .compose(this.<ReportNumberBean>bindToLifecycle())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ReportNumberBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        showNetError();
+                    }
+
+                    @Override
+                    public void onNext(final ReportNumberBean bean) {
+//                        hideProgressDialog();
+//                        ToastUtil.showShort(TextUtils.isEmpty(bean.ResponseMessage) ? Constants.ERROR : bean.ResponseMessage);
+                        if (Constants.OK.equals(bean.StateCode)) {
+
+                            if (Constants.TOKEN_ERROR.equals(bean.ResponseMessage)) {
+                                hideProgressDialog();
+                                ToastUtil.showLong(Constants.TOKEN_RELOGIN);
+                                SPUtil.clear(WriteInfoOneActivity.this);
+                                Intent intent = new Intent(WriteInfoOneActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                final String str = bean.ResponseMessage;
+
+                                long l = System.currentTimeMillis();
+                                if (l - mWaitTime >= Constants.WAIT_TIME) {
+                                    hideProgressDialog();
+                                    ToastUtil.showShort(TextUtils.isEmpty(str) ? "生成成功" : str);
+                                    finishTask(bean);
+                                } else {
+                                    BaseApplication.getInstance().mHandler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            hideProgressDialog();
+                                            ToastUtil.showShort(TextUtils.isEmpty(str) ? "生成成功" : str);
+                                            finishTask(bean);
+                                        }
+                                    }, Constants.WAIT_TIME);
+                                }
+
+                            }
+
+                        } else {
+                            hideProgressDialog();
+                            ToastUtil.showShort(TextUtils.isEmpty(bean.ResponseMessage) ? Constants.ERROR : bean.ResponseMessage);
                         }
                     }
                 });
@@ -253,13 +339,13 @@ public class WriteInfoOneActivity extends RxBaseActivity {
             bean = new WriteInfoBean();
         }
 
-        String number = mNumberEt.getText().toString().trim();
+        String number = mReportTv.getText().toString().trim();
         String time = mTimeTv.getText().toString().trim();
         String addreess = mAddressEt.getText().toString().trim();
         String type = mTypeEt.getText().toString().trim();
         String process = mProcessEt.getText().toString().trim();
 
-        bean.CaseNumber = number;
+        bean.ReportNumber = number;
         bean.OutDangerTime = time;
         bean.OutDangerAddress = addreess;
         bean.CasualtiesType = type;
@@ -273,6 +359,11 @@ public class WriteInfoOneActivity extends RxBaseActivity {
             mWaitTime = System.currentTimeMillis();
             updateCaseNet(bean.OrderId, number, time, addreess, type, process);
         } else {
+            if (TextUtils.isEmpty(bean.ReportNumber)) {
+                ToastUtil.showShort("报案编号无效");
+                return;
+            }
+
             Intent intent = new Intent(this, WriteInfoTwoActivity.class);
             startActivity(intent);
         }
@@ -292,7 +383,7 @@ public class WriteInfoOneActivity extends RxBaseActivity {
             BaseApplication.getInstance().setLoginBean(bean);
         }
         RetrofitHelper.getBaseApi()
-                .updateCaseNet(bean.Token, orderID, number, time, addreess, type, process)
+                .updateCaseNet(bean.Token, orderID,/* number,*/ time, addreess, type, process)
                 .compose(this.<BaseNetBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -352,12 +443,26 @@ public class WriteInfoOneActivity extends RxBaseActivity {
     }
 
 
-//    @Override
-//    public void finishTask(BaseBean bean) {
-//        if (bean instanceof AddCaseBean) {
-//            setAddCaseBeanData((AddCaseBean) bean);
-//        }
-//    }
+    @Override
+    public void finishTask(BaseBean bean) {
+        if (bean instanceof ReportNumberBean) {
+            setReportNumberBeanData((ReportNumberBean) bean);
+        }
+    }
+
+    private void setReportNumberBeanData(ReportNumberBean bean) {
+        if (bean != null) {
+            WriteInfoBean writeInfoBean = BaseApplication.getInstance().getWriteInfoBean();
+            if (writeInfoBean == null) {
+                writeInfoBean = new WriteInfoBean();
+            }
+            if (bean.ResponseData != null) {
+                writeInfoBean.ReportNumber = bean.ResponseData.Report;
+                mReportTv.setText(writeInfoBean.ReportNumber);
+            }
+            BaseApplication.getInstance().setWriteInfoBean(writeInfoBean);
+        }
+    }
 //
 //
 //    private void setAddCaseBeanData(AddCaseBean bean) {

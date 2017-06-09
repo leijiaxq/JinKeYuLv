@@ -27,9 +27,13 @@ import com.maymeng.jinkeyulv.api.RxBus;
 import com.maymeng.jinkeyulv.base.BaseApplication;
 import com.maymeng.jinkeyulv.base.RxBaseActivity;
 import com.maymeng.jinkeyulv.bean.BaseBean;
+import com.maymeng.jinkeyulv.bean.BaseNetBean;
+import com.maymeng.jinkeyulv.bean.CheckUserBean;
+import com.maymeng.jinkeyulv.bean.LoginBean;
 import com.maymeng.jinkeyulv.bean.PagePathBean;
 import com.maymeng.jinkeyulv.bean.RxBusBean;
 import com.maymeng.jinkeyulv.utils.ConvertUtil;
+import com.maymeng.jinkeyulv.utils.SPUtil;
 import com.maymeng.jinkeyulv.utils.ScreenUtil;
 import com.maymeng.jinkeyulv.utils.ToastUtil;
 
@@ -63,6 +67,8 @@ public class InfoCheckWebShebaoActivity extends RxBaseActivity {
     private String mShebaoUrl;  //社保的url
     private String mGJJUrl;  //公积金的url
     private WebView mWebView;
+
+    private long mWaitTime;
 
     @Override
     public int getLayoutId() {
@@ -148,8 +154,9 @@ public class InfoCheckWebShebaoActivity extends RxBaseActivity {
 
                 if (Constants.CHECK_RESUL_COMPLETED_URL.equals(url)) {
                     //用于--完结验证后，finish掉页面
-                    RxBus.getDefault().post(new RxBusBean(Constants.TYPE_TWO, new BaseBean()));
-                    finish();
+                   /* RxBus.getDefault().post(new RxBusBean(Constants.TYPE_TWO, new BaseBean()));
+                    finish();*/
+                    endValidNet();
 
                 } else if (Constants.CHECK_RESULT_NEXT_URL.equals(url)) {
                     Intent intent = new Intent(InfoCheckWebShebaoActivity.this, InfoCheckWebGJJActivity.class);
@@ -321,5 +328,89 @@ public class InfoCheckWebShebaoActivity extends RxBaseActivity {
 
         super.onDestroy();
 
+    }
+
+    //完结验证---通知后台
+    private void endValidNet() {
+        CheckUserBean checkUserBean = BaseApplication.getInstance().getCheckUserBean();
+        if (checkUserBean ==null) {
+            ToastUtil.showShort("信息有误，请重新校验");
+            return;
+        }
+        showProgressDialog("正在提交数据...");
+
+        mWaitTime = System.currentTimeMillis();
+
+        LoginBean.ResponseDataBean bean = BaseApplication.getInstance().getLoginBean();
+        if (bean == null) {
+            bean = new LoginBean.ResponseDataBean();
+            int account_id = (int) SPUtil.get(this, Constants.ACCOUNT_ID, 0);
+            String account_name = (String) SPUtil.get(this, Constants.ACCOUNT_NAME, "");
+            String account_token = (String) SPUtil.get(this, Constants.ACCOUNT_TOKEN, "");
+            bean.AccountId = account_id;
+            bean.AccountName = account_name;
+            bean.Token = account_token;
+            BaseApplication.getInstance().setLoginBean(bean);
+        }
+        RetrofitHelper.getBaseApi()
+                .endValidNet(bean.Token, bean.AccountId,checkUserBean.IDCard)
+                .compose(this.<BaseNetBean>bindToLifecycle())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseNetBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        showNetError();
+                    }
+
+                    @Override
+                    public void onNext(BaseNetBean bean) {
+//                        hideProgressDialog();
+//                        ToastUtil.showShort(TextUtils.isEmpty(bean.ResponseMessage) ? Constants.ERROR : bean.ResponseMessage);
+                        if (Constants.OK.equals(bean.StateCode)) {
+                            if (Constants.TOKEN_ERROR.equals(bean.ResponseMessage)) {
+                                hideProgressDialog();
+                                ToastUtil.showLong(Constants.TOKEN_RELOGIN);
+                                SPUtil.clear(InfoCheckWebShebaoActivity.this);
+                                Intent intent = new Intent(InfoCheckWebShebaoActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+
+//                            finishTask(bean);
+                                final String str = bean.ResponseMessage;
+
+                                long l = System.currentTimeMillis();
+                                if (l - mWaitTime >= Constants.WAIT_TIME) {
+                                    hideProgressDialog();
+                                    ToastUtil.showShort(TextUtils.isEmpty(str) ? "提交成功" : str);
+                                    //用于--完结验证后，finish掉页面
+                                    RxBus.getDefault().post(new RxBusBean(Constants.TYPE_TWO, new BaseBean()));
+                                    finish();
+                                } else {
+                                    BaseApplication.getInstance().mHandler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            hideProgressDialog();
+                                            ToastUtil.showShort(TextUtils.isEmpty(str) ? "提交成功" : str);
+                                            //用于--完结验证后，finish掉页面
+                                            RxBus.getDefault().post(new RxBusBean(Constants.TYPE_TWO, new BaseBean()));
+                                            finish();
+                                        }
+                                    }, Constants.WAIT_TIME);
+                                }
+
+                            }
+                        } else {
+                            hideProgressDialog();
+                            ToastUtil.showShort(TextUtils.isEmpty(bean.ResponseMessage) ? Constants.ERROR : bean.ResponseMessage);
+                        }
+                    }
+                });
     }
 }

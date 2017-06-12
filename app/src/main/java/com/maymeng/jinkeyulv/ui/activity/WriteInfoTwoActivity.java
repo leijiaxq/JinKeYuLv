@@ -524,7 +524,7 @@ public class WriteInfoTwoActivity extends RxBaseActivity {
             BaseApplication.getInstance().setLoginBean(bean);
         }
         RetrofitHelper.getBaseApi()
-                .addCaseNet(bean.Token, accountId, name, number, time, addreess, type, process,IDCard)
+                .addCaseNet(bean.Token,bean.AccountId+"", accountId, name, number, time, addreess, type, process,IDCard)
                 .compose(this.<AddCaseBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

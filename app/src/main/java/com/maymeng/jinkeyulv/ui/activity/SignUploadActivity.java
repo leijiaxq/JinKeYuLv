@@ -500,7 +500,7 @@ public class SignUploadActivity extends RxBaseActivity {
             }
 
             RetrofitHelper.getBaseApi()
-                    .UpdateSignCaseNet(bean.Token, mBean.CaseId, builder1.toString(), builder2.toString(), BaseApplication.getInstance().getSignFee())
+                    .UpdateSignCaseNet(bean.Token,bean.AccountId+"", mBean.CaseId, builder1.toString(), builder2.toString(), BaseApplication.getInstance().getSignFee())
                     .compose(this.<SignUploadBean>bindToLifecycle())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -638,7 +638,7 @@ public class SignUploadActivity extends RxBaseActivity {
             BaseApplication.getInstance().setLoginBean(bean);
         }
         RetrofitHelper.getBaseApi()
-                .uploadFileNet(bean.Token, flag, body)
+                .uploadFileNet(bean.Token,bean.AccountId+"", flag, body)
                 .compose(this.<UploadFileBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

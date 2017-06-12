@@ -580,7 +580,7 @@ public class WriteInfoFiveActivity extends RxBaseActivity {
         }
 
         RetrofitHelper.getBaseApi()
-                .submitInfoNet(bean2.Token, bean.OrderId, bean.CaseId, bean.CustomerName, bean.Sex, bean.Age, bean.Phone, bean.HouseholdRegisterAddress
+                .submitInfoNet(bean2.Token,bean2.AccountId+"", bean.OrderId, bean.CaseId, bean.CustomerName, bean.Sex, bean.Age, bean.Phone, bean.HouseholdRegisterAddress
                         , bean.HouseholdRegisterType, bean.IDCard, bean.LiveInfo, bean.LiveStartTime, bean.LiveEndTime, bean.JobStartTime, bean.JobEndTime
                         , bean.SocialSecurity, bean.LaborContract, bean.SalaryFrom, bean.HospitalName, bean.SectionBed, bean.AuditTime
                         , bean.SurveyImg, bean.HomesImg, bean.WardImg, bean.BedsideCardImg, bean.CaseDataImg, bean.XCTImg, bean.CostImg, bean.WholeBodyImg, bean.InjuryImg
@@ -722,7 +722,7 @@ public class WriteInfoFiveActivity extends RxBaseActivity {
         }
 
         RetrofitHelper.getBaseApi()
-                .uploadFileNet(bean.Token, flag, body)
+                .uploadFileNet(bean.Token,bean.AccountId+"", flag, body)
                 .compose(this.<UploadFileBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

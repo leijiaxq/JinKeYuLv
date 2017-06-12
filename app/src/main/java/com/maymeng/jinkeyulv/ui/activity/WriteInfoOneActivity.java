@@ -172,7 +172,7 @@ public class WriteInfoOneActivity extends RxBaseActivity {
             BaseApplication.getInstance().setLoginBean(bean);
         }
         RetrofitHelper.getBaseApi()
-                .getReportNumberByAccountID(bean.Token, bean.AccountId)
+                .getReportNumberByAccountID(bean.Token,bean.AccountId+"", bean.AccountId)
                 .compose(this.<ReportNumberBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -383,7 +383,7 @@ public class WriteInfoOneActivity extends RxBaseActivity {
             BaseApplication.getInstance().setLoginBean(bean);
         }
         RetrofitHelper.getBaseApi()
-                .updateCaseNet(bean.Token, orderID,/* number,*/ time, addreess, type, process)
+                .updateCaseNet(bean.Token,bean.AccountId+"", orderID,/* number,*/ time, addreess, type, process)
                 .compose(this.<BaseNetBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

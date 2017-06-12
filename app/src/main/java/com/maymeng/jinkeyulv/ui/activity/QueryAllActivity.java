@@ -219,7 +219,7 @@ public class QueryAllActivity extends RxBaseActivity implements SwipeRefreshLayo
         }
 
         RetrofitHelper.getBaseApi()
-                .getCaseUserInfoByOpition(bean.Token, bean.AccountId, mPageIndex, Constants.SIZE, mOpition)
+                .getCaseUserInfoByOpition(bean.Token,bean.AccountId+"", bean.AccountId, mPageIndex, Constants.SIZE, mOpition)
                 .compose(this.<NewDispatchBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -275,7 +275,7 @@ public class QueryAllActivity extends RxBaseActivity implements SwipeRefreshLayo
         }
 
         RetrofitHelper.getBaseApi()
-                .getAllByAccountID(bean.Token, bean.AccountId, mPageIndex, Constants.SIZE)
+                .getAllByAccountID(bean.Token,bean.AccountId+"", bean.AccountId, mPageIndex, Constants.SIZE)
                 .compose(this.<NewDispatchBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

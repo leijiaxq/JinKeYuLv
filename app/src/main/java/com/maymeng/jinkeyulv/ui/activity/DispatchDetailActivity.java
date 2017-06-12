@@ -275,7 +275,7 @@ public class DispatchDetailActivity extends RxBaseActivity {
         }
 
         RetrofitHelper.getBaseApi()
-                .getNewDispatchCaseInfoNet(bean.Token, caseID)
+                .getNewDispatchCaseInfoNet(bean.Token,bean.AccountId+"", caseID)
                 .compose(this.<NewDispatchCaseInfoBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -325,7 +325,7 @@ public class DispatchDetailActivity extends RxBaseActivity {
         }
 
         RetrofitHelper.getBaseApi()
-                .setNewDispatchReadNet(bean.Token, orderID)
+                .setNewDispatchReadNet(bean.Token,bean.AccountId+"", orderID)
                 .compose(this.<BaseNetBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

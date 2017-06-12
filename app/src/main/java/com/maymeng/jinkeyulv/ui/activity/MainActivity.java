@@ -18,13 +18,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.maymeng.jinkeyulv.R;
+import com.maymeng.jinkeyulv.api.Constants;
+import com.maymeng.jinkeyulv.api.RetrofitHelper;
 import com.maymeng.jinkeyulv.base.BaseApplication;
 import com.maymeng.jinkeyulv.base.RxBaseActivity;
+import com.maymeng.jinkeyulv.bean.BaseNetBean;
+import com.maymeng.jinkeyulv.bean.LoginBean;
 import com.maymeng.jinkeyulv.ui.pop.ExitPop;
 import com.maymeng.jinkeyulv.utils.SPUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class MainActivity extends RxBaseActivity {
     @BindView(R.id.toolbar)
@@ -99,11 +106,13 @@ public class MainActivity extends RxBaseActivity {
         exitPop.setOnPopListenter(new ExitPop.OnPopListenter() {
             @Override
             public void onConfirm() {
-                SPUtil.clear(MainActivity.this);
+                loginOut();
+
+                /*SPUtil.clear(MainActivity.this);
 
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
-                finish();
+                finish();*/
             }
         });
 
@@ -136,8 +145,49 @@ public class MainActivity extends RxBaseActivity {
 
         }
         mDialog.show();*/
+    }
 
+    //退出登录
+    private void loginOut() {
+        LoginBean.ResponseDataBean bean = BaseApplication.getInstance().getLoginBean();
+        if (bean == null) {
+            bean = new LoginBean.ResponseDataBean();
+            int account_id = (int) SPUtil.get(this, Constants.ACCOUNT_ID, 0);
+            String account_name = (String) SPUtil.get(this, Constants.ACCOUNT_NAME, "");
+            String account_token = (String) SPUtil.get(this, Constants.ACCOUNT_TOKEN, "");
+            bean.AccountId = account_id;
+            bean.AccountName = account_name;
+            bean.Token = account_token;
+            BaseApplication.getInstance().setLoginBean(bean);
+        }
 
+        RetrofitHelper.getBaseApi()
+                .loginOut(bean.AccountId)
+                .compose(this.<BaseNetBean>bindToLifecycle())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseNetBean>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        showNetError();
+                    }
+
+                    @Override
+                    public void onNext(BaseNetBean baseNetBean) {
+//                        ToastUtil.showShort(TextUtils.isEmpty(baseNetBean.ResponseMessage) ? "设置状态成功" : baseNetBean.ResponseMessage);
+
+                        SPUtil.clear(MainActivity.this);
+
+                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+
+                    }
+                });
     }
 
     @Override

@@ -157,7 +157,7 @@ public class InfoCheckOneResultActivity extends RxBaseActivity {
             BaseApplication.getInstance().setLoginBean(bean);
         }
         RetrofitHelper.getBaseApi()
-                .endValidNet(bean.Token, bean.AccountId,checkUserBean.IDCard)
+                .endValidNet(bean.Token,bean.AccountId+"", bean.AccountId,checkUserBean.IDCard)
                 .compose(this.<BaseNetBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

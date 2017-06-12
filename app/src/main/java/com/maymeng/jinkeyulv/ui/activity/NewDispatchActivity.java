@@ -207,7 +207,7 @@ public class NewDispatchActivity extends RxBaseActivity implements SwipeRefreshL
 
 
         RetrofitHelper.getBaseApi()
-                .getNewDispatchNet(bean.Token, bean.AccountId, mPageIndex, Constants.SIZE)
+                .getNewDispatchNet(bean.Token,bean.AccountId+"", bean.AccountId, mPageIndex, Constants.SIZE)
                 .compose(this.<NewDispatchBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

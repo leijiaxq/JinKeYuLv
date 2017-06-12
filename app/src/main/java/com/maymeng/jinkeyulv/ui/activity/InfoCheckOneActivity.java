@@ -216,7 +216,7 @@ public class InfoCheckOneActivity extends RxBaseActivity {
         }
 
         RetrofitHelper.getBaseApi()
-                .submitCheckInfoToServiceNet(bean.Token,1, idCard,address)
+                .submitCheckInfoToServiceNet(bean.Token,bean.AccountId+"",1, idCard,address)
                 .compose(this.<BaseNetBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

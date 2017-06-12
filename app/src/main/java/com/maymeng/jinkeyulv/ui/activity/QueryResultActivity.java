@@ -322,7 +322,7 @@ public class QueryResultActivity extends RxBaseActivity {
         }
 
         RetrofitHelper.getBaseApi()
-                .getNewDispatchCaseInfoNet(bean.Token, caseID)
+                .getNewDispatchCaseInfoNet(bean.Token,bean.AccountId+"", caseID)
                 .compose(this.<NewDispatchCaseInfoBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

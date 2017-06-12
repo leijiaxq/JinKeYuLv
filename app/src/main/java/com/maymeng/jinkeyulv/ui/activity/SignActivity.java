@@ -198,7 +198,7 @@ public class SignActivity extends RxBaseActivity implements SwipeRefreshLayout.O
         }
 
         RetrofitHelper.getBaseApi()
-                .getSignByAccountID(bean.Token, bean.AccountId, mPageIndex, Constants.SIZE)
+                .getSignByAccountID(bean.Token,bean.AccountId+"", bean.AccountId, mPageIndex, Constants.SIZE)
                 .compose(this.<SignBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

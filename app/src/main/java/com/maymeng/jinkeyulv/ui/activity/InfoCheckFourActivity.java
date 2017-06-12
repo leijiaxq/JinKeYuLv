@@ -163,7 +163,7 @@ public class InfoCheckFourActivity extends RxBaseActivity {
                 BaseApplication.getInstance().setLoginBean(bean);
             }
             RetrofitHelper.getBaseApi()
-                    .submitPictureInfoNet(bean.Token,mDatas)
+                    .submitPictureInfoNet(bean.Token,bean.AccountId+"",mDatas)
                     .compose(this.<BaseNetBean>bindToLifecycle())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -348,7 +348,7 @@ public class InfoCheckFourActivity extends RxBaseActivity {
             BaseApplication.getInstance().setLoginBean(bean);
         }
         RetrofitHelper.getBaseApi()
-                .endValidNet(bean.Token, bean.AccountId,checkUserBean.IDCard)
+                .endValidNet(bean.Token,bean.AccountId+"", bean.AccountId,checkUserBean.IDCard)
                 .compose(this.<BaseNetBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

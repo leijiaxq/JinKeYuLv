@@ -48,14 +48,14 @@ public interface BaseService {
     //  添加案件
     @FormUrlEncoded
     @POST("api/Case")
-    Observable<AddCaseBean> addCaseNet(@Header("token") String token, @Field("AddAccountId") int AddAccountId, @Field("CustomerName") String CustomerName, @Field("ReportNumber") String ReportNumber, @Field("OutDangerTime") String OutDangerTime,
+    Observable<AddCaseBean> addCaseNet(@Header("token") String token, @Header("accountId") String accountId, @Field("AddAccountId") int AddAccountId, @Field("CustomerName") String CustomerName, @Field("ReportNumber") String ReportNumber, @Field("OutDangerTime") String OutDangerTime,
                                        @Field("OutDangerAddress") String OutDangerAddress, @Field("CasualtiesType") String CasualtiesType, @Field("OutDangerDescription") String OutDangerDescription, @Field("IdCard") String IdCard);
 
 
     //  更新案件
     @FormUrlEncoded
     @POST("api/UpdatePost")
-    Observable<BaseNetBean> updateCaseNet(@Header("token") String token, @Field("OrderId") int orderId,/* @Field("CaseNumber") String CaseNumber,*/ @Field("OutDangerTime") String OutDangerTime,
+    Observable<BaseNetBean> updateCaseNet(@Header("token") String token, @Header("accountId") String accountId, @Field("OrderId") int orderId,/* @Field("CaseNumber") String CaseNumber,*/ @Field("OutDangerTime") String OutDangerTime,
                                           @Field("OutDangerAddress") String OutDangerAddress, @Field("CasualtiesType") String CasualtiesType, @Field("OutDangerDescription") String OutDangerDescription);
 
     //     提交填写的信息
@@ -66,7 +66,7 @@ public interface BaseService {
     //     提交填写的信息
     @FormUrlEncoded
     @POST("api/UpdateCaseUserInfo")
-    Observable<SubmitInfoBean> submitInfoNet(@Header("token") String token, @Field("OrderId") int OrderId//派单ID
+    Observable<SubmitInfoBean> submitInfoNet(@Header("token") String token, @Header("accountId") String accountId, @Field("OrderId") int OrderId//派单ID
             , @Field("CaseId") int CaseId//案件ID
             , @Field("CustomerName") String CustomerName//姓名
             , @Field("Sex") String Sex//性别
@@ -102,59 +102,63 @@ public interface BaseService {
 
     //    获取后台添加的派单信息                                      CurrentPage PageSize
     @GET("api/SubmitOrder")
-    Observable<NewDispatchBean> getNewDispatchNet(@Header("token") String token, @Query("accountId") int AccountId, @Query("currentPage") int CurrentPage, @Query("pageSize") int PageSize);
+    Observable<NewDispatchBean> getNewDispatchNet(@Header("token") String token, @Header("accountId") String accountId, @Query("accountId") int AccountId, @Query("currentPage") int CurrentPage, @Query("pageSize") int PageSize);
 
 
     //    更改后台添加的派单信息为已读
     @FormUrlEncoded
     @POST("api/SetRead")
-    Observable<BaseNetBean> setNewDispatchReadNet(@Header("token") String token, @Field("orderId") int orderId);
+    Observable<BaseNetBean> setNewDispatchReadNet(@Header("token") String token, @Header("accountId") String accountId, @Field("orderId") int orderId);
 
     //    根据案件ID获取案件信息
     @GET("api/Case")
-    Observable<NewDispatchCaseInfoBean> getNewDispatchCaseInfoNet(@Header("token") String token, @Query("caseId") int caseId);
+    Observable<NewDispatchCaseInfoBean> getNewDispatchCaseInfoNet(@Header("token") String token, @Header("accountId") String accountId, @Query("caseId") int caseId);
 
     //    根据用户ID获取所有关联的派单信息
     @GET("api/GetAll")
-    Observable<NewDispatchBean> getAllByAccountID(@Header("token") String token, @Query("accountId") int accountId, @Query("CurrentPage") int CurrentPage, @Query("PageSize") int PageSize);
+    Observable<NewDispatchBean> getAllByAccountID(@Header("token") String token, @Header("accountId") String accountID, @Query("accountId") int accountId, @Query("CurrentPage") int CurrentPage, @Query("PageSize") int PageSize);
 
     //    根据条件查询派单:比如身份证号，姓名，案件号
     @GET("api/CaseUserInfo")
-    Observable<NewDispatchBean> getCaseUserInfoByOpition(@Header("token") String token, @Query("accountID") int accountID, @Query("currentPage") int currentPage, @Query("pageSize") int pageSize, @Query("value") String value);
+    Observable<NewDispatchBean> getCaseUserInfoByOpition(@Header("token") String token, @Header("accountId") String accountId, @Query("accountID") int accountID, @Query("currentPage") int currentPage, @Query("pageSize") int pageSize, @Query("value") String value);
 
 
     //    文件上传
     @Multipart
     @POST("api/UploadImage")
-    Observable<UploadFileBean> uploadFileNet(@Header("token") String token, @Part("data") int data, @Part MultipartBody.Part file);
+    Observable<UploadFileBean> uploadFileNet(@Header("token") String token, @Header("accountId") String accountId, @Part("data") int data, @Part MultipartBody.Part file);
 
 
     //    身份校验和银行卡校验信息提交后台  ValidCode 1为身份证信息，2为银行卡信息
     @FormUrlEncoded
     @POST("api/CaseUserInfo")
-    Observable<BaseNetBean> submitCheckInfoToServiceNet(@Header("token") String token, @Field("ValidCode") int ValidCode, @Field("IDCard") String IDCard, @Field("HouseholdRegister") String HouseholdRegister);
+    Observable<BaseNetBean> submitCheckInfoToServiceNet(@Header("token") String token, @Header("accountId") String accountId, @Field("ValidCode") int ValidCode, @Field("IDCard") String IDCard, @Field("HouseholdRegister") String HouseholdRegister);
 
     //   上传图片的时间和经纬度
 //    @FormUrlEncoded
     @POST("api/Geography")
-    Observable<BaseNetBean> submitPictureInfoNet(@Header("token") String token, @Body List<PictureInfoBean> list);
+    Observable<BaseNetBean> submitPictureInfoNet(@Header("token") String token, @Header("accountId") String accountId, @Body List<PictureInfoBean> list);
 
     //    根据用户ID获取所有未签约的派单
     @GET("api/GetSignCase")
-    Observable<SignBean> getSignByAccountID(@Header("token") String token, @Query("accountId") int accountId, @Query("currentPage") int currentPage, @Query("pageSize") int pageSize);
+    Observable<SignBean> getSignByAccountID(@Header("token") String token, @Header("accountId") String accountID, @Query("accountId") int accountId, @Query("currentPage") int currentPage, @Query("pageSize") int pageSize);
 
 
     //    提交签约文件
     @FormUrlEncoded
     @POST("api/UpdateSignCase")
-    Observable<SignUploadBean> UpdateSignCaseNet(@Header("token") String token, @Field("CaseId") int CaseId, @Field("EntryApprovalForm") String EntryApprovalForm, @Field("AgentContract") String AgentContract, @Field("AgencyFees") String AgencyFees);
+    Observable<SignUploadBean> UpdateSignCaseNet(@Header("token") String token, @Header("accountId") String accountId, @Field("CaseId") int CaseId, @Field("EntryApprovalForm") String EntryApprovalForm, @Field("AgentContract") String AgentContract, @Field("AgencyFees") String AgencyFees);
 
-     //    根据用户ID获取报案编号
+    //    根据用户ID获取报案编号
     @GET("api/GetReportNumber")
-    Observable<ReportNumberBean> getReportNumberByAccountID(@Header("token") String token, @Query("accountId") int accountId);
+    Observable<ReportNumberBean> getReportNumberByAccountID(@Header("token") String token, @Header("accountId") String accountID, @Query("accountId") int accountId);
 
-  //    完结验证
+    //    完结验证
     @FormUrlEncoded
     @POST("api/EndValid")
-    Observable<BaseNetBean> endValidNet(@Header("token") String token, @Field("AccountId") int AccountId, @Field("IdCard") String IdCard);
+    Observable<BaseNetBean> endValidNet(@Header("token") String token, @Header("accountId") String accountId, @Field("AccountId") int AccountId, @Field("IdCard") String IdCard);
+
+    //    退出登录
+    @GET("api/LoginOut")
+    Observable<BaseNetBean> loginOut(@Query("accountId") int accountId);
 }

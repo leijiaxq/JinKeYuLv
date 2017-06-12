@@ -376,7 +376,8 @@ public class InfoCheckWebShebaoActivity extends RxBaseActivity {
                             if (Constants.TOKEN_ERROR.equals(bean.ResponseMessage)) {
                                 hideProgressDialog();
                                 ToastUtil.showLong(Constants.TOKEN_RELOGIN);
-                                SPUtil.clear(InfoCheckWebShebaoActivity.this);
+//                                SPUtil.clear(InfoCheckWebShebaoActivity.this);
+                                SPUtil.put(InfoCheckWebShebaoActivity.this,Constants.ACCOUNT_LOGIN,false);
                                 Intent intent = new Intent(InfoCheckWebShebaoActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 finish();

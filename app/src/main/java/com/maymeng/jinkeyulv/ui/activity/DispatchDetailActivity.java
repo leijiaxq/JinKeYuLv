@@ -295,7 +295,8 @@ public class DispatchDetailActivity extends RxBaseActivity {
                         if (Constants.OK.equals(bean.StateCode)) {
                             if (Constants.TOKEN_ERROR.equals(bean.ResponseMessage)) {
                                 ToastUtil.showLong(Constants.TOKEN_RELOGIN);
-                                SPUtil.clear(DispatchDetailActivity.this);
+//                                SPUtil.clear(DispatchDetailActivity.this);
+                                SPUtil.put(DispatchDetailActivity.this,Constants.ACCOUNT_LOGIN,false);
                                 Intent intent = new Intent(DispatchDetailActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 finish();

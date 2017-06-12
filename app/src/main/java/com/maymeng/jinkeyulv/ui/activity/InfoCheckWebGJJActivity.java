@@ -68,6 +68,7 @@ public class InfoCheckWebGJJActivity extends RxBaseActivity {
     private String mPhoneUrl;  //运营商的url
     private WebView mWebView;
     private long mWaitTime;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_infocheck_web;
@@ -335,7 +336,7 @@ public class InfoCheckWebGJJActivity extends RxBaseActivity {
     //完结验证---通知后台
     private void endValidNet() {
         CheckUserBean checkUserBean = BaseApplication.getInstance().getCheckUserBean();
-        if (checkUserBean ==null) {
+        if (checkUserBean == null) {
             ToastUtil.showShort("信息有误，请重新校验");
             return;
         }
@@ -355,7 +356,7 @@ public class InfoCheckWebGJJActivity extends RxBaseActivity {
             BaseApplication.getInstance().setLoginBean(bean);
         }
         RetrofitHelper.getBaseApi()
-                .endValidNet(bean.Token,bean.AccountId+"", bean.AccountId,checkUserBean.IDCard)
+                .endValidNet(bean.Token, bean.AccountId + "", bean.AccountId, checkUserBean.IDCard)
                 .compose(this.<BaseNetBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -378,7 +379,8 @@ public class InfoCheckWebGJJActivity extends RxBaseActivity {
                             if (Constants.TOKEN_ERROR.equals(bean.ResponseMessage)) {
                                 hideProgressDialog();
                                 ToastUtil.showLong(Constants.TOKEN_RELOGIN);
-                                SPUtil.clear(InfoCheckWebGJJActivity.this);
+//                                SPUtil.clear(InfoCheckWebGJJActivity.this);
+                                SPUtil.put(InfoCheckWebGJJActivity.this, Constants.ACCOUNT_LOGIN, false);
                                 Intent intent = new Intent(InfoCheckWebGJJActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 finish();

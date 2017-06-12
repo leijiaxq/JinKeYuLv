@@ -180,7 +180,8 @@ public class InfoCheckOneResultActivity extends RxBaseActivity {
                             if (Constants.TOKEN_ERROR.equals(bean.ResponseMessage)) {
                                 hideProgressDialog();
                                 ToastUtil.showLong(Constants.TOKEN_RELOGIN);
-                                SPUtil.clear(InfoCheckOneResultActivity.this);
+//                                SPUtil.clear(InfoCheckOneResultActivity.this);
+                                SPUtil.put(InfoCheckOneResultActivity.this,Constants.ACCOUNT_LOGIN,false);
                                 Intent intent = new Intent(InfoCheckOneResultActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 finish();

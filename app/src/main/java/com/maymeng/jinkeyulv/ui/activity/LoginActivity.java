@@ -20,10 +20,13 @@ import com.maymeng.jinkeyulv.bean.LoginBean;
 import com.maymeng.jinkeyulv.bean.VerificationCodeBean;
 import com.maymeng.jinkeyulv.utils.ActivityStackUtil;
 import com.maymeng.jinkeyulv.utils.CommonUtil;
+import com.maymeng.jinkeyulv.utils.LogUtil;
 import com.maymeng.jinkeyulv.utils.RegexUtil;
 import com.maymeng.jinkeyulv.utils.SPUtil;
 import com.maymeng.jinkeyulv.utils.ToastUtil;
 import com.maymeng.jinkeyulv.utils.function.CountDownTimer;
+import com.umeng.message.PushAgent;
+import com.umeng.message.UTrack;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -87,7 +90,7 @@ public class LoginActivity extends RxBaseActivity {
                 }
                 long l = millisUntilFinished / 1000;
 
-                mPasswordTv.setText("重新获取(" + l+ "S)");
+                mPasswordTv.setText("重新获取(" + l + "S)");
             }
 
             @Override
@@ -98,6 +101,21 @@ public class LoginActivity extends RxBaseActivity {
                 mPasswordTv.setText("获取验证码");
             }
         };
+
+        int  account_id = (int) SPUtil.get(LoginActivity.this, Constants.ACCOUNT_ID, 0);
+        if (account_id != 0) {
+            PushAgent pushAgent = PushAgent.getInstance(this);
+            if (account_id != 0 ) {
+                pushAgent.removeAlias(account_id + "", "QQ", new UTrack.ICallBack() {
+                    @Override
+                    public void onMessage(boolean isSuccess, String message) {
+                        LogUtil.e("isSuccess：" + isSuccess + " --message：" + message);
+                    }
+                });
+                SPUtil.put(this, Constants.ACCOUNT_ID, 0);
+            }
+        }
+
     }
 
     @Override
@@ -130,9 +148,28 @@ public class LoginActivity extends RxBaseActivity {
         mPhoneNumber = phone;
         mVerificationCode = "";
 
+        mPasswordEt.setFocusable(true);
+
+        mPasswordEt.setFocusableInTouchMode(true);
+
+        mPasswordEt.requestFocus();
+
+        mPasswordEt.findFocus();
+
         getVerificationCodeNet(phone);
 
     }
+
+   /* @OnTouch(R.id.phone_et)
+    boolean touchPhone(View view) {
+        view.setFocusableInTouchMode(true);
+        return false;
+    }
+    @OnTouch(R.id.password_et)
+    boolean touchPassword(View view) {
+        view.setFocusableInTouchMode(true);
+        return false;
+    }*/
 
     //点击了条款
     @OnClick(R.id.clause_layout)
@@ -323,16 +360,42 @@ public class LoginActivity extends RxBaseActivity {
     private void setLoginBeanData(LoginBean bean) {
 
         if (bean.ResponseData != null) {
+           int userID = (int) SPUtil.get(this, Constants.ACCOUNT_ID, 0);
+
+            //登录成功--存入登录标记为ture
+            SPUtil.put(this, Constants.ACCOUNT_LOGIN, true);
+
             SPUtil.put(this, Constants.ACCOUNT_ID, bean.ResponseData.AccountId);
             SPUtil.put(this, Constants.ACCOUNT_NAME, bean.ResponseData.AccountName);
             SPUtil.put(this, Constants.ACCOUNT_TOKEN, bean.ResponseData.Token);
 
             BaseApplication.getInstance().setLoginBean(bean.ResponseData);
+
+            PushAgent pushAgent = PushAgent.getInstance(this);
+
+            if (userID != 0 ) {
+                pushAgent.removeAlias(userID + "", "QQ", new UTrack.ICallBack() {
+                    @Override
+                    public void onMessage(boolean isSuccess, String message) {
+                        LogUtil.e("isSuccess：" + isSuccess + " --message：" + message);
+                    }
+                });
+            }
+
+            pushAgent.addAlias(bean.ResponseData.AccountId + "", "QQ", new UTrack.ICallBack() {
+                @Override
+                public void onMessage(boolean isSuccess, String message) {
+                    LogUtil.e("isSuccess：" + isSuccess + " --message：" + message);
+                }
+            });
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            ToastUtil.showShort("登录失败");
         }
 
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        startActivity(intent);
-        finish();
+
     }
 
 //    //判断用户是否登录过，若是登录过，进入首页

@@ -343,7 +343,8 @@ public class QueryResultActivity extends RxBaseActivity {
                             if (Constants.TOKEN_ERROR.equals(bean.ResponseMessage)) {
                                 hideProgressDialog();
                                 ToastUtil.showLong(Constants.TOKEN_RELOGIN);
-                                SPUtil.clear(QueryResultActivity.this);
+//                                SPUtil.clear(QueryResultActivity.this);
+                                SPUtil.put(QueryResultActivity.this,Constants.ACCOUNT_LOGIN,false);
                                 Intent intent = new Intent(QueryResultActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 finish();

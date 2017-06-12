@@ -225,7 +225,8 @@ public class SignActivity extends RxBaseActivity implements SwipeRefreshLayout.O
                             if (Constants.TOKEN_ERROR.equals(signBean.ResponseMessage)) {
                                 hideProgressDialog();
                                 ToastUtil.showLong(Constants.TOKEN_RELOGIN);
-                                SPUtil.clear(SignActivity.this);
+//                                SPUtil.clear(SignActivity.this);
+                                SPUtil.put(SignActivity.this,Constants.ACCOUNT_LOGIN,false);
                                 Intent intent = new Intent(SignActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 finish();

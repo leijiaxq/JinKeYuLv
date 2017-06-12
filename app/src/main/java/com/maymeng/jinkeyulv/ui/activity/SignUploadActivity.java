@@ -521,7 +521,8 @@ public class SignUploadActivity extends RxBaseActivity {
                                 if (Constants.TOKEN_ERROR.equals(bean.ResponseMessage)) {
                                     hideProgressDialog2();
                                     ToastUtil.showLong(Constants.TOKEN_RELOGIN);
-                                    SPUtil.clear(SignUploadActivity.this);
+//                                    SPUtil.clear(SignUploadActivity.this);
+                                    SPUtil.put(SignUploadActivity.this,Constants.ACCOUNT_LOGIN,false);
                                     Intent intent = new Intent(SignUploadActivity.this, LoginActivity.class);
                                     startActivity(intent);
                                     finish();
@@ -684,7 +685,8 @@ public class SignUploadActivity extends RxBaseActivity {
                             if (Constants.TOKEN_ERROR.equals(bean.ResponseMessage)) {
                                 hideProgressDialog2();
                                 ToastUtil.showLong(Constants.TOKEN_RELOGIN);
-                                SPUtil.clear(SignUploadActivity.this);
+//                                SPUtil.clear(SignUploadActivity.this);
+                                SPUtil.put(SignUploadActivity.this,Constants.ACCOUNT_LOGIN,false);
                                 Intent intent = new Intent(SignUploadActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 finish();

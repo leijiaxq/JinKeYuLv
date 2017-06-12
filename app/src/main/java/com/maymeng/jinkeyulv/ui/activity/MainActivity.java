@@ -180,7 +180,30 @@ public class MainActivity extends RxBaseActivity {
                     public void onNext(BaseNetBean baseNetBean) {
 //                        ToastUtil.showShort(TextUtils.isEmpty(baseNetBean.ResponseMessage) ? "设置状态成功" : baseNetBean.ResponseMessage);
 
-                        SPUtil.clear(MainActivity.this);
+//                        SPUtil.clear(MainActivity.this);
+
+                        /*LoginBean.ResponseDataBean bean = BaseApplication.getInstance().getLoginBean();
+                        if (bean == null) {
+                            bean = new LoginBean.ResponseDataBean();
+                            int account_id = (int) SPUtil.get(MainActivity.this, Constants.ACCOUNT_ID, 0);
+                            String account_name = (String) SPUtil.get(MainActivity.this, Constants.ACCOUNT_NAME, "");
+                            String account_token = (String) SPUtil.get(MainActivity.this, Constants.ACCOUNT_TOKEN, "");
+                            bean.AccountId = account_id;
+                            bean.AccountName = account_name;
+                            bean.Token = account_token;
+                            BaseApplication.getInstance().setLoginBean(bean);
+                        }
+
+                        PushAgent pushAgent = PushAgent.getInstance(MainActivity.this);
+
+                        pushAgent.removeAlias(bean.AccountId + "", "QQ", new UTrack.ICallBack() {
+                            @Override
+                            public void onMessage(boolean isSuccess, String message) {
+                                LogUtil.e("isSuccess：" + isSuccess + " --message：" + message);
+                            }
+                        });*/
+
+                        SPUtil.put(MainActivity.this, Constants.ACCOUNT_LOGIN, false);
 
                         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                         startActivity(intent);

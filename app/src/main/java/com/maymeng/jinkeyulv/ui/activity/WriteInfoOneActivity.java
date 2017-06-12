@@ -196,7 +196,8 @@ public class WriteInfoOneActivity extends RxBaseActivity {
                             if (Constants.TOKEN_ERROR.equals(bean.ResponseMessage)) {
                                 hideProgressDialog();
                                 ToastUtil.showLong(Constants.TOKEN_RELOGIN);
-                                SPUtil.clear(WriteInfoOneActivity.this);
+//                                SPUtil.clear(WriteInfoOneActivity.this);
+                                SPUtil.put(WriteInfoOneActivity.this,Constants.ACCOUNT_LOGIN,false);
                                 Intent intent = new Intent(WriteInfoOneActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 finish();
@@ -406,7 +407,8 @@ public class WriteInfoOneActivity extends RxBaseActivity {
                             if (Constants.TOKEN_ERROR.equals(bean.ResponseMessage)) {
                                 hideProgressDialog();
                                 ToastUtil.showLong(Constants.TOKEN_RELOGIN);
-                                SPUtil.clear(WriteInfoOneActivity.this);
+//                                SPUtil.clear(WriteInfoOneActivity.this);
+                                SPUtil.put(WriteInfoOneActivity.this,Constants.ACCOUNT_LOGIN,false);
                                 Intent intent = new Intent(WriteInfoOneActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 finish();

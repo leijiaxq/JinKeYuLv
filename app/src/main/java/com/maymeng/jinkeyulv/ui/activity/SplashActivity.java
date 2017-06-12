@@ -39,8 +39,12 @@ public class SplashActivity extends Activity {
 
     //判断用户是否登录过，若是登录过，进入首页
     private void jude2MainPage() {
-        int account_id = (int) SPUtil.get(this, Constants.ACCOUNT_ID, 0);
-        if (account_id != 0) {
+
+        boolean account_login = (boolean) SPUtil.get(this, Constants.ACCOUNT_LOGIN, false);
+
+        if (account_login) {
+
+            int account_id = (int) SPUtil.get(this, Constants.ACCOUNT_ID, 0);
             String account_name = (String) SPUtil.get(this, Constants.ACCOUNT_NAME, "");
             String account_token = (String) SPUtil.get(this, Constants.ACCOUNT_TOKEN, "");
 

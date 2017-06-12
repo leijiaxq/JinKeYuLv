@@ -234,7 +234,8 @@ public class NewDispatchActivity extends RxBaseActivity implements SwipeRefreshL
                             if (Constants.TOKEN_ERROR.equals(newDispatchBean.ResponseMessage)) {
                                 hideProgressDialog();
                                 ToastUtil.showLong(Constants.TOKEN_RELOGIN);
-                                SPUtil.clear(NewDispatchActivity.this);
+//                                SPUtil.clear(NewDispatchActivity.this);
+                                SPUtil.put(NewDispatchActivity.this,Constants.ACCOUNT_LOGIN,false);
                                 Intent intent = new Intent(NewDispatchActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 finish();

@@ -338,7 +338,8 @@ public class InfoCheckWebPhoneActivity extends RxBaseActivity {
                             if (Constants.TOKEN_ERROR.equals(bean.ResponseMessage)) {
                                 hideProgressDialog();
                                 ToastUtil.showLong(Constants.TOKEN_RELOGIN);
-                                SPUtil.clear(InfoCheckWebPhoneActivity.this);
+//                                SPUtil.clear(InfoCheckWebPhoneActivity.this);
+                                SPUtil.put(InfoCheckWebPhoneActivity.this,Constants.ACCOUNT_LOGIN,false);
                                 Intent intent = new Intent(InfoCheckWebPhoneActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 finish();

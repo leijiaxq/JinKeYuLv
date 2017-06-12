@@ -185,7 +185,8 @@ public class InfoCheckFourActivity extends RxBaseActivity {
 
                             if (Constants.TOKEN_ERROR.equals(baseNetBean.ResponseMessage)) {
                                 ToastUtil.showLong(Constants.TOKEN_RELOGIN);
-                                SPUtil.clear(InfoCheckFourActivity.this);
+//                                SPUtil.clear(InfoCheckFourActivity.this);
+                                SPUtil.put(InfoCheckFourActivity.this,Constants.ACCOUNT_LOGIN,false);
                                 Intent intent = new Intent(InfoCheckFourActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 finish();
@@ -371,7 +372,8 @@ public class InfoCheckFourActivity extends RxBaseActivity {
                             if (Constants.TOKEN_ERROR.equals(bean.ResponseMessage)) {
                                 hideProgressDialog();
                                 ToastUtil.showLong(Constants.TOKEN_RELOGIN);
-                                SPUtil.clear(InfoCheckFourActivity.this);
+//                                SPUtil.clear(InfoCheckFourActivity.this);
+                                SPUtil.put(InfoCheckFourActivity.this,Constants.ACCOUNT_LOGIN,false);
                                 Intent intent = new Intent(InfoCheckFourActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 finish();

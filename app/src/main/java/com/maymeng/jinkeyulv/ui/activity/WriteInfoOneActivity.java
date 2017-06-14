@@ -207,14 +207,14 @@ public class WriteInfoOneActivity extends RxBaseActivity {
                                 long l = System.currentTimeMillis();
                                 if (l - mWaitTime >= Constants.WAIT_TIME) {
                                     hideProgressDialog();
-                                    ToastUtil.showShort(TextUtils.isEmpty(str) ? "生成成功" : str);
+//                                    ToastUtil.showShort(TextUtils.isEmpty(str) ? "生成成功" : str);
                                     finishTask(bean);
                                 } else {
                                     BaseApplication.getInstance().mHandler.postDelayed(new Runnable() {
                                         @Override
                                         public void run() {
                                             hideProgressDialog();
-                                            ToastUtil.showShort(TextUtils.isEmpty(str) ? "生成成功" : str);
+//                                            ToastUtil.showShort(TextUtils.isEmpty(str) ? "生成成功" : str);
                                             finishTask(bean);
                                         }
                                     }, Constants.WAIT_TIME);

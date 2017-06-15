@@ -70,7 +70,7 @@ public class Constants {
     public static final int SIZE = 15;
 
     //loading等待时间
-    public static final long WAIT_TIME = 1000;
+    public static final long WAIT_TIME = 600;
     public static final long WAIT_TIME_LOADMORE = 500;
 
 

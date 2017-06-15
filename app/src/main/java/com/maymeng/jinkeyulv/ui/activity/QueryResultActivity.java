@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,10 +19,11 @@ import com.maymeng.jinkeyulv.base.BaseApplication;
 import com.maymeng.jinkeyulv.base.RxBaseActivity;
 import com.maymeng.jinkeyulv.bean.BaseBean;
 import com.maymeng.jinkeyulv.bean.LoginBean;
-import com.maymeng.jinkeyulv.bean.NewDispatchBean;
 import com.maymeng.jinkeyulv.bean.NewDispatchCaseInfoBean;
+import com.maymeng.jinkeyulv.bean.QueryBean;
 import com.maymeng.jinkeyulv.bean.RxBusBean;
 import com.maymeng.jinkeyulv.bean.WriteInfoBean;
+import com.maymeng.jinkeyulv.ui.pop.CausePop;
 import com.maymeng.jinkeyulv.utils.SPUtil;
 import com.maymeng.jinkeyulv.utils.ToastUtil;
 
@@ -158,7 +160,11 @@ public class QueryResultActivity extends RxBaseActivity {
     View mLine92V;
     @BindView(R.id.round9_v)
     View mRound9V;
-    private NewDispatchBean.ResponseDataBean mBean;
+    @BindView(R.id.cause_tv)
+    TextView mCauseTv;  //驳回原因
+
+
+    private QueryBean.ResponseDataBean mBean;
     private NewDispatchCaseInfoBean.ResponseDataBean mNewDispatchCaseInfoBean;
 
     @Override
@@ -168,7 +174,7 @@ public class QueryResultActivity extends RxBaseActivity {
 
     @Override
     public void initViews(Bundle savedInstanceState) {
-        mBean = getIntent().getParcelableExtra("NewDisPatchBean");
+        mBean = getIntent().getParcelableExtra("QueryBean");
         mTitleTv.setText("查询结果");
         if (mBean != null) {
             mNameTv.setText(TextUtils.isEmpty(mBean.CustomerName) ? "" : mBean.CustomerName);
@@ -187,15 +193,21 @@ public class QueryResultActivity extends RxBaseActivity {
             }
             mPhoneTv.setText("联系电话：" + phone);
 
-            setImageProgressByStatus(mBean.IsStatus);
+            setImageProgressByStatus();
 
 
-            if (mBean.IsStatus == 0 || mBean.IsStatus == 1 /*|| mBean.IsStatus == 2*/) {
-
+            if (mBean.UserInfoState == 0) {
             } else {
                 mSupplementTv.setBackgroundResource(R.drawable.shape_query_gray);
                 mSupplementTv.setEnabled(false);
             }
+
+            if ((mBean.UserInfoState == 0 && !TextUtils.isEmpty(mBean.UserInfoRemake)) || (mBean.SignState == 0 && !TextUtils.isEmpty(mBean.SignRemake))) {
+                mCauseTv.setVisibility(View.VISIBLE);
+            } else {
+                mCauseTv.setVisibility(View.GONE);
+            }
+
         }
     }
 
@@ -226,7 +238,7 @@ public class QueryResultActivity extends RxBaseActivity {
     public void loadData() {
         super.loadData();
 
-        if (mBean != null && mBean.IsStatus != 100) {
+        if (mBean != null && mBean.UserInfoState == 0) {
             getNewDispatchCaseInfoNet(mBean.CaseId);
         }
 
@@ -322,7 +334,7 @@ public class QueryResultActivity extends RxBaseActivity {
         }
 
         RetrofitHelper.getBaseApi()
-                .getNewDispatchCaseInfoNet(bean.Token,bean.AccountId+"", caseID)
+                .getNewDispatchCaseInfoNet(bean.Token, bean.AccountId + "", caseID)
                 .compose(this.<NewDispatchCaseInfoBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -344,7 +356,7 @@ public class QueryResultActivity extends RxBaseActivity {
                                 hideProgressDialog();
                                 ToastUtil.showLong(Constants.TOKEN_RELOGIN);
 //                                SPUtil.clear(QueryResultActivity.this);
-                                SPUtil.put(QueryResultActivity.this,Constants.ACCOUNT_LOGIN,false);
+                                SPUtil.put(QueryResultActivity.this, Constants.ACCOUNT_LOGIN, false);
                                 Intent intent = new Intent(QueryResultActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 finish();
@@ -393,7 +405,47 @@ public class QueryResultActivity extends RxBaseActivity {
 
     }
 
-    private void setImageProgressByStatus(int status) {
+    private void setImageProgressByStatus() {
+        if (mBean != null) {
+            int i = 1;
+            if (mBean.UserInfoState == 2) {
+                i++;
+            }
+            if (mBean.SignState == 2) {
+                i++;
+            }
+            if (mBean.InJuryState == 2) {
+                i++;
+            }
+            if (mBean.CheckState == 2) {
+                i++;
+            }
+            if (mBean.MedicaState == 2) {
+                i++;
+            }
+            if (mBean.ClaimState == 2) {
+                i++;
+            }
+            if (mBean.PleteState == 2) {
+                i++;
+            }
+
+
+            setImageProgress(i);
+
+            setStatus1();
+            setStatus2(mBean.UserInfoState);
+            setStatus3(mBean.SignState);
+            setStatus4(mBean.InJuryState);
+            setStatus5(mBean.CheckState);
+            setStatus6(mBean.MedicaState);
+            setStatus7(mBean.ClaimState);
+            setStatus8(mBean.PleteState);
+        }
+
+    }
+
+    private void setImageProgress(int status) {
         if (status == 0) { //未开始
             mProgressIv.setImageResource(R.drawable.icon_pro0);
             mNumberTv1.setText("00");
@@ -403,67 +455,51 @@ public class QueryResultActivity extends RxBaseActivity {
             mNumberTv1.setText("12.5");
             mStatusTv.setText("进行中");
 
-            setStatus1();
-
-        } else if (status == 2 || status == 3) {
-            if (status == 2) {
-                mProgressIv.setImageResource(R.drawable.icon_pro1);
-                mNumberTv1.setText("12.5");
-            } else {
-                mProgressIv.setImageResource(R.drawable.icon_pro2);
-                mNumberTv1.setText("25");
-            }
+        } else if (status == 2) {
+            mProgressIv.setImageResource(R.drawable.icon_pro2);
+            mNumberTv1.setText("25");
             mStatusTv.setText("进行中");
 
-            setStatus2(status);
+        } else if (status == 3) {
 
-        } else if (status == 4 || status == 5) {
-            if (status == 4) {
-                mProgressIv.setImageResource(R.drawable.icon_pro2);
-                mNumberTv1.setText("25");
-            } else {
-                mProgressIv.setImageResource(R.drawable.icon_pro3);
-                mNumberTv1.setText("37.5");
+            mProgressIv.setImageResource(R.drawable.icon_pro3);
+            mNumberTv1.setText("37.5");
 
-            }
+
             mStatusTv.setText("进行中");
 
-            setStatus3(status);
 
-        } else if (status == 6) {
+        } else if (status == 4) {
             mProgressIv.setImageResource(R.drawable.icon_pro4);
             mNumberTv1.setText("50");
             mStatusTv.setText("进行中");
 
-            setStatus4(status);
-        } else if (status == 7) {
+        } else if (status == 5) {
             mProgressIv.setImageResource(R.drawable.icon_pro5);
             mNumberTv1.setText("62.5");
             mStatusTv.setText("进行中");
 
-            setStatus5(status);
-        } else if (status == 8) {
+
+        } else if (status == 6) {
             mProgressIv.setImageResource(R.drawable.icon_pro6);
             mNumberTv1.setText("75");
             mStatusTv.setText("进行中");
 
-            setStatus6(status);
-        } else if (status == 9) {
+
+        } else if (status == 7) {
             mProgressIv.setImageResource(R.drawable.icon_pro7);
             mNumberTv1.setText("87.5");
             mStatusTv.setText("进行中");
 
-            setStatus7(status);
-        } else if (status == 100) {
+        } else if (status == 8) {
             mProgressIv.setImageResource(R.drawable.icon_pro8);
             mNumberTv1.setText("100");
             mStatusTv.setText("已完成");
-
-            setStatus8(status);
         }
     }
 
     private void setStatus1() {
+
         mIcon1Iv.setSelected(true);
         mText12Tv.setText("已完成");
         mLine11V.setSelected(true);
@@ -472,102 +508,188 @@ public class QueryResultActivity extends RxBaseActivity {
     }
 
     private void setStatus2(int flag) {
-        setStatus1();
 
-        mIcon2Iv.setSelected(true);
-        if (flag == 2) {
-            mText22Tv.setText("进行中");
+        if (flag == 0) {
+            mIcon2Iv.setSelected(false);
+            mText22Tv.setText("未进行");
+            mLine21V.setSelected(false);
+            mLine22V.setSelected(false);
+            mRound2V.setSelected(false);
         } else {
-            mText22Tv.setText("已完成");
+            mIcon2Iv.setSelected(true);
+            if (flag == 1) {
+                mText22Tv.setText("进行中");
+            } else {
+                mText22Tv.setText("已完成");
+            }
+            mLine21V.setSelected(true);
+            mLine22V.setSelected(true);
+            mRound2V.setSelected(true);
         }
-        mLine21V.setSelected(true);
-        mLine22V.setSelected(true);
-        mRound2V.setSelected(true);
     }
 
     private void setStatus3(int flag) {
-        setStatus2(flag);
+        if (flag == 0) {
+            mIcon3Iv.setSelected(false);
 
-        mIcon3Iv.setSelected(true);
-        if (flag == 4) {
-            mText32Tv.setText("进行中");
+            mText32Tv.setText("未进行");
+
+            mLine31V.setSelected(false);
+            mLine32V.setSelected(false);
+            mRound3V.setSelected(false);
+
         } else {
-            mText32Tv.setText("已完成");
+
+            mIcon3Iv.setSelected(true);
+            if (flag == 1) {
+                mText32Tv.setText("进行中");
+            } else {
+                mText32Tv.setText("已完成");
+            }
+            mLine31V.setSelected(true);
+            mLine32V.setSelected(true);
+            mRound3V.setSelected(true);
         }
-        mLine31V.setSelected(true);
-        mLine32V.setSelected(true);
-        mRound3V.setSelected(true);
     }
 
     private void setStatus4(int flag) {
-        setStatus3(flag);
-
-        mIcon4Iv.setSelected(true);
-        if (flag == 6) {
-            mText42Tv.setText("进行中");
+        if (flag == 0) {
+            mIcon4Iv.setSelected(false);
+            mText42Tv.setText("未进行");
+            mLine41V.setSelected(false);
+            mLine42V.setSelected(false);
+            mRound4V.setSelected(false);
         } else {
-            mText42Tv.setText("已完成");
+            mIcon4Iv.setSelected(true);
+            if (flag == 1) {
+                mText42Tv.setText("进行中");
+            } else {
+                mText42Tv.setText("已完成");
+            }
+
+            mLine41V.setSelected(true);
+            mLine42V.setSelected(true);
+            mRound4V.setSelected(true);
         }
 
-        mLine41V.setSelected(true);
-        mLine42V.setSelected(true);
-        mRound4V.setSelected(true);
     }
 
     private void setStatus5(int flag) {
-        setStatus4(flag);
+        if (flag == 0) {
+            mIcon5Iv.setSelected(false);
 
-        mIcon5Iv.setSelected(true);
-        if (flag == 7) {
-            mText52Tv.setText("进行中");
+            mText52Tv.setText("未进行");
+
+            mLine51V.setSelected(false);
+            mLine52V.setSelected(false);
+            mRound5V.setSelected(false);
         } else {
-            mText52Tv.setText("已完成");
-        }
 
-        mLine51V.setSelected(true);
-        mLine52V.setSelected(true);
-        mRound5V.setSelected(true);
+            mIcon5Iv.setSelected(true);
+            if (flag == 1) {
+                mText52Tv.setText("进行中");
+            } else {
+                mText52Tv.setText("已完成");
+            }
+
+            mLine51V.setSelected(true);
+            mLine52V.setSelected(true);
+            mRound5V.setSelected(true);
+        }
     }
 
     private void setStatus6(int flag) {
-        setStatus5(flag);
+        if (flag == 0) {
+            mIcon6Iv.setSelected(false);
+            mText62Tv.setText("未进行");
 
-        mIcon6Iv.setSelected(true);
-        if (flag == 8) {
-            mText62Tv.setText("进行中");
+            mLine61V.setSelected(false);
+            mLine62V.setSelected(false);
+            mRound6V.setSelected(false);
         } else {
-            mText62Tv.setText("已完成");
 
+            mIcon6Iv.setSelected(true);
+            if (flag == 1) {
+                mText62Tv.setText("进行中");
+            } else {
+                mText62Tv.setText("已完成");
+
+            }
+            mLine61V.setSelected(true);
+            mLine62V.setSelected(true);
+            mRound6V.setSelected(true);
         }
-        mLine61V.setSelected(true);
-        mLine62V.setSelected(true);
-        mRound6V.setSelected(true);
+
     }
 
     private void setStatus7(int flag) {
-        setStatus6(flag);
+        if (flag == 0) {
+            mIcon7Iv.setSelected(false);
 
-        mIcon7Iv.setSelected(true);
-        if (flag == 9) {
-            mText72Tv.setText("进行中");
+            mText72Tv.setText("未进行");
+
+            mLine71V.setSelected(false);
+            mLine72V.setSelected(false);
+            mRound7V.setSelected(false);
         } else {
-            mText72Tv.setText("已完成");
+
+            mIcon7Iv.setSelected(true);
+            if (flag == 1) {
+                mText72Tv.setText("进行中");
+            } else {
+                mText72Tv.setText("已完成");
+            }
+            mLine71V.setSelected(true);
+            mLine72V.setSelected(true);
+            mRound7V.setSelected(true);
         }
-        mLine71V.setSelected(true);
-        mLine72V.setSelected(true);
-        mRound7V.setSelected(true);
     }
 
     private void setStatus8(int flag) {
-        setStatus7(flag);
+        if (flag == 0) {
+            mIcon8Iv.setSelected(false);
+            mText82Tv.setText("未进行");
+            mLine81V.setSelected(false);
+            mLine82V.setSelected(false);
+            mRound8V.setSelected(false);
+            mLine91V.setSelected(false);
+            mLine92V.setSelected(false);
+            mRound9V.setSelected(false);
+        } else {
 
-        mIcon8Iv.setSelected(true);
-        mText82Tv.setText("已完成");
-        mLine81V.setSelected(true);
-        mLine82V.setSelected(true);
-        mRound8V.setSelected(true);
-        mLine91V.setSelected(true);
-        mLine92V.setSelected(true);
-        mRound9V.setSelected(true);
+            mIcon8Iv.setSelected(true);
+            if (flag == 1) {
+                mText82Tv.setText("进行中");
+            } else {
+
+                mText82Tv.setText("已完成");
+            }
+            mLine81V.setSelected(true);
+            mLine82V.setSelected(true);
+            mRound8V.setSelected(true);
+            mLine91V.setSelected(true);
+            mLine92V.setSelected(true);
+            mRound9V.setSelected(true);
+        }
+
+    }
+
+
+    @OnClick(R.id.cause_tv)
+    void clickCause(View view) {
+        if (mBean != null) {
+
+            CausePop causePop = new CausePop(this, mBean.UserInfoRemake, mBean.SignRemake);
+            causePop.setOnPopListenter(new CausePop.OnPopListenter() {
+                @Override
+                public void onConfirm() {
+//                    ToastUtil.showShort("跳转到签约列表");
+                  /*  Intent intent = new Intent(QueryResultActivity.this, SignActivity.class);
+                    startActivity(intent);*/
+                }
+            });
+
+            causePop.showAtLocation(mTitleTv, Gravity.CENTER, 0, 0);
+        }
     }
 }

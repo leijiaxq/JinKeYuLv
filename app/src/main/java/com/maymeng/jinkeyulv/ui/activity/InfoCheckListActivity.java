@@ -19,10 +19,10 @@ import com.maymeng.jinkeyulv.api.RxBus;
 import com.maymeng.jinkeyulv.base.BaseApplication;
 import com.maymeng.jinkeyulv.base.RxBaseActivity;
 import com.maymeng.jinkeyulv.bean.BaseBean;
+import com.maymeng.jinkeyulv.bean.CheckInfoBean;
 import com.maymeng.jinkeyulv.bean.LoginBean;
-import com.maymeng.jinkeyulv.bean.QueryBean;
 import com.maymeng.jinkeyulv.bean.RxBusBean;
-import com.maymeng.jinkeyulv.ui.adapter.QueryAllAdapter;
+import com.maymeng.jinkeyulv.ui.adapter.InfoCheckAdapter;
 import com.maymeng.jinkeyulv.utils.SPUtil;
 import com.maymeng.jinkeyulv.utils.ToastUtil;
 
@@ -38,9 +38,9 @@ import rx.schedulers.Schedulers;
 /**
  * Created by  leijiaxq
  * Date        2017/4/20 11:09
- * Describe    查询所有进度页
+ * Describe    信息审核列表展示页
  */
-public class QueryAllActivity extends RxBaseActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class InfoCheckListActivity extends RxBaseActivity implements SwipeRefreshLayout.OnRefreshListener {
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.title_tv)
@@ -53,9 +53,8 @@ public class QueryAllActivity extends RxBaseActivity implements SwipeRefreshLayo
     private boolean mIsAllLoaded;
 
     private int mPageIndex = 1;
-    private List<QueryBean.ResponseDataBean> mDatas = new ArrayList<>();
-    private QueryAllAdapter mAdapter;
-    private String mOpition;
+    private List<CheckInfoBean.ResponseDataBean> mDatas = new ArrayList<>();
+    private InfoCheckAdapter mAdapter;
 
     @Override
     public int getLayoutId() {
@@ -64,13 +63,9 @@ public class QueryAllActivity extends RxBaseActivity implements SwipeRefreshLayo
 
     @Override
     public void initViews(Bundle savedInstanceState) {
-        mOpition = getIntent().getStringExtra("opition");
-        getIntent().putExtra("opition", "");
-        if (TextUtils.isEmpty(mOpition)) {
-            mTitleTv.setText("查询全部");
-        } else {
-            mTitleTv.setText("查询结果");
-        }
+
+        mTitleTv.setText("信息校验");
+
     }
 
     @Override
@@ -137,29 +132,30 @@ public class QueryAllActivity extends RxBaseActivity implements SwipeRefreshLayo
         onRefresh();
 //        makeData();
 
-        //用于--填完第五页数据后finish掉页面  ----刷新该页面的数据
+        //用于--填完第五页数据后finish掉页面
         RxBus.getDefault().toObservable(RxBusBean.class)
                 .compose(this.<RxBusBean>bindToLifecycle())
                 .subscribe(new Action1<RxBusBean>() {
                     @Override
                     public void call(RxBusBean bean) {
-                        if (bean.id == Constants.RXBUS_ONE) {
+                        if (bean.id == Constants.RXBUS_TWO) {
                             finish();
+//                            showProgressDialog("正在加载");
+//                            onRefresh();
                         }
                     }
                 });
     }
 
     private void initAdapter() {
-        mAdapter = new QueryAllAdapter(this, mDatas);
+        mAdapter = new InfoCheckAdapter(this, mDatas);
         mRecyclerView.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(new QueryAllAdapter.OnItemClickListener() {
+        mAdapter.setOnItemClickListener(new InfoCheckAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Intent intent = new Intent(QueryAllActivity.this, QueryResultActivity.class);
-                QueryBean.ResponseDataBean bean = mDatas.get(position);
-//                bean.IsStatus = 100;
-                intent.putExtra("QueryBean", bean);
+                Intent intent = new Intent(InfoCheckListActivity.this, InfoCheckOneActivity.class);
+                CheckInfoBean.ResponseDataBean bean = mDatas.get(position);
+                intent.putExtra("CheckInfoBean", bean);
                 startActivity(intent);
             }
         });
@@ -171,97 +167,25 @@ public class QueryAllActivity extends RxBaseActivity implements SwipeRefreshLayo
         mPageIndex = 1;
         mIsAllLoaded = false;
         mAdapter.isAllLoad = false;
-        if (TextUtils.isEmpty(mOpition)) {
-            getAllByAccountID();
-        } else {
-            getCaseUserInfoByOpition();
-        }
-//        BaseApplication.getInstance().mHandler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//                makeData();
-//
-//            }
-//        }, 3000);
+
+        getSignByAccountID();
+
     }
 
     private void loadMore() {
         mPageIndex++;
 
+//        getSignByAccountID();
         BaseApplication.getInstance().mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (TextUtils.isEmpty(mOpition)) {
-                    getAllByAccountID();
-                } else {
-                    getCaseUserInfoByOpition();
-                }
+                getSignByAccountID();
             }
         }, Constants.WAIT_TIME_LOADMORE);
-        /*if (TextUtils.isEmpty(mOpition)) {
-            getAllByAccountID();
-        } else {
-            getCaseUserInfoByOpition();
-        }*/
+
     }
 
-    private void getCaseUserInfoByOpition() {
-        LoginBean.ResponseDataBean bean = BaseApplication.getInstance().getLoginBean();
-        if (bean == null) {
-            bean = new LoginBean.ResponseDataBean();
-
-            int account_id = (int) SPUtil.get(this, Constants.ACCOUNT_ID, 0);
-            String account_name = (String) SPUtil.get(this, Constants.ACCOUNT_NAME, "");
-            bean.AccountId = account_id;
-            bean.AccountName = account_name;
-            BaseApplication.getInstance().setLoginBean(bean);
-        }
-
-        RetrofitHelper.getBaseApi()
-                .getCaseUserInfoByOpition(bean.Token,bean.AccountId+"", bean.AccountId, mPageIndex, Constants.SIZE, mOpition)
-                .compose(this.<QueryBean>bindToLifecycle())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<QueryBean>() {
-                    @Override
-                    public void onCompleted() {
-                        if (mSwipRefresh != null) {
-                            mSwipRefresh.setRefreshing(false);
-                        }
-                        hideProgressDialog();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        if (mSwipRefresh != null) {
-                            mSwipRefresh.setRefreshing(false);
-                        }
-                        showNetError();
-                    }
-
-                    @Override
-                    public void onNext(QueryBean queryBean) {
-                        if (Constants.OK.equals(queryBean.StateCode)) {
-                            if (Constants.TOKEN_ERROR.equals(queryBean.ResponseMessage)) {
-                                hideProgressDialog();
-                                ToastUtil.showLong(Constants.TOKEN_RELOGIN);
-//                                SPUtil.clear(QueryAllActivity.this);
-                                SPUtil.put(QueryAllActivity.this,Constants.ACCOUNT_LOGIN,false);
-                                Intent intent = new Intent(QueryAllActivity.this, LoginActivity.class);
-                                startActivity(intent);
-                                finish();
-                            } else {
-                                finishTask(queryBean);
-                            }
-                        } else {
-                            ToastUtil.showShort(TextUtils.isEmpty(queryBean.ResponseMessage) ? Constants.ERROR : queryBean.ResponseMessage);
-                        }
-                    }
-                });
-    }
-
-    private void getAllByAccountID() {
+    private void getSignByAccountID() {
         LoginBean.ResponseDataBean bean = BaseApplication.getInstance().getLoginBean();
         if (bean == null) {
             bean = new LoginBean.ResponseDataBean();
@@ -276,11 +200,11 @@ public class QueryAllActivity extends RxBaseActivity implements SwipeRefreshLayo
         }
 
         RetrofitHelper.getBaseApi()
-                .getAllByAccountID(bean.Token,bean.AccountId+"", bean.AccountId, mPageIndex, Constants.SIZE)
-                .compose(this.<QueryBean>bindToLifecycle())
+                .getCheckCaseNet(bean.Token,bean.AccountId+"", bean.AccountId, mPageIndex, Constants.SIZE)
+                .compose(this.<CheckInfoBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<QueryBean>() {
+                .subscribe(new Subscriber<CheckInfoBean>() {
                     @Override
                     public void onCompleted() {
                         if (mSwipRefresh != null) {
@@ -298,34 +222,35 @@ public class QueryAllActivity extends RxBaseActivity implements SwipeRefreshLayo
                     }
 
                     @Override
-                    public void onNext(QueryBean queryBean) {
-                        if (Constants.OK.equals(queryBean.StateCode)) {
-                            if (Constants.TOKEN_ERROR.equals(queryBean.ResponseMessage)) {
+                    public void onNext(CheckInfoBean checkInfoBean) {
+                        if (Constants.OK.equals(checkInfoBean.StateCode)) {
+                            if (Constants.TOKEN_ERROR.equals(checkInfoBean.ResponseMessage)) {
                                 hideProgressDialog();
                                 ToastUtil.showLong(Constants.TOKEN_RELOGIN);
-//                                SPUtil.clear(QueryAllActivity.this);
-                                SPUtil.put(QueryAllActivity.this,Constants.ACCOUNT_LOGIN,false);
-                                Intent intent = new Intent(QueryAllActivity.this, LoginActivity.class);
+//                                SPUtil.clear(SignActivity.this);
+                                SPUtil.put(InfoCheckListActivity.this,Constants.ACCOUNT_LOGIN,false);
+                                Intent intent = new Intent(InfoCheckListActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 finish();
                             } else {
-                                finishTask(queryBean);
+                                finishTask(checkInfoBean);
                             }
                         } else {
-                            ToastUtil.showShort(TextUtils.isEmpty(queryBean.ResponseMessage) ? Constants.ERROR : queryBean.ResponseMessage);
+                            ToastUtil.showShort(TextUtils.isEmpty(checkInfoBean.ResponseMessage) ? Constants.ERROR : checkInfoBean.ResponseMessage);
                         }
                     }
                 });
     }
 
+
     @Override
     public void finishTask(BaseBean bean) {
-        if (bean instanceof QueryBean) {
-            setQueryBeanData((QueryBean) bean);
+        if (bean instanceof CheckInfoBean) {
+            setCheckInfoBeanData((CheckInfoBean) bean);
         }
     }
 
-    private void setQueryBeanData(QueryBean bean) {
+    private void setCheckInfoBeanData(CheckInfoBean bean) {
         if (bean.ResponseData == null) {
             bean.ResponseData = new ArrayList<>();
         }
@@ -348,26 +273,5 @@ public class QueryAllActivity extends RxBaseActivity implements SwipeRefreshLayo
         mAdapter.notifyDataSetChanged();
     }
 
-//    private void makeData() {
-//        if (mPageIndex == 0) {
-//            if (mSwipRefresh != null) {
-//                mSwipRefresh.setRefreshing(false);
-//            }
-//            mDatas.clear();
-//        }
-//        QueryAllBean bean = null;
-//        for (int i = 0; i < 20; i++) {
-//            bean = new QueryAllBean();
-//            bean.name = "张三" + i;
-//            bean.phone = "联系电话：" + i;
-//            bean.status = i % 2;
-//            mDatas.add(bean);
-//        }
-//        if (mPageIndex == 10) {
-//            mIsAllLoaded = true;
-//            mAdapter.isAllLoad = true;
-//        }
-//        mAdapter.notifyDataSetChanged();
-//
-//    }
+
 }

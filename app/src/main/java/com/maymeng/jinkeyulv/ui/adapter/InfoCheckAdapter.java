@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.maymeng.jinkeyulv.R;
 import com.maymeng.jinkeyulv.api.Constants;
-import com.maymeng.jinkeyulv.bean.QueryBean;
+import com.maymeng.jinkeyulv.bean.CheckInfoBean;
 import com.maymeng.jinkeyulv.view.ProgressWheel;
 
 import java.util.List;
@@ -23,13 +23,13 @@ import butterknife.ButterKnife;
  * Date       2017/3/15 11:27
  * Describe
  */
-public class QueryAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class InfoCheckAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mContext;
-    private List<QueryBean.ResponseDataBean> mDatas;
+    private List<CheckInfoBean.ResponseDataBean> mDatas;
     public boolean isAllLoad = false;
 
 
-    public QueryAllAdapter(Context context, List<QueryBean.ResponseDataBean> datas) {
+    public InfoCheckAdapter(Context context, List<CheckInfoBean.ResponseDataBean> datas) {
         mContext = context;
         mDatas = datas;
     }
@@ -59,9 +59,9 @@ public class QueryAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
 
     private void setDataType1(ViewHolderType1 holder, final int position) {
-        QueryBean.ResponseDataBean bean = mDatas.get(position);
+        CheckInfoBean.ResponseDataBean bean = mDatas.get(position);
+        holder.mItemNameTv.setSelected(true);
         holder.mItemNameTv.setText(TextUtils.isEmpty(bean.CustomerName) ? "" : bean.CustomerName);
-
         String phone = "";
         if (!TextUtils.isEmpty(bean.Phone)) {
             if (bean.Phone.length() == 11) {
@@ -78,27 +78,18 @@ public class QueryAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
         holder.mItemPhoneTv.setText("联系电话：" + phone);
 
-       /* if (bean.IsStatus == 100) {
+        holder.mItemStatusTv.setText("未校验");
+
+/*        if (bean.IsStatus == 100) {
 //            holder.mItemStatusTv.setSelected(false);
             holder.mItemStatusTv.setText("已完成");
-            holder.mItemStatusTv.setSelected(false);
-            holder.mItemNameTv.setSelected(false);
-
         } else if (bean.IsStatus == 0) {
 //            holder.mItemStatusTv.setSelected(true);
             holder.mItemStatusTv.setText("未开始");
-            holder.mItemStatusTv.setSelected(true);
-            holder.mItemNameTv.setSelected(true);
         } else {
             holder.mItemStatusTv.setText("进行中");
-            holder.mItemStatusTv.setSelected(true);
-            holder.mItemNameTv.setSelected(true);
+
         }*/
-
-        holder.mItemStatusTv.setText("进行中");
-        holder.mItemStatusTv.setSelected(true);
-        holder.mItemNameTv.setSelected(true);
-
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,4 +171,5 @@ public class QueryAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ButterKnife.bind(this, view);
         }
     }
+
 }

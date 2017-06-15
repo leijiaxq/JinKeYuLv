@@ -7,7 +7,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.maymeng.jinkeyulv.R;
@@ -19,10 +18,10 @@ import com.maymeng.jinkeyulv.base.RxBaseActivity;
 import com.maymeng.jinkeyulv.bean.BaseBean;
 import com.maymeng.jinkeyulv.bean.BaseNetBean;
 import com.maymeng.jinkeyulv.bean.CheckIDCardBean;
+import com.maymeng.jinkeyulv.bean.CheckInfoBean;
 import com.maymeng.jinkeyulv.bean.CheckUserBean;
 import com.maymeng.jinkeyulv.bean.LoginBean;
 import com.maymeng.jinkeyulv.bean.RxBusBean;
-import com.maymeng.jinkeyulv.utils.RegexUtil;
 import com.maymeng.jinkeyulv.utils.SPUtil;
 import com.maymeng.jinkeyulv.utils.ToastUtil;
 
@@ -43,14 +42,15 @@ public class InfoCheckOneActivity extends RxBaseActivity {
     Toolbar mToolbar;
     @BindView(R.id.title_tv)
     TextView mTitleTv;
-    @BindView(R.id.identity_et)
-    EditText mIdentityEt;
+    @BindView(R.id.identity_tv)
+    TextView mIdentityTv;
     @BindView(R.id.confirm_tv)
     TextView mConfirmTv;
-    @BindView(R.id.name_et)
-    EditText mNameEt;
+    @BindView(R.id.name_tv)
+    TextView mNameTv;
 
     private long mWaitTime;
+    private CheckInfoBean.ResponseDataBean mBean;
 
     @Override
     public int getLayoutId() {
@@ -60,6 +60,13 @@ public class InfoCheckOneActivity extends RxBaseActivity {
     @Override
     public void initViews(Bundle savedInstanceState) {
         mTitleTv.setText("信息校验");
+
+        mBean = getIntent().getParcelableExtra("CheckInfoBean");
+
+        if (mBean != null) {
+            mNameTv.setText(TextUtils.isEmpty(mBean.CustomerName) ? "" : mBean.CustomerName);
+            mIdentityTv.setText(TextUtils.isEmpty(mBean.IDCard) ? "" : mBean.IDCard);
+        }
     }
 
     @Override
@@ -124,14 +131,14 @@ public class InfoCheckOneActivity extends RxBaseActivity {
         Intent intent = new Intent(this, InfoCheckOneResultActivity.class);
         startActivity(intent);*/
 
-        String name = mNameEt.getText().toString().trim();
-        if (TextUtils.isEmpty(name)) {
+        String name = mNameTv.getText().toString().trim();
+       /* if (TextUtils.isEmpty(name)) {
             ToastUtil.showShort("姓名不能为空");
             return;
-        }
-        String IDcard = mIdentityEt.getText().toString().trim();
+        }*/
+        String IDcard = mIdentityTv.getText().toString().trim();
 
-        if (TextUtils.isEmpty(IDcard)) {
+       /* if (TextUtils.isEmpty(IDcard)) {
             ToastUtil.showShort("身份证号码不能为空");
             return;
         }
@@ -148,7 +155,7 @@ public class InfoCheckOneActivity extends RxBaseActivity {
         } else {
             ToastUtil.showShort("身份证号码长度不对");
             return;
-        }
+        }*/
 
         showProgressDialog("正在验证...");
         checkIDCardNet(name, IDcard);
@@ -202,7 +209,7 @@ public class InfoCheckOneActivity extends RxBaseActivity {
                 });
     }
 
-    private void submitCheckInfoToServiceNet(String idCard,String address) {
+    private void submitCheckInfoToServiceNet(String idCard, String address) {
         LoginBean.ResponseDataBean bean = BaseApplication.getInstance().getLoginBean();
         if (bean == null) {
             bean = new LoginBean.ResponseDataBean();
@@ -216,7 +223,7 @@ public class InfoCheckOneActivity extends RxBaseActivity {
         }
 
         RetrofitHelper.getBaseApi()
-                .submitCheckInfoToServiceNet(bean.Token,bean.AccountId+"",1, idCard,address)
+                .submitCheckInfoToServiceNet(bean.Token, bean.AccountId + "", 1, idCard, address)
                 .compose(this.<BaseNetBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -292,7 +299,7 @@ public class InfoCheckOneActivity extends RxBaseActivity {
 
                 BaseApplication.getInstance().setCheckUserBean(checkUserBean);
 
-                submitCheckInfoToServiceNet(checkUserBean.IDCard,bean.data.address);
+                submitCheckInfoToServiceNet(checkUserBean.IDCard, bean.data.address);
             }
 //            Intent intent = new Intent(this, InfoCheckOneResultActivity.class);
 //            startActivity(intent);

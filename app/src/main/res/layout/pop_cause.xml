@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pop_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/translate_gray"
+    android:gravity="center"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="245dp"
+        android:layout_height="206dp"
+        android:background="@drawable/pop_bg"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/pop_line_v"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="33dp"
+                android:text="驳回原因"
+                android:textColor="@color/text_black"
+                android:textSize="18sp"/>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_marginTop="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/pop_info_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="16dp"
+                        android:lineSpacingExtra="6dp"
+                        android:lineSpacingMultiplier="1.0"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:text="是否退出当前账号sdfsd的胜多负少的是非得失的发的所发生的方式发送到多少岁"
+                        android:textColor="@color/text_gray666"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/pop_sign_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="16dp"
+                        android:lineSpacingExtra="6dp"
+                        android:lineSpacingMultiplier="1.0"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:text="是否退出当前账号sdfsd的胜多负少的是非得失的发的所发生的方式发送到多少岁"
+                        android:textColor="@color/text_gray666"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+
+            </ScrollView>
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/pop_line_v"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_above="@+id/pop_bottom_layout"
+            android:background="@color/line_gray"/>
+
+        <LinearLayout
+            android:id="@+id/pop_bottom_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+
+           <!-- <TextView
+                android:id="@+id/pop_cancel_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_selector_item_white_bottom_left"
+                android:clickable="true"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="取消"
+                android:textColor="@color/text_black"
+                android:textSize="16sp"/>
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="@color/line_gray"/>-->
+
+            <TextView
+                android:id="@+id/pop_confirm_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_selector_item_white_bottom_left_and_right"
+                android:clickable="true"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="确定"
+                android:textColor="@color/text_black"
+                android:textSize="16sp"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

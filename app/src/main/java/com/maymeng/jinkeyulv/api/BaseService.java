@@ -3,10 +3,12 @@ package com.maymeng.jinkeyulv.api;
 
 import com.maymeng.jinkeyulv.bean.AddCaseBean;
 import com.maymeng.jinkeyulv.bean.BaseNetBean;
+import com.maymeng.jinkeyulv.bean.CheckInfoBean;
 import com.maymeng.jinkeyulv.bean.LoginBean;
 import com.maymeng.jinkeyulv.bean.NewDispatchBean;
 import com.maymeng.jinkeyulv.bean.NewDispatchCaseInfoBean;
 import com.maymeng.jinkeyulv.bean.PictureInfoBean;
+import com.maymeng.jinkeyulv.bean.QueryBean;
 import com.maymeng.jinkeyulv.bean.ReportNumberBean;
 import com.maymeng.jinkeyulv.bean.SignBean;
 import com.maymeng.jinkeyulv.bean.SignUploadBean;
@@ -116,11 +118,11 @@ public interface BaseService {
 
     //    根据用户ID获取所有关联的派单信息
     @GET("api/GetAll")
-    Observable<NewDispatchBean> getAllByAccountID(@Header("token") String token, @Header("accountId") String accountID, @Query("accountId") int accountId, @Query("CurrentPage") int CurrentPage, @Query("PageSize") int PageSize);
+    Observable<QueryBean> getAllByAccountID(@Header("token") String token, @Header("accountId") String accountID, @Query("accountId") int accountId, @Query("CurrentPage") int CurrentPage, @Query("PageSize") int PageSize);
 
     //    根据条件查询派单:比如身份证号，姓名，案件号
     @GET("api/CaseUserInfo")
-    Observable<NewDispatchBean> getCaseUserInfoByOpition(@Header("token") String token, @Header("accountId") String accountId, @Query("accountID") int accountID, @Query("currentPage") int currentPage, @Query("pageSize") int pageSize, @Query("value") String value);
+    Observable<QueryBean> getCaseUserInfoByOpition(@Header("token") String token, @Header("accountId") String accountId, @Query("accountID") int accountID, @Query("currentPage") int currentPage, @Query("pageSize") int pageSize, @Query("value") String value);
 
 
     //    文件上传
@@ -161,4 +163,10 @@ public interface BaseService {
     //    退出登录
     @GET("api/LoginOut")
     Observable<BaseNetBean> loginOut(@Query("accountId") int accountId);
+
+  //    获取信息校验列表                                 CurrentPage PageSize
+    @GET("api/GetCheckCase")
+    Observable<CheckInfoBean> getCheckCaseNet(@Header("token") String token, @Header("accountId") String accountId, @Query("accountId") int AccountId, @Query("currentPage") int CurrentPage, @Query("pageSize") int PageSize);
+
 }
+

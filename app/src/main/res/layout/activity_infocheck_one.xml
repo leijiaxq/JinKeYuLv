@@ -23,8 +23,8 @@
         android:textColor="@color/text_black"
         android:textSize="14sp"/>
 
-    <EditText
-        android:id="@+id/name_et"
+    <TextView
+        android:id="@+id/name_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="19dp"
@@ -50,8 +50,8 @@
         android:textColor="@color/text_black"
         android:textSize="14sp"/>
 
-    <EditText
-        android:id="@+id/identity_et"
+    <TextView
+        android:id="@+id/identity_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="19dp"

@@ -63,14 +63,14 @@ public class CausePop extends PopupWindow implements View.OnClickListener {
             signTv.setVisibility(View.GONE);
         } else {
             signTv.setVisibility(View.VISIBLE);
-            signTv.setText("签约审核驳回原因：\n    "+sign);
+            signTv.setText("签约审核驳回原因：\n\t\t\t"+sign);
         }
 
         if (TextUtils.isEmpty(info)) {
             infoTv.setVisibility(View.GONE);
         } else {
             infoTv.setVisibility(View.VISIBLE);
-            infoTv.setText("资料审核驳回原因：\n    "+info);
+            infoTv.setText("资料审核驳回原因：\n\t\t\t"+info);
         }
 
     }

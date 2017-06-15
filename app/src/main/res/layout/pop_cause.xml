@@ -11,7 +11,7 @@
 
     <RelativeLayout
         android:layout_width="245dp"
-        android:layout_height="206dp"
+        android:layout_height="260dp"
         android:background="@drawable/pop_bg"
         android:orientation="vertical">
 

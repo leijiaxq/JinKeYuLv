@@ -43,7 +43,7 @@ public class NewDispatchBean extends BaseBean {
         public String Phone;
         public boolean IsRead;
         public int CaseId;
-        public int IsStatus;
+        public boolean IsCheck;
         public String HospitalName;
 
 
@@ -60,7 +60,7 @@ public class NewDispatchBean extends BaseBean {
             dest.writeString(this.Phone);
             dest.writeByte(this.IsRead ? (byte) 1 : (byte) 0);
             dest.writeInt(this.CaseId);
-            dest.writeInt(this.IsStatus);
+            dest.writeByte(this.IsCheck ? (byte) 1 : (byte) 0);
             dest.writeString(this.HospitalName);
         }
 
@@ -74,7 +74,7 @@ public class NewDispatchBean extends BaseBean {
             this.Phone = in.readString();
             this.IsRead = in.readByte() != 0;
             this.CaseId = in.readInt();
-            this.IsStatus = in.readInt();
+            this.IsCheck = in.readByte() != 0;
             this.HospitalName = in.readString();
         }
 

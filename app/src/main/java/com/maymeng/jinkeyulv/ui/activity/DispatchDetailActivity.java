@@ -75,7 +75,7 @@ public class DispatchDetailActivity extends RxBaseActivity {
 
         mTitleTv.setText("派单详情");
         if (mBean != null) {
-            if (mBean.IsStatus == 2) {
+            if (mBean.IsCheck) {
                 mPhoneLayout.setVisibility(View.GONE);
                 mPhoneLayout2.setVisibility(View.VISIBLE);
                 mWriteInfoTv.setSelected(true);

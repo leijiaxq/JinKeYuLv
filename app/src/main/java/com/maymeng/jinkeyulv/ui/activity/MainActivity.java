@@ -340,6 +340,7 @@ public class MainActivity extends RxBaseActivity {
                     intent = new Intent(MainActivity.this, NewDispatchActivity.class);
 //                    mLayout1.setEnabled(true);
                 } else if (position == 1) {
+//                    intent = new Intent(MainActivity.this, InfoCheckFourActivity.class);
                     intent = new Intent(MainActivity.this, InfoCheckListActivity.class);
 //                    intent = new Intent(MainActivity.this, InfoCheckOneActivity.class);
 //                    mLayout2.setEnabled(true);

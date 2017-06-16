@@ -23,32 +23,32 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="23dp"
                 android:layout_marginTop="40dp"
-                android:src="@drawable/icon5"/>
+                android:src="@drawable/icon55"/>
 
             <TextView
-                android:id="@+id/end_tv"
+                android:id="@+id/data_fetch_tv"
                 android:layout_width="297dp"
-                android:layout_gravity="center_horizontal"
                 android:layout_height="44dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="28dp"
                 android:layout_marginTop="76dp"
                 android:background="@drawable/ripple_selector_item_blue"
                 android:clickable="true"
                 android:gravity="center"
-                android:text="完结验证"
+                android:text="数据读取"
                 android:textColor="@color/white"
                 android:textSize="16sp"/>
 
             <TextView
-                android:id="@+id/data_fetch_tv"
-                android:layout_height="44dp"
+                android:id="@+id/end_tv"
                 android:layout_width="297dp"
+                android:layout_height="44dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="28dp"
                 android:background="@drawable/ripple_selector_item_blue"
                 android:clickable="true"
                 android:gravity="center"
-                android:text="数据读取"
+                android:text="完结验证"
                 android:textColor="@color/white"
                 android:textSize="16sp"/>
 

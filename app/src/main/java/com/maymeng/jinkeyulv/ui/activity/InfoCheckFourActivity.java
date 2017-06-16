@@ -107,7 +107,7 @@ public class InfoCheckFourActivity extends RxBaseActivity {
         if (checkUserBean != null) {
             mIDCard = checkUserBean.IDCard;
         }
-        mIDCard = "431126197912101210";
+//        mIDCard = "431126197912101210";
     }
 
     //数据读取

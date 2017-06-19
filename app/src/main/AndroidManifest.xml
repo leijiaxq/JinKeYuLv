@@ -136,6 +136,10 @@
             android:name="com.maymeng.jinkeyulv.ui.activity.InfoCheckListActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"/>
+  <activity
+            android:name="com.maymeng.jinkeyulv.ui.activity.TermsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"/>
 
 
         <provider

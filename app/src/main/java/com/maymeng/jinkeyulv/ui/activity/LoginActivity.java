@@ -174,7 +174,10 @@ public class LoginActivity extends RxBaseActivity {
     //点击了条款
     @OnClick(R.id.clause_layout)
     void clickClause(View view) {
-        ToastUtil.showShort(this, "进入服务条款页");
+//        ToastUtil.showShort(this, "进入服务条款页");
+        Intent intent = new Intent(this, TermsActivity.class);
+        startActivity(intent);
+
     }
 
     @OnClick(R.id.login_tv)

@@ -32,7 +32,6 @@ import com.maymeng.jinkeyulv.bean.SignBean;
 import com.maymeng.jinkeyulv.bean.SignUploadBean;
 import com.maymeng.jinkeyulv.bean.UploadFileBean;
 import com.maymeng.jinkeyulv.ui.adapter.SignUploadAdapter;
-import com.maymeng.jinkeyulv.ui.dialog.ProgressXQ;
 import com.maymeng.jinkeyulv.ui.pop.SelectPicturePop;
 import com.maymeng.jinkeyulv.utils.ImageUtil;
 import com.maymeng.jinkeyulv.utils.SPUtil;
@@ -468,7 +467,7 @@ public class SignUploadActivity extends RxBaseActivity {
             return;
         }
 //        showProgressDialog("");
-        showProgressDialog2("正在提交...");
+        showProgressDialog("正在提交...");
 
 //        BaseApplication.getInstance().mHandler.postDelayed(new Runnable() {
 //            @Override
@@ -507,7 +506,7 @@ public class SignUploadActivity extends RxBaseActivity {
                     .subscribe(new Subscriber<SignUploadBean>() {
                         @Override
                         public void onCompleted() {
-                            hideProgressDialog2();
+                            hideProgressDialog();
                         }
 
                         @Override
@@ -519,7 +518,7 @@ public class SignUploadActivity extends RxBaseActivity {
                         public void onNext(SignUploadBean bean) {
                             if (Constants.OK.equals(bean.StateCode)) {
                                 if (Constants.TOKEN_ERROR.equals(bean.ResponseMessage)) {
-                                    hideProgressDialog2();
+                                    hideProgressDialog();
                                     ToastUtil.showLong(Constants.TOKEN_RELOGIN);
 //                                    SPUtil.clear(SignUploadActivity.this);
                                     SPUtil.put(SignUploadActivity.this,Constants.ACCOUNT_LOGIN,false);
@@ -617,7 +616,7 @@ public class SignUploadActivity extends RxBaseActivity {
         //构建要上传的文件
         File file = new File(path);
         if (!file.exists()) {
-            hideProgressDialog2();
+            hideProgressDialog();
             ToastUtil.showShort("图片有误");
             return;
         }
@@ -683,7 +682,7 @@ public class SignUploadActivity extends RxBaseActivity {
                             uploadErrorFirst = true;
 
                             if (Constants.TOKEN_ERROR.equals(bean.ResponseMessage)) {
-                                hideProgressDialog2();
+                                hideProgressDialog();
                                 ToastUtil.showLong(Constants.TOKEN_RELOGIN);
 //                                SPUtil.clear(SignUploadActivity.this);
                                 SPUtil.put(SignUploadActivity.this,Constants.ACCOUNT_LOGIN,false);
@@ -695,7 +694,7 @@ public class SignUploadActivity extends RxBaseActivity {
                             }
 
                         } else {
-                            hideProgressDialog2();
+                            hideProgressDialog();
                             ToastUtil.showShort(TextUtils.isEmpty(bean.ResponseMessage) ? Constants.ERROR : bean.ResponseMessage);
                         }
                     }
@@ -756,7 +755,7 @@ public class SignUploadActivity extends RxBaseActivity {
         submitInfoNet();
     }
 
-    ProgressXQ mProgressXQ;
+   /* ProgressXQ mProgressXQ;
 
     public void showProgressDialog2(String message) {
         if (mProgressXQ == null) {
@@ -772,5 +771,5 @@ public class SignUploadActivity extends RxBaseActivity {
         if (mProgressXQ != null && mProgressXQ.isShowing()) {
             mProgressXQ.dismiss();
         }
-    }
+    }*/
 }

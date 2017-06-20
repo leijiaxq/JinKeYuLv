@@ -12,5 +12,5 @@ public class PictureInfoBean {
     public String ImgDate;
     public float Latitude;
     public float Longitude;
-    public String IDCard;
+    public int CaseId;
 }

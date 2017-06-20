@@ -12,5 +12,7 @@ public class CheckUserBean {
     public String phone;
     public String bankNo;
 
+    public int CaseId; //案件ID
+
 
 }

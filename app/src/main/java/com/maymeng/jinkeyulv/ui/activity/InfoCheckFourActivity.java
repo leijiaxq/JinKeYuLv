@@ -64,7 +64,7 @@ public class InfoCheckFourActivity extends RxBaseActivity {
     private long mYearMillis = (long) 60 * 60 * 24 * 365 * 1000;
 
     private List<PictureInfoBean> mDatas = new ArrayList<>();
-    private String mIDCard;
+    private int mCaseID;
     private ReadDataPop mReadDataPop;
     private long mWaitTime;
 
@@ -106,7 +106,7 @@ public class InfoCheckFourActivity extends RxBaseActivity {
         super.loadData();
         CheckUserBean checkUserBean = BaseApplication.getInstance().getCheckUserBean();
         if (checkUserBean != null) {
-            mIDCard = checkUserBean.IDCard;
+            mCaseID = checkUserBean.CaseId;
         }
 //        mIDCard = "431126197912101210";
     }
@@ -279,7 +279,7 @@ public class InfoCheckFourActivity extends RxBaseActivity {
                             bean.ImgDate = date;
                             bean.Latitude = output1;
                             bean.Longitude = output2;
-                            bean.IDCard = mIDCard;
+                            bean.CaseId = mCaseID;
                             mDatas.add(bean);
 
                         } catch (IllegalArgumentException e) {
@@ -350,7 +350,7 @@ public class InfoCheckFourActivity extends RxBaseActivity {
             BaseApplication.getInstance().setLoginBean(bean);
         }
         RetrofitHelper.getBaseApi()
-                .endValidNet(bean.Token, bean.AccountId + "", bean.AccountId, checkUserBean.IDCard)
+                .endValidNet(bean.Token, bean.AccountId + "", bean.AccountId, checkUserBean.CaseId)
                 .compose(this.<BaseNetBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

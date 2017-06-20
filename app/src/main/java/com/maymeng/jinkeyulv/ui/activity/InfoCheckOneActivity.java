@@ -66,6 +66,8 @@ public class InfoCheckOneActivity extends RxBaseActivity {
         if (mBean != null) {
             mNameTv.setText(TextUtils.isEmpty(mBean.CustomerName) ? "" : mBean.CustomerName);
             mIdentityTv.setText(TextUtils.isEmpty(mBean.IDCard) ? "" : mBean.IDCard);
+
+
         }
     }
 
@@ -209,7 +211,7 @@ public class InfoCheckOneActivity extends RxBaseActivity {
                 });
     }
 
-    private void submitCheckInfoToServiceNet(String idCard, String address) {
+    private void submitCheckInfoToServiceNet(int caseID, String address) {
         LoginBean.ResponseDataBean bean = BaseApplication.getInstance().getLoginBean();
         if (bean == null) {
             bean = new LoginBean.ResponseDataBean();
@@ -223,7 +225,7 @@ public class InfoCheckOneActivity extends RxBaseActivity {
         }
 
         RetrofitHelper.getBaseApi()
-                .submitCheckInfoToServiceNet(bean.Token, bean.AccountId + "", 1, idCard, address)
+                .submitCheckInfoToServiceNet(bean.Token, bean.AccountId + "", 1, caseID, address)
                 .compose(this.<BaseNetBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -296,10 +298,13 @@ public class InfoCheckOneActivity extends RxBaseActivity {
                 }
                 checkUserBean.IDCard = bean.data.cardno;
                 checkUserBean.name = bean.data.name;
+                if (mBean != null) {
+                    checkUserBean.CaseId = mBean.CaseId;
+                }
 
                 BaseApplication.getInstance().setCheckUserBean(checkUserBean);
 
-                submitCheckInfoToServiceNet(checkUserBean.IDCard, bean.data.address);
+                submitCheckInfoToServiceNet(checkUserBean.CaseId, bean.data.address);
             }
 //            Intent intent = new Intent(this, InfoCheckOneResultActivity.class);
 //            startActivity(intent);

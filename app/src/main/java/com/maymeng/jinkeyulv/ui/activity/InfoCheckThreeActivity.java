@@ -205,7 +205,7 @@ public class InfoCheckThreeActivity extends RxBaseActivity {
         }
     }
 
-    private void submitCheckInfoToServiceNet(String idCard) {
+    private void submitCheckInfoToServiceNet(int caseID) {
         LoginBean.ResponseDataBean bean = BaseApplication.getInstance().getLoginBean();
         if (bean == null) {
             bean = new LoginBean.ResponseDataBean();
@@ -219,7 +219,7 @@ public class InfoCheckThreeActivity extends RxBaseActivity {
         }
 
         RetrofitHelper.getBaseApi()
-                .submitCheckInfoToServiceNet(bean.Token,bean.AccountId+"",2, idCard, "")
+                .submitCheckInfoToServiceNet(bean.Token,bean.AccountId+"",2, caseID, "")
                 .compose(this.<BaseNetBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -302,7 +302,7 @@ public class InfoCheckThreeActivity extends RxBaseActivity {
                 checkUserBean.phone = bean.phone_data.phone;
             }
             BaseApplication.getInstance().setCheckUserBean(checkUserBean);
-            submitCheckInfoToServiceNet(checkUserBean.IDCard);
+            submitCheckInfoToServiceNet(checkUserBean.CaseId);
 
            /* Intent intent = new Intent(this, InfoCheckThreeResultActivity.class);
             startActivity(intent);*/

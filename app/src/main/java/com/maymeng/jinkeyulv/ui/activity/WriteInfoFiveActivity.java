@@ -25,14 +25,13 @@ import com.maymeng.jinkeyulv.api.RetrofitHelper;
 import com.maymeng.jinkeyulv.api.RxBus;
 import com.maymeng.jinkeyulv.base.BaseApplication;
 import com.maymeng.jinkeyulv.base.RxBaseActivity;
-import com.maymeng.jinkeyulv.bean.LoginBean;
-import com.maymeng.jinkeyulv.bean.UploadFileBean;
 import com.maymeng.jinkeyulv.bean.BaseBean;
+import com.maymeng.jinkeyulv.bean.LoginBean;
 import com.maymeng.jinkeyulv.bean.RxBusBean;
 import com.maymeng.jinkeyulv.bean.SubmitInfoBean;
+import com.maymeng.jinkeyulv.bean.UploadFileBean;
 import com.maymeng.jinkeyulv.bean.WriteInfoBean;
 import com.maymeng.jinkeyulv.ui.adapter.WriteInfoFiveAdapter;
-import com.maymeng.jinkeyulv.ui.dialog.ProgressXQ;
 import com.maymeng.jinkeyulv.ui.pop.SelectPicturePop;
 import com.maymeng.jinkeyulv.utils.ImageUtil;
 import com.maymeng.jinkeyulv.utils.SPUtil;
@@ -550,7 +549,7 @@ public class WriteInfoFiveActivity extends RxBaseActivity {
 
     private void submitInfoToCheck() {
 
-        showProgressDialog2("正在提交...");
+        showProgressDialog("正在提交...");
         judeFileNeedUpload();
 
 //        submitInfoNet();
@@ -591,7 +590,7 @@ public class WriteInfoFiveActivity extends RxBaseActivity {
                 .subscribe(new Subscriber<SubmitInfoBean>() {
                     @Override
                     public void onCompleted() {
-                        hideProgressDialog2();
+                        hideProgressDialog();
                     }
 
                     @Override
@@ -603,7 +602,7 @@ public class WriteInfoFiveActivity extends RxBaseActivity {
                     public void onNext(SubmitInfoBean bean) {
                         if (Constants.OK.equals(bean.StateCode)) {
                             if (Constants.TOKEN_ERROR.equals(bean.ResponseMessage)) {
-                                hideProgressDialog2();
+                                hideProgressDialog();
                                 ToastUtil.showLong(Constants.TOKEN_RELOGIN);
 //                                SPUtil.clear(WriteInfoFiveActivity.this);
                                 SPUtil.put(WriteInfoFiveActivity.this,Constants.ACCOUNT_LOGIN,false);
@@ -700,7 +699,7 @@ public class WriteInfoFiveActivity extends RxBaseActivity {
         //构建要上传的文件
         File file = new File(path);
         if (!file.exists()) {
-            hideProgressDialog2();
+            hideProgressDialog();
             ToastUtil.showShort("图片有误");
             return;
         }
@@ -770,7 +769,7 @@ public class WriteInfoFiveActivity extends RxBaseActivity {
                             uploadErrorFirst = true;
 
                             if (Constants.TOKEN_ERROR.equals(bean.ResponseMessage)) {
-                                hideProgressDialog2();
+                                hideProgressDialog();
                                 ToastUtil.showLong(Constants.TOKEN_RELOGIN);
 //                                SPUtil.clear(WriteInfoFiveActivity.this);
                                 SPUtil.put(WriteInfoFiveActivity.this,Constants.ACCOUNT_LOGIN,false);
@@ -782,7 +781,7 @@ public class WriteInfoFiveActivity extends RxBaseActivity {
                             }
 
                         } else {
-                            hideProgressDialog2();
+                            hideProgressDialog();
                             ToastUtil.showShort(TextUtils.isEmpty(bean.ResponseMessage) ? Constants.ERROR : bean.ResponseMessage);
                         }
                     }
@@ -844,7 +843,7 @@ public class WriteInfoFiveActivity extends RxBaseActivity {
     }
 
 
-    ProgressXQ mProgressXQ;
+    /*ProgressXQ mProgressXQ;
 
     public void showProgressDialog2(String message) {
         if (mProgressXQ == null) {
@@ -858,5 +857,5 @@ public class WriteInfoFiveActivity extends RxBaseActivity {
         if (mProgressXQ != null && mProgressXQ.isShowing()) {
             mProgressXQ.dismiss();
         }
-    }
+    }*/
 }

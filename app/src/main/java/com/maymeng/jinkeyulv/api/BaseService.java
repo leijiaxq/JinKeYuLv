@@ -134,7 +134,7 @@ public interface BaseService {
     //    身份校验和银行卡校验信息提交后台  ValidCode 1为身份证信息，2为银行卡信息
     @FormUrlEncoded
     @POST("api/CaseUserInfo")
-    Observable<BaseNetBean> submitCheckInfoToServiceNet(@Header("token") String token, @Header("accountId") String accountId, @Field("ValidCode") int ValidCode, @Field("IDCard") String IDCard, @Field("HouseholdRegister") String HouseholdRegister);
+    Observable<BaseNetBean> submitCheckInfoToServiceNet(@Header("token") String token, @Header("accountId") String accountId, @Field("ValidCode") int ValidCode, @Field("CaseId") int CaseId, @Field("HouseholdRegister") String HouseholdRegister);
 
     //   上传图片的时间和经纬度
 //    @FormUrlEncoded
@@ -158,7 +158,7 @@ public interface BaseService {
     //    完结验证
     @FormUrlEncoded
     @POST("api/EndValid")
-    Observable<BaseNetBean> endValidNet(@Header("token") String token, @Header("accountId") String accountId, @Field("AccountId") int AccountId, @Field("IdCard") String IdCard);
+    Observable<BaseNetBean> endValidNet(@Header("token") String token, @Header("accountId") String accountId, @Field("AccountId") int AccountId, @Field("CaseId") int CaseId);
 
     //    退出登录
     @GET("api/LoginOut")

@@ -51,7 +51,7 @@ public class BaseApplication extends Application {
         }
         LeakCanary.install(this);*/
 
-        CrashReport.initCrashReport(getApplicationContext(), "00e9685c88", false);
+        CrashReport.initCrashReport(getApplicationContext(), "00e9685c88", true);
 
         mHandler = new Handler();
 

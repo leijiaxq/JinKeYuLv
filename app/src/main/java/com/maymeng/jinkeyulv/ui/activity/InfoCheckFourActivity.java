@@ -67,6 +67,7 @@ public class InfoCheckFourActivity extends RxBaseActivity {
     private String mIDCard;
     private ReadDataPop mReadDataPop;
     private long mWaitTime;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_infocheck_four;
@@ -163,7 +164,7 @@ public class InfoCheckFourActivity extends RxBaseActivity {
                 BaseApplication.getInstance().setLoginBean(bean);
             }
             RetrofitHelper.getBaseApi()
-                    .submitPictureInfoNet(bean.Token,bean.AccountId+"",mDatas)
+                    .submitPictureInfoNet(bean.Token, bean.AccountId + "", mDatas)
                     .compose(this.<BaseNetBean>bindToLifecycle())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -186,7 +187,7 @@ public class InfoCheckFourActivity extends RxBaseActivity {
                             if (Constants.TOKEN_ERROR.equals(baseNetBean.ResponseMessage)) {
                                 ToastUtil.showLong(Constants.TOKEN_RELOGIN);
 //                                SPUtil.clear(InfoCheckFourActivity.this);
-                                SPUtil.put(InfoCheckFourActivity.this,Constants.ACCOUNT_LOGIN,false);
+                                SPUtil.put(InfoCheckFourActivity.this, Constants.ACCOUNT_LOGIN, false);
                                 Intent intent = new Intent(InfoCheckFourActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 finish();
@@ -329,7 +330,7 @@ public class InfoCheckFourActivity extends RxBaseActivity {
     //完结验证---通知后台
     private void endValidNet() {
         CheckUserBean checkUserBean = BaseApplication.getInstance().getCheckUserBean();
-        if (checkUserBean ==null) {
+        if (checkUserBean == null) {
             ToastUtil.showShort("信息有误，请重新校验");
             return;
         }
@@ -349,7 +350,7 @@ public class InfoCheckFourActivity extends RxBaseActivity {
             BaseApplication.getInstance().setLoginBean(bean);
         }
         RetrofitHelper.getBaseApi()
-                .endValidNet(bean.Token,bean.AccountId+"", bean.AccountId,checkUserBean.IDCard)
+                .endValidNet(bean.Token, bean.AccountId + "", bean.AccountId, checkUserBean.IDCard)
                 .compose(this.<BaseNetBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -373,7 +374,7 @@ public class InfoCheckFourActivity extends RxBaseActivity {
                                 hideProgressDialog();
                                 ToastUtil.showLong(Constants.TOKEN_RELOGIN);
 //                                SPUtil.clear(InfoCheckFourActivity.this);
-                                SPUtil.put(InfoCheckFourActivity.this,Constants.ACCOUNT_LOGIN,false);
+                                SPUtil.put(InfoCheckFourActivity.this, Constants.ACCOUNT_LOGIN, false);
                                 Intent intent = new Intent(InfoCheckFourActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 finish();

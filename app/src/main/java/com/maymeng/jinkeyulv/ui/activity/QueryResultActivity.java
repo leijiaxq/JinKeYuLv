@@ -679,7 +679,7 @@ public class QueryResultActivity extends RxBaseActivity {
     void clickCause(View view) {
         if (mBean != null) {
 
-            CausePop causePop = new CausePop(this, mBean.UserInfoRemake, mBean.SignRemake);
+            CausePop causePop = new CausePop(this, mBean/*.UserInfoRemake, mBean.SignRemake*/);
             causePop.setOnPopListenter(new CausePop.OnPopListenter() {
                 @Override
                 public void onConfirm() {

@@ -11,6 +11,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.maymeng.jinkeyulv.R;
+import com.maymeng.jinkeyulv.bean.QueryBean;
 
 
 /**
@@ -24,13 +25,13 @@ public class CausePop extends PopupWindow implements View.OnClickListener {
 
     private Activity mContext;
 
-    public CausePop(Context context,String info,String sign) {
+    public CausePop(Context context, QueryBean.ResponseDataBean bean/*String info,String sign*/) {
         super(context);
         this.mContext = (Activity) context;
-        initView(info,sign);
+        initView(bean);
     }
 
-    private void initView(String info,String sign) {
+    private void initView(QueryBean.ResponseDataBean bean) {
         View view = View.inflate(mContext, R.layout.pop_cause, null);
         this.setContentView(view);
         this.setFocusable(true);
@@ -59,18 +60,18 @@ public class CausePop extends PopupWindow implements View.OnClickListener {
        TextView infoTv = (TextView) view.findViewById(R.id.pop_info_tv);
        TextView signTv = (TextView) view.findViewById(R.id.pop_sign_tv);
 
-        if (TextUtils.isEmpty(sign)) {
-            signTv.setVisibility(View.GONE);
-        } else {
+        if (!TextUtils.isEmpty(bean.SignRemake)&&bean.SignState == 0) {
             signTv.setVisibility(View.VISIBLE);
-            signTv.setText("签约审核驳回原因：\n\t\t\t"+sign);
+            signTv.setText("签约审核驳回原因：\n\t\t\t"+bean.SignRemake);
+        } else {
+            signTv.setVisibility(View.GONE);
         }
 
-        if (TextUtils.isEmpty(info)) {
-            infoTv.setVisibility(View.GONE);
-        } else {
+        if (!TextUtils.isEmpty(bean.UserInfoRemake)&&bean.UserInfoState == 0) {
             infoTv.setVisibility(View.VISIBLE);
-            infoTv.setText("资料审核驳回原因：\n\t\t\t"+info);
+            infoTv.setText("资料审核驳回原因：\n\t\t\t"+bean.UserInfoRemake);
+        } else {
+            infoTv.setVisibility(View.GONE);
         }
 
     }

@@ -299,7 +299,7 @@ public class InfoCheckWebPhoneActivity extends RxBaseActivity {
             ToastUtil.showShort("信息有误，请重新校验");
             return;
         }
-        showProgressDialog("正在提交数据...");
+        showProgressDialog("提交数据...");
 
         mWaitTime = System.currentTimeMillis();
 

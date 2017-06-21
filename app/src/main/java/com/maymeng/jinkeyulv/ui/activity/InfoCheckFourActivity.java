@@ -194,8 +194,8 @@ public class InfoCheckFourActivity extends RxBaseActivity {
                             } else {
                                 ToastUtil.showShort(TextUtils.isEmpty(baseNetBean.ResponseMessage) ? Constants.CHECK_ERROR : baseNetBean.ResponseMessage);
                                 //用于--完结验证后，finish掉页面
-                                RxBus.getDefault().post(new RxBusBean(Constants.TYPE_TWO, new BaseBean()));
-                                finish();
+//                                RxBus.getDefault().post(new RxBusBean(Constants.TYPE_TWO, new BaseBean()));
+//                                finish();
                             }
 
                         }
@@ -334,7 +334,7 @@ public class InfoCheckFourActivity extends RxBaseActivity {
             ToastUtil.showShort("信息有误，请重新校验");
             return;
         }
-        showProgressDialog("正在提交数据...");
+        showProgressDialog("提交数据...");
 
         mWaitTime = System.currentTimeMillis();
 

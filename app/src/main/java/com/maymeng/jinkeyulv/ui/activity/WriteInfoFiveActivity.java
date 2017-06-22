@@ -370,7 +370,10 @@ public class WriteInfoFiveActivity extends RxBaseActivity {
 
     private String createImagePath() {
         String imagePath = Environment.getExternalStorageDirectory() + "/" + System.currentTimeMillis() + ".jpg";
-
+        if (TextUtils.isEmpty(imagePath)) {
+            File externalFilesDir = getExternalFilesDir("Caches");
+            imagePath = externalFilesDir.getAbsolutePath() + "/" + System.currentTimeMillis() + ".jpg";
+        }
         return imagePath;
     }
 
@@ -379,6 +382,11 @@ public class WriteInfoFiveActivity extends RxBaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CAMERA) {
+                if (TextUtils.isEmpty(mImgPath)) {
+                    ToastUtil.showShort("图片路径有误！");
+                    return;
+                }
+
                 List<String> list = mDatas.get(mPostion);
 
                 list.add(mImgPath);

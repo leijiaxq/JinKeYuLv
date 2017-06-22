@@ -1,5 +1,6 @@
 package com.maymeng.jinkeyulv.ui.activity;
 
+import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
@@ -31,6 +32,7 @@ import com.maymeng.jinkeyulv.ui.pop.ReadDataPop;
 import com.maymeng.jinkeyulv.utils.DateUtil;
 import com.maymeng.jinkeyulv.utils.SPUtil;
 import com.maymeng.jinkeyulv.utils.ToastUtil;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,6 +42,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 import static android.media.ExifInterface.TAG_DATETIME;
@@ -115,6 +118,24 @@ public class InfoCheckFourActivity extends RxBaseActivity {
     @OnClick(R.id.data_fetch_tv)
     void clickDataFetch(View view) {
 
+        new RxPermissions(this)
+                .request(Manifest.permission.READ_EXTERNAL_STORAGE)
+                .subscribe(new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean aBoolean) {
+                        if (aBoolean) {
+                            // 所有权限请求被同意
+                            showReadPop();
+                        } else {
+                            ToastUtil.showShort("权限拒绝");
+                        }
+                    }
+                });
+
+
+    }
+
+    private void showReadPop() {
         mReadDataPop = new ReadDataPop(this);
         mReadDataPop.setOnPopListenter(new ReadDataPop.OnPopListenter() {
             @Override
@@ -137,7 +158,6 @@ public class InfoCheckFourActivity extends RxBaseActivity {
         });
 
         mReadDataPop.showAtLocation(mTitleTv, Gravity.CENTER, 0, 0);
-
     }
 
 
@@ -163,6 +183,21 @@ public class InfoCheckFourActivity extends RxBaseActivity {
                 bean.Token = account_token;
                 BaseApplication.getInstance().setLoginBean(bean);
             }
+           /* if (mDatas.size() >0) {
+                PictureInfoBean bean2 = mDatas.get(0);
+
+                PictureInfoBean bean3 = null;
+                for (int i = 0;i<100;i++) {
+                    bean3 = new PictureInfoBean();
+                    bean3.Latitude = bean2.Latitude;
+                    bean3.Longitude = bean2.Longitude;
+                    bean3.ImgDate = bean2.ImgDate;
+                    bean3.CaseId = bean2.CaseId;
+                    mDatas.add(bean3);
+                }
+            }*/
+
+
             RetrofitHelper.getBaseApi()
                     .submitPictureInfoNet(bean.Token, bean.AccountId + "", mDatas)
                     .compose(this.<BaseNetBean>bindToLifecycle())

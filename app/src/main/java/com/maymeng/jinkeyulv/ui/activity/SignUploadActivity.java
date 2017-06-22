@@ -170,11 +170,11 @@ public class SignUploadActivity extends RxBaseActivity {
 
     private void initAdapter() {
         String signFee = null;
-        if (mBean !=null) {
+        if (mBean != null) {
             signFee = mBean.AgencyFees;
         }
 
-        mAdapter = new SignUploadAdapter(this, mDatas0, mDatas,signFee);
+        mAdapter = new SignUploadAdapter(this, mDatas0, mDatas, signFee);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(new SignUploadAdapter.OnItemClickListener() {
             @Override
@@ -296,6 +296,11 @@ public class SignUploadActivity extends RxBaseActivity {
 
     private String createImagePath() {
         String imagePath = Environment.getExternalStorageDirectory() + "/" + System.currentTimeMillis() + ".jpg";
+        if (TextUtils.isEmpty(imagePath)) {
+            File externalFilesDir = getExternalFilesDir("Caches");
+            imagePath = externalFilesDir.getAbsolutePath() + "/" + System.currentTimeMillis() + ".jpg";
+        }
+
 
         return imagePath;
     }
@@ -305,8 +310,11 @@ public class SignUploadActivity extends RxBaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CAMERA) {
+                if (TextUtils.isEmpty(mImgPath)) {
+                    ToastUtil.showShort("图片路径有误！");
+                    return;
+                }
                 List<String> list = mDatas.get(mPostion);
-
                 list.add(mImgPath);
                 mAdapter.notifyItemChanged(mPostion);
 
@@ -499,7 +507,7 @@ public class SignUploadActivity extends RxBaseActivity {
             }
 
             RetrofitHelper.getBaseApi()
-                    .UpdateSignCaseNet(bean.Token,bean.AccountId+"", mBean.CaseId, builder1.toString(), builder2.toString(), BaseApplication.getInstance().getSignFee())
+                    .UpdateSignCaseNet(bean.Token, bean.AccountId + "", mBean.CaseId, builder1.toString(), builder2.toString(), BaseApplication.getInstance().getSignFee())
                     .compose(this.<SignUploadBean>bindToLifecycle())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -521,7 +529,7 @@ public class SignUploadActivity extends RxBaseActivity {
                                     hideProgressDialog();
                                     ToastUtil.showLong(Constants.TOKEN_RELOGIN);
 //                                    SPUtil.clear(SignUploadActivity.this);
-                                    SPUtil.put(SignUploadActivity.this,Constants.ACCOUNT_LOGIN,false);
+                                    SPUtil.put(SignUploadActivity.this, Constants.ACCOUNT_LOGIN, false);
                                     Intent intent = new Intent(SignUploadActivity.this, LoginActivity.class);
                                     startActivity(intent);
                                     finish();
@@ -638,7 +646,7 @@ public class SignUploadActivity extends RxBaseActivity {
             BaseApplication.getInstance().setLoginBean(bean);
         }
         RetrofitHelper.getBaseApi()
-                .uploadFileNet(bean.Token,bean.AccountId+"", flag, body)
+                .uploadFileNet(bean.Token, bean.AccountId + "", flag, body)
                 .compose(this.<UploadFileBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -685,7 +693,7 @@ public class SignUploadActivity extends RxBaseActivity {
                                 hideProgressDialog();
                                 ToastUtil.showLong(Constants.TOKEN_RELOGIN);
 //                                SPUtil.clear(SignUploadActivity.this);
-                                SPUtil.put(SignUploadActivity.this,Constants.ACCOUNT_LOGIN,false);
+                                SPUtil.put(SignUploadActivity.this, Constants.ACCOUNT_LOGIN, false);
                                 Intent intent = new Intent(SignUploadActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 finish();

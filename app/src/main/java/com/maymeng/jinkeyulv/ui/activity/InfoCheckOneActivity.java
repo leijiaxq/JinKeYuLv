@@ -52,6 +52,8 @@ public class InfoCheckOneActivity extends RxBaseActivity {
     private long mWaitTime;
     private CheckInfoBean.ResponseDataBean mBean;
 
+    private int mCaseId = 0;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_infocheck_one;
@@ -66,8 +68,7 @@ public class InfoCheckOneActivity extends RxBaseActivity {
         if (mBean != null) {
             mNameTv.setText(TextUtils.isEmpty(mBean.CustomerName) ? "" : mBean.CustomerName);
             mIdentityTv.setText(TextUtils.isEmpty(mBean.IDCard) ? "" : mBean.IDCard);
-
-
+            mCaseId = mBean.CaseId;
         }
     }
 
@@ -211,6 +212,7 @@ public class InfoCheckOneActivity extends RxBaseActivity {
                 });
     }
 
+
     private void submitCheckInfoToServiceNet(int caseID, String address) {
         LoginBean.ResponseDataBean bean = BaseApplication.getInstance().getLoginBean();
         if (bean == null) {
@@ -222,6 +224,26 @@ public class InfoCheckOneActivity extends RxBaseActivity {
             bean.AccountName = account_name;
             bean.Token = account_token;
             BaseApplication.getInstance().setLoginBean(bean);
+        }
+
+        if (caseID == 0) {
+            if (mBean != null) {
+                caseID = mBean.CaseId;
+                CheckUserBean checkUserBean = BaseApplication.getInstance().getCheckUserBean();
+                if (checkUserBean !=null) {
+                    checkUserBean.CaseId = caseID;
+                }
+                BaseApplication.getInstance().setCheckUserBean(checkUserBean);
+            }
+
+            if (caseID == 0) {
+                caseID = mCaseId;
+                CheckUserBean checkUserBean = BaseApplication.getInstance().getCheckUserBean();
+                if (checkUserBean !=null) {
+                    checkUserBean.CaseId = caseID;
+                }
+                BaseApplication.getInstance().setCheckUserBean(checkUserBean);
+            }
         }
 
         RetrofitHelper.getBaseApi()

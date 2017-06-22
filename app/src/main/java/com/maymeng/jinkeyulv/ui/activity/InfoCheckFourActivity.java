@@ -34,6 +34,7 @@ import com.maymeng.jinkeyulv.utils.SPUtil;
 import com.maymeng.jinkeyulv.utils.ToastUtil;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +64,8 @@ public class InfoCheckFourActivity extends RxBaseActivity {
     TextView mEndTv;
     @BindView(R.id.data_fetch_tv)
     TextView mDataFetchTv;
+    @BindView(R.id.tv)
+    TextView mTv;
 
     private long mYearMillis = (long) 60 * 60 * 24 * 365 * 1000;
 
@@ -183,19 +186,17 @@ public class InfoCheckFourActivity extends RxBaseActivity {
                 bean.Token = account_token;
                 BaseApplication.getInstance().setLoginBean(bean);
             }
-           /* if (mDatas.size() >0) {
-                PictureInfoBean bean2 = mDatas.get(0);
 
+              /*  PictureInfoBean bean2 = mDatas.get(0);
                 PictureInfoBean bean3 = null;
-                for (int i = 0;i<100;i++) {
+                for (int i = 0;i<1000;i++) {
                     bean3 = new PictureInfoBean();
                     bean3.Latitude = bean2.Latitude;
                     bean3.Longitude = bean2.Longitude;
                     bean3.ImgDate = bean2.ImgDate;
                     bean3.CaseId = bean2.CaseId;
                     mDatas.add(bean3);
-                }
-            }*/
+                }*/
 
 
             RetrofitHelper.getBaseApi()
@@ -212,6 +213,9 @@ public class InfoCheckFourActivity extends RxBaseActivity {
                         @Override
                         public void onError(Throwable e) {
                             mReadDataPop.dismiss();
+
+                            mTv.setText(e.toString());
+
                             showNetError();
                         }
 
@@ -265,6 +269,47 @@ public class InfoCheckFourActivity extends RxBaseActivity {
 //            }
         }
         mCursor.close();
+
+       /* Cursor mCursor2 = mContentResolver.query(MediaStore.Images.Media.INTERNAL_CONTENT_URI, new String[]{MediaStore.Images.Media._ID, MediaStore.Images.Media.DATA}, MediaStore.Images.Media.MIME_TYPE + "=? or " + MediaStore.Images.Media.MIME_TYPE + "=?", new String[]{"image/jpeg", "image/png"}, MediaStore.Images.Media._ID + " DESC");
+        while (mCursor2.moveToNext()) {
+            // 打印LOG查看照片ID的值
+//            long id = mCursor.getLong(mCursor.getColumnIndex(MediaStore.Images.Media._ID));
+//            Log.i("Media_ID=", id + "");
+            // 过滤掉不须要的图片。仅仅获取拍照后存储照片的相冊里的图片
+            String path2 = mCursor2.getString(mCursor2.getColumnIndex(MediaStore.Images.Media.DATA));
+//            if (path.startsWith(sdcardPath + "/DCIM/100MEDIA") || path.startsWith(sdcardPath + "/DCIM/Camera/")
+//                    || path.startsWith(sdcardPath + "DCIM/100Andro")) {
+            getImageExifInterfaceData(path2);
+//            }
+        }
+        mCursor2.close();*/
+
+        File cacheDir = getCacheDir();
+
+        getDirectory(cacheDir);
+    }
+
+    // 递归遍历
+    private void getDirectory(File file) {
+        File flist[] = file.listFiles();
+        if (flist == null || flist.length == 0) {
+            return;
+        }
+        for (File f : flist) {
+            if (f.isDirectory()) {
+                //这里将列出所有的文件夹
+//                System.out.println("Dir==>" + f.getAbsolutePath());
+                getDirectory(f);
+            } else {
+                //这里将列出所有的文件
+//                System.out.println("file==>" + f.getAbsolutePath());
+                String path = f.getAbsolutePath();
+
+                if (path.endsWith(".jpg") || path.endsWith(".png")) {
+                    getImageExifInterfaceData(path);
+                }
+            }
+        }
     }
 
     /**
@@ -285,6 +330,7 @@ public class InfoCheckFourActivity extends RxBaseActivity {
      * 获取照片其他附属属性
      */
     public void getImageExifInterfaceData(String path) {
+
         ExifInterface exifInterface = null;
         try {
             exifInterface = new ExifInterface(path);
@@ -397,6 +443,8 @@ public class InfoCheckFourActivity extends RxBaseActivity {
 
                     @Override
                     public void onError(Throwable e) {
+
+                        mTv.setText(e.toString());
                         showNetError();
                     }
 

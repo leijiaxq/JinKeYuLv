@@ -53,6 +53,8 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
+import top.zibin.luban.Luban;
+import top.zibin.luban.OnCompressListener;
 
 /**
  * Created by  leijiaxq
@@ -99,6 +101,8 @@ public class InfoCheckTwoActivity extends RxBaseActivity {
 
     //用来保存验证的身份结果信息
     CheckIDCardImagetBean.DataBean mBean;
+
+    private long mFileSize = (long) 1024 * 1024 * 2;
 
     @Override
     public int getLayoutId() {
@@ -427,6 +431,9 @@ public class InfoCheckTwoActivity extends RxBaseActivity {
     //将要上传的图片数量
     int uploadNumber = 2;
 
+    //图片小于2M的个数
+    int numberSize = 0;
+
     /*  //上传的图片所在位置的集合；
       List<Integer> mListIndex;
       //上传的图片地址的集合
@@ -446,11 +453,94 @@ public class InfoCheckTwoActivity extends RxBaseActivity {
 
         showProgressDialog("正在提交...");
 
+        numberSize = 0;
+
 //        BaseApplication.getInstance().mHandler.postDelayed(new Runnable() {
 //            @Override
 //            public void run() {
         List<String> list = mDatas.get(0);
-        uploadFileNet(0, list.get(0));
+        String str = list.get(0);
+        File file = new File(str);
+        if (!file.exists()) {
+            hideProgressDialog();
+            ToastUtil.showShort("图片有误");
+        }
+
+
+        if (file.length() >= mFileSize) {
+            Luban.with(this)
+                    .load(file)                     //传人要压缩的图片
+                    .setCompressListener(new OnCompressListener() { //设置回调
+                        @Override
+                        public void onStart() {
+                            //
+                        }
+
+                        @Override
+                        public void onSuccess(File file) {
+                            numberSize++;
+                            List<String> list1 = mDatas.get(0);
+                            list1.clear();
+                            list1.add(file.getAbsolutePath());
+
+                            if (numberSize == 2) {
+                                List<String> list5 = mDatas.get(0);
+                                uploadFileNet(0, list5.get(0));
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            ToastUtil.showShort("图片压缩出错");
+                        }
+                    }).launch();    //启动压缩
+        } else {
+            numberSize++;
+        }
+
+
+        final List<String> list2 = mDatas.get(1);
+        String str2 = list2.get(0);
+        File file2 = new File(str2);
+        if (!file2.exists()) {
+            hideProgressDialog();
+            ToastUtil.showShort("图片有误");
+        }
+
+        if (file2.length() >= mFileSize) {
+            Luban.with(this)
+                    .load(file2)                     //传人要压缩的图片
+                    .setCompressListener(new OnCompressListener() { //设置回调
+                        @Override
+                        public void onStart() {
+                            //
+                        }
+
+                        @Override
+                        public void onSuccess(File file) {
+                            numberSize++;
+
+                            List<String> list22 = mDatas.get(1);
+                            list22.clear();
+                            list22.add(file.getAbsolutePath());
+
+                            if (numberSize == 2) {
+                                List<String> list5 = mDatas.get(0);
+                                uploadFileNet(0, list5.get(0));
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            ToastUtil.showShort("图片压缩出错");
+                        }
+                    }).launch();    //启动压缩
+        } else {
+            numberSize++;
+        }
+        if (numberSize == 2) {
+            uploadFileNet(0, list.get(0));
+        }
 //            }
 //        }, 5000);
 
@@ -740,7 +830,7 @@ public class InfoCheckTwoActivity extends RxBaseActivity {
                     mBean.address = bean.data.address;
                     mBean.sex = bean.data.sex;
 
-                    checkIDCardFrontNet("idcard_back", Constants.BASE_URL +mImageIDCard2);
+                    checkIDCardFrontNet("idcard_back", Constants.BASE_URL + mImageIDCard2);
 
                 } else {
                     if (!TextUtils.isEmpty(bean.data.date1) && bean.data.date1.length() == 8) {

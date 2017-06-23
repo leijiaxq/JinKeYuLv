@@ -36,7 +36,9 @@ import rx.schedulers.Schedulers;
  * Date        2017/4/19 21:50
  * Describe    信息校验--身份验证--结果页
  */
-public class InfoCheckOneResultActivity extends RxBaseActivity {
+public class InfoCheckTwoResultActivity extends RxBaseActivity {
+
+
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.title_tv)
@@ -53,7 +55,7 @@ public class InfoCheckOneResultActivity extends RxBaseActivity {
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_infocheck_one_result;
+        return R.layout.activity_infocheck_two_result;
     }
 
     @Override
@@ -111,16 +113,16 @@ public class InfoCheckOneResultActivity extends RxBaseActivity {
                 });
 
         //在空闲时间获取社保的url地址
-//        getSheBaoPageNet();
+        getSheBaoPageNet();
 
     }
 
     @OnClick(R.id.next_tv)
     void clickNext(View view) {
 //        Intent intent = new Intent(this, InfoCheckThreeActivity.class);
-        Intent intent = new Intent(this, InfoCheckTwoActivity.class);
+        Intent intent = new Intent(this, InfoCheckWebShebaoActivity.class);
 //        intent.putExtra("check_flag", 1);
-//        intent.putExtra("check_shebao_url", mUrl);
+        intent.putExtra("check_shebao_url", mUrl);
         startActivity(intent);
     }
 
@@ -137,7 +139,7 @@ public class InfoCheckOneResultActivity extends RxBaseActivity {
     //完结验证---通知后台
     private void endValidNet() {
         CheckUserBean checkUserBean = BaseApplication.getInstance().getCheckUserBean();
-        if (checkUserBean ==null) {
+        if (checkUserBean == null) {
             ToastUtil.showShort("信息有误，请重新校验");
             return;
         }
@@ -157,7 +159,7 @@ public class InfoCheckOneResultActivity extends RxBaseActivity {
             BaseApplication.getInstance().setLoginBean(bean);
         }
         RetrofitHelper.getBaseApi()
-                .endValidNet(bean.Token,bean.AccountId+"", bean.AccountId,checkUserBean.CaseId)
+                .endValidNet(bean.Token, bean.AccountId + "", bean.AccountId, checkUserBean.CaseId)
                 .compose(this.<BaseNetBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -181,8 +183,8 @@ public class InfoCheckOneResultActivity extends RxBaseActivity {
                                 hideProgressDialog();
                                 ToastUtil.showLong(Constants.TOKEN_RELOGIN);
 //                                SPUtil.clear(InfoCheckOneResultActivity.this);
-                                SPUtil.put(InfoCheckOneResultActivity.this,Constants.ACCOUNT_LOGIN,false);
-                                Intent intent = new Intent(InfoCheckOneResultActivity.this, LoginActivity.class);
+                                SPUtil.put(InfoCheckTwoResultActivity.this, Constants.ACCOUNT_LOGIN, false);
+                                Intent intent = new Intent(InfoCheckTwoResultActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 finish();
                             } else {
@@ -223,7 +225,7 @@ public class InfoCheckOneResultActivity extends RxBaseActivity {
     //获取社保的URL
     private void getSheBaoPageNet() {
         RetrofitHelper.getInfoCheck2Service()
-                .getSheBaoPageNet(Constants.CHECKINFO_SHEBAO_APIX_KEY, Constants.SHEBAO_CALLBACK_URL, Constants.SHEBAO_SUCCESS_URL, Constants.SHEBAO_FAILED_URL,false)
+                .getSheBaoPageNet(Constants.CHECKINFO_SHEBAO_APIX_KEY, Constants.SHEBAO_CALLBACK_URL, Constants.SHEBAO_SUCCESS_URL, Constants.SHEBAO_FAILED_URL, false)
                 .compose(this.<PagePathBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

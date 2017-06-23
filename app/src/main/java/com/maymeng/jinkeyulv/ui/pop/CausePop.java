@@ -57,21 +57,28 @@ public class CausePop extends PopupWindow implements View.OnClickListener {
         view.findViewById(R.id.pop_confirm_tv).setOnClickListener(this);
 //        view.findViewById(R.id.pop_cancel_tv).setOnClickListener(this);
 
-       TextView infoTv = (TextView) view.findViewById(R.id.pop_info_tv);
-       TextView signTv = (TextView) view.findViewById(R.id.pop_sign_tv);
+        TextView infoTv = (TextView) view.findViewById(R.id.pop_info_tv);
+        TextView signTv = (TextView) view.findViewById(R.id.pop_sign_tv);
+        TextView injuryTv = (TextView) view.findViewById(R.id.pop_injury_tv);
 
-        if (!TextUtils.isEmpty(bean.SignRemake)&&bean.SignState == 0) {
+        if (!TextUtils.isEmpty(bean.SignRemake) && bean.SignState == 0) {
             signTv.setVisibility(View.VISIBLE);
-            signTv.setText("签约审核驳回原因：\n\t\t\t"+bean.SignRemake);
+            signTv.setText("签约审核驳回原因：\n\t\t\t" + bean.SignRemake);
         } else {
             signTv.setVisibility(View.GONE);
         }
 
-        if (!TextUtils.isEmpty(bean.UserInfoRemake)&&bean.UserInfoState == 0) {
+        if (!TextUtils.isEmpty(bean.UserInfoRemake) && bean.UserInfoState == 0) {
             infoTv.setVisibility(View.VISIBLE);
-            infoTv.setText("资料审核驳回原因：\n\t\t\t"+bean.UserInfoRemake);
+            infoTv.setText("资料审核驳回原因：\n\t\t\t" + bean.UserInfoRemake);
         } else {
             infoTv.setVisibility(View.GONE);
+        }
+        if (!TextUtils.isEmpty(bean.InjuryRemake) && bean.InJuryState == 0) {
+            injuryTv.setVisibility(View.VISIBLE);
+            injuryTv.setText("伤情判断驳回原因：\n\t\t\t" + bean.InjuryRemake);
+        } else {
+            injuryTv.setVisibility(View.GONE);
         }
 
     }

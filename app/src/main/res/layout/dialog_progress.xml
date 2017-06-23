@@ -27,7 +27,7 @@
             android:id="@+id/textview_message"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_12dp"
+            android:layout_marginTop="12dp"
             android:ellipsize="end"
             android:gravity="center"
             android:singleLine="true"

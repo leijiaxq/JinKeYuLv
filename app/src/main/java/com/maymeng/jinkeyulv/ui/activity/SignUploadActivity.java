@@ -670,6 +670,9 @@ public class SignUploadActivity extends RxBaseActivity {
                                 uploadFileNet(mListIndex.get(uploadNUM), mListPath.get(uploadNUM));
                             }
                         } else {
+                            uploadNUM++;
+                            ToastUtil.showShort("上传图片出错");
+
                             //图片全部上传完成
                             if (uploadNUM == uploadNumber) {
                                 judeSubmitInfoNet();

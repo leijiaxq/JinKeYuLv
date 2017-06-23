@@ -168,5 +168,21 @@ public interface BaseService {
     @GET("api/GetCheckCase")
     Observable<CheckInfoBean> getCheckCaseNet(@Header("token") String token, @Header("accountId") String accountId, @Query("accountId") int AccountId, @Query("currentPage") int CurrentPage, @Query("pageSize") int PageSize);
 
+  //    上传身份证验证结果
+    @FormUrlEncoded
+    @POST("api/UploadIdCardInfo")
+    Observable<BaseNetBean> uploadIdCardInfo(@Header("token") String token,
+                                             @Header("accountId") String accountId,
+                                             @Field("CardId") int CardId,
+                                             @Field("CaseId") int CaseId,
+                                             @Field("Name") String Name,
+                                             @Field("number") String number,
+                                             @Field("Nation") String Nation,
+                                             @Field("Address") String Address,
+                                             @Field("Sex") String Sex,
+                                             @Field("Date1") String Date1,
+                                             @Field("Date2") String Date2,
+                                             @Field("office") String office);
+
 }
 

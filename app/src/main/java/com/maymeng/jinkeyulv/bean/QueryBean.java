@@ -47,6 +47,7 @@ public class QueryBean extends BaseBean{
         public int CaseId;
         public String UserInfoRemake;   //资料审核驳回原因
         public String SignRemake;      //签约审核驳回原因
+        public String InjuryRemake;      //伤情驳回原因
         public int UserInfoState;      //资料审核状态
         public int SignState;//签约审核状态
         public int InJuryState;//伤情判定状态
@@ -54,6 +55,7 @@ public class QueryBean extends BaseBean{
         public int MedicaState;//用药判定状态
         public int ClaimState;//理赔判定状态
         public int PleteState;//完结状态
+
 
         @Override
         public int describeContents() {
@@ -68,6 +70,7 @@ public class QueryBean extends BaseBean{
             dest.writeInt(this.CaseId);
             dest.writeString(this.UserInfoRemake);
             dest.writeString(this.SignRemake);
+            dest.writeString(this.InjuryRemake);
             dest.writeInt(this.UserInfoState);
             dest.writeInt(this.SignState);
             dest.writeInt(this.InJuryState);
@@ -87,6 +90,7 @@ public class QueryBean extends BaseBean{
             this.CaseId = in.readInt();
             this.UserInfoRemake = in.readString();
             this.SignRemake = in.readString();
+            this.InjuryRemake = in.readString();
             this.UserInfoState = in.readInt();
             this.SignState = in.readInt();
             this.InJuryState = in.readInt();
@@ -96,7 +100,7 @@ public class QueryBean extends BaseBean{
             this.PleteState = in.readInt();
         }
 
-        public static final Parcelable.Creator<ResponseDataBean> CREATOR = new Parcelable.Creator<ResponseDataBean>() {
+        public static final Creator<ResponseDataBean> CREATOR = new Creator<ResponseDataBean>() {
             @Override
             public ResponseDataBean createFromParcel(Parcel source) {
                 return new ResponseDataBean(source);

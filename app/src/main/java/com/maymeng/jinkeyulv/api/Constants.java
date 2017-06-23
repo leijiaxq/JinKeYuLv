@@ -20,6 +20,9 @@ public class Constants {
     //社保，公积金查询地址
     public static final String BASE_URL_INFO_CHECK2 = "http://e.apix.cn/";
 
+    //身份证图像信息查询地址
+    public static final String BASE_URL_INFO_CHECK3 = "http://a.apix.cn/";
+
     //信息核验头参数
     public static final String CHECKINFO_IDCARD_APIX_KEY = "10492c22c5fd4509704c1df9796f5e15";
     //社保头参数
@@ -29,6 +32,9 @@ public class Constants {
 
     //公积金头参数
     public static final String CHECKINFO_PHONE_APIX_KEY = "f5c2b4da4d04457451b21d14cb1ae8ec";
+
+ //身份证图像信息头参数
+    public static final String CHECKINFO_IDCARD_IMAGE_APIX_KEY = "1aecf0d1f3f04c64629e053073c98117";
 
 
     //社保查询H5回调地址

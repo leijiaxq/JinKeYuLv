@@ -140,7 +140,14 @@
             android:name="com.maymeng.jinkeyulv.ui.activity.TermsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"/>
-
+        <activity
+            android:name="com.maymeng.jinkeyulv.ui.activity.InfoCheckTwoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.maymeng.jinkeyulv.ui.activity.InfoCheckTwoResultActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

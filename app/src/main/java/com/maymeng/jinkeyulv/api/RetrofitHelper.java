@@ -38,15 +38,18 @@ public class RetrofitHelper {
         return createApi(BaseService.class, Constants.BASE_URL);
     }
 
-  public static InfoCheckService getInfoCheckService() {
+    public static InfoCheckService getInfoCheckService() {
         return createApi(InfoCheckService.class, Constants.BASE_URL_INFO_CHECK);
     }
 
 
-  public static InfoCheck2Service getInfoCheck2Service() {
+    public static InfoCheck2Service getInfoCheck2Service() {
         return createApi(InfoCheck2Service.class, Constants.BASE_URL_INFO_CHECK2);
     }
 
+    public static InfoCheck3Service getInfoCheck3Service() {
+        return createApi(InfoCheck3Service.class, Constants.BASE_URL_INFO_CHECK3);
+    }
 
 
     private RetrofitHelper() {

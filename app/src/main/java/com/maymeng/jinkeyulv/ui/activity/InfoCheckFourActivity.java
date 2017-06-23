@@ -123,7 +123,7 @@ public class InfoCheckFourActivity extends RxBaseActivity {
 
         new RxPermissions(this)
                 .request(Manifest.permission.READ_EXTERNAL_STORAGE)
-                .subscribe(new Action1<Boolean>() {
+                .subscribe( new Action1<Boolean>() {
                     @Override
                     public void call(Boolean aBoolean) {
                         if (aBoolean) {
@@ -147,6 +147,8 @@ public class InfoCheckFourActivity extends RxBaseActivity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
+
+                        mDatas.clear();
                         getPhotoInfo();
 
                         runOnUiThread(new Runnable() {
@@ -174,22 +176,25 @@ public class InfoCheckFourActivity extends RxBaseActivity {
 
     private void submitPictureInfoNet() {
 
-        if (mDatas != null && mDatas.size() != 0) {
-            LoginBean.ResponseDataBean bean = BaseApplication.getInstance().getLoginBean();
-            if (bean == null) {
-                bean = new LoginBean.ResponseDataBean();
-                int account_id = (int) SPUtil.get(this, Constants.ACCOUNT_ID, 0);
-                String account_name = (String) SPUtil.get(this, Constants.ACCOUNT_NAME, "");
-                String account_token = (String) SPUtil.get(this, Constants.ACCOUNT_TOKEN, "");
-                bean.AccountId = account_id;
-                bean.AccountName = account_name;
-                bean.Token = account_token;
-                BaseApplication.getInstance().setLoginBean(bean);
-            }
+        if (mDatas == null || mDatas.size() ==0) {
 
-              /*  PictureInfoBean bean2 = mDatas.get(0);
+            return;
+        }
+        LoginBean.ResponseDataBean bean = BaseApplication.getInstance().getLoginBean();
+        if (bean == null) {
+            bean = new LoginBean.ResponseDataBean();
+            int account_id = (int) SPUtil.get(this, Constants.ACCOUNT_ID, 0);
+            String account_name = (String) SPUtil.get(this, Constants.ACCOUNT_NAME, "");
+            String account_token = (String) SPUtil.get(this, Constants.ACCOUNT_TOKEN, "");
+            bean.AccountId = account_id;
+            bean.AccountName = account_name;
+            bean.Token = account_token;
+            BaseApplication.getInstance().setLoginBean(bean);
+        }
+
+             /*   PictureInfoBean bean2 = mDatas.get(0);
                 PictureInfoBean bean3 = null;
-                for (int i = 0;i<1000;i++) {
+                for (int i = 0;i<190;i++) {
                     bean3 = new PictureInfoBean();
                     bean3.Latitude = bean2.Latitude;
                     bean3.Longitude = bean2.Longitude;
@@ -198,51 +203,59 @@ public class InfoCheckFourActivity extends RxBaseActivity {
                     mDatas.add(bean3);
                 }*/
 
+        if (mDatas.size() >= 250) {
+            List<PictureInfoBean> list = new ArrayList<>();
 
-            RetrofitHelper.getBaseApi()
-                    .submitPictureInfoNet(bean.Token, bean.AccountId + "", mDatas)
-                    .compose(this.<BaseNetBean>bindToLifecycle())
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<BaseNetBean>() {
-                        @Override
-                        public void onCompleted() {
+            for (int i = 0; i <= 249; i++) {
+                PictureInfoBean pictureInfoBean = mDatas.get(i);
+                list.add(pictureInfoBean);
+            }
+            mDatas.clear();
+            mDatas.addAll(list);
 
-                        }
+        }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            mReadDataPop.dismiss();
+        RetrofitHelper.getBaseApi()
+                .submitPictureInfoNet(bean.Token, bean.AccountId + "", mDatas)
+                .compose(this.<BaseNetBean>bindToLifecycle())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseNetBean>() {
+                    @Override
+                    public void onCompleted() {
 
-                            mTv.setText(e.toString());
+                    }
 
-                            showNetError();
-                        }
+                    @Override
+                    public void onError(Throwable e) {
+                        mReadDataPop.dismiss();
 
-                        @Override
-                        public void onNext(BaseNetBean baseNetBean) {
-                            mReadDataPop.dismiss();
+                        mTv.setText(e.toString());
 
-                            if (Constants.TOKEN_ERROR.equals(baseNetBean.ResponseMessage)) {
-                                ToastUtil.showLong(Constants.TOKEN_RELOGIN);
+                        showNetError();
+                    }
+
+                    @Override
+                    public void onNext(BaseNetBean baseNetBean) {
+                        mReadDataPop.dismiss();
+
+                        if (Constants.TOKEN_ERROR.equals(baseNetBean.ResponseMessage)) {
+                            ToastUtil.showLong(Constants.TOKEN_RELOGIN);
 //                                SPUtil.clear(InfoCheckFourActivity.this);
-                                SPUtil.put(InfoCheckFourActivity.this, Constants.ACCOUNT_LOGIN, false);
-                                Intent intent = new Intent(InfoCheckFourActivity.this, LoginActivity.class);
-                                startActivity(intent);
-                                finish();
-                            } else {
-                                ToastUtil.showShort(TextUtils.isEmpty(baseNetBean.ResponseMessage) ? Constants.CHECK_ERROR : baseNetBean.ResponseMessage);
-                                //用于--完结验证后，finish掉页面
+                            SPUtil.put(InfoCheckFourActivity.this, Constants.ACCOUNT_LOGIN, false);
+                            Intent intent = new Intent(InfoCheckFourActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            ToastUtil.showShort(TextUtils.isEmpty(baseNetBean.ResponseMessage) ? Constants.CHECK_ERROR : baseNetBean.ResponseMessage);
+                            //用于--完结验证后，finish掉页面
 //                                RxBus.getDefault().post(new RxBusBean(Constants.TYPE_TWO, new BaseBean()));
 //                                finish();
-                            }
-
                         }
-                    });
-        } else {
-            mReadDataPop.dismiss();
-            ToastUtil.showShort("没有数据供读取");
-        }
+
+                    }
+                });
+
     }
 
 
@@ -270,7 +283,7 @@ public class InfoCheckFourActivity extends RxBaseActivity {
         }
         mCursor.close();
 
-       /* Cursor mCursor2 = mContentResolver.query(MediaStore.Images.Media.INTERNAL_CONTENT_URI, new String[]{MediaStore.Images.Media._ID, MediaStore.Images.Media.DATA}, MediaStore.Images.Media.MIME_TYPE + "=? or " + MediaStore.Images.Media.MIME_TYPE + "=?", new String[]{"image/jpeg", "image/png"}, MediaStore.Images.Media._ID + " DESC");
+        /*Cursor mCursor2 = mContentResolver.query(MediaStore.Images.Media.INTERNAL_CONTENT_URI, null, null, null, null);
         while (mCursor2.moveToNext()) {
             // 打印LOG查看照片ID的值
 //            long id = mCursor.getLong(mCursor.getColumnIndex(MediaStore.Images.Media._ID));
@@ -279,7 +292,9 @@ public class InfoCheckFourActivity extends RxBaseActivity {
             String path2 = mCursor2.getString(mCursor2.getColumnIndex(MediaStore.Images.Media.DATA));
 //            if (path.startsWith(sdcardPath + "/DCIM/100MEDIA") || path.startsWith(sdcardPath + "/DCIM/Camera/")
 //                    || path.startsWith(sdcardPath + "DCIM/100Andro")) {
-            getImageExifInterfaceData(path2);
+            if (path2.endsWith(".jpg") || path2.endsWith(".png")) {
+                getImageExifInterfaceData(path2);
+            }
 //            }
         }
         mCursor2.close();*/
@@ -287,6 +302,13 @@ public class InfoCheckFourActivity extends RxBaseActivity {
         File cacheDir = getCacheDir();
 
         getDirectory(cacheDir);
+
+      /*  File filesDir = getFilesDir();
+
+        getDirectory(filesDir);*/
+
+//        File dataDirectory = getDataDirectory();
+//        getDirectory(dataDirectory);
     }
 
     // 递归遍历

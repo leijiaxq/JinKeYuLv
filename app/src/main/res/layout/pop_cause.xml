@@ -69,6 +69,19 @@
                         android:text="是否退出当前账号sdfsd的胜多负少的是非得失的发的所发生的方式发送到多少岁"
                         android:textColor="@color/text_gray666"
                         android:textSize="12sp"/>
+                    <TextView
+                        android:id="@+id/pop_injury_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="16dp"
+                        android:lineSpacingExtra="6dp"
+                        android:lineSpacingMultiplier="1.0"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:text="是否退出当前账号sdfsd的胜多负少的是非得失的发的所发生的方式发送到多少岁"
+                        android:textColor="@color/text_gray666"
+                        android:textSize="12sp"/>
                 </LinearLayout>
 
             </ScrollView>

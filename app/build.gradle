@@ -95,5 +95,4 @@ dependencies {
     //bugly
     compile 'com.tencent.bugly:crashreport:latest.release'
 
-    compile 'top.zibin:Luban:1.1.1'
 }

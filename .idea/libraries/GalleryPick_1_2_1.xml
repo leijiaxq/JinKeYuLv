@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="GalleryPick-1.2.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.github.YancyYe/GalleryPick/1.2.1/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.github.YancyYe/GalleryPick/1.2.1/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.YancyYe/GalleryPick/1.2.1/6fc860b38ba4580b2751b26961e84755b749c042/GalleryPick-1.2.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

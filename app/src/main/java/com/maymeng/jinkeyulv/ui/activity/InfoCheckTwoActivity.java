@@ -2,10 +2,14 @@ package com.maymeng.jinkeyulv.ui.activity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
@@ -40,7 +44,9 @@ import com.yancy.gallerypick.config.GalleryConfig;
 import com.yancy.gallerypick.config.GalleryPick;
 import com.yancy.gallerypick.inter.IHandlerCallBack;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,8 +59,6 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
-import top.zibin.luban.Luban;
-import top.zibin.luban.OnCompressListener;
 
 /**
  * Created by  leijiaxq
@@ -103,6 +107,41 @@ public class InfoCheckTwoActivity extends RxBaseActivity {
     CheckIDCardImagetBean.DataBean mBean;
 
     private long mFileSize = (long) 1024 * 1024 * 2;
+
+
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == 10) {
+
+                numberSize++;
+                List<String> list1 = mDatas.get(0);
+                list1.clear();
+                list1.add((String) msg.obj);
+
+                if (numberSize == 2) {
+                    List<String> list5 = mDatas.get(0);
+                    uploadFileNet(0, list5.get(0));
+                }
+            } else if (msg.what == 11) {
+                numberSize++;
+
+                List<String> list22 = mDatas.get(1);
+                list22.clear();
+                list22.add((String) msg.obj);
+
+                if (numberSize == 2) {
+                    List<String> list5 = mDatas.get(0);
+                    uploadFileNet(0, list5.get(0));
+                }
+            } else if (msg.what == 12) {
+                hideProgressDialog();
+                ToastUtil.showShort("压缩出错");
+            }
+
+        }
+    };
 
     @Override
     public int getLayoutId() {
@@ -453,11 +492,58 @@ public class InfoCheckTwoActivity extends RxBaseActivity {
 
         showProgressDialog("正在提交...");
 
+//        List<String> list = mDatas.get(0);
+//        uploadFileNet(0, list.get(0));
+
+        uploadNUM = 0;
         numberSize = 0;
 
-//        BaseApplication.getInstance().mHandler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
+        List<String> list = mDatas.get(0);
+        String str = list.get(0);
+        File file = new File(str);
+        if (!file.exists()) {
+            hideProgressDialog();
+            ToastUtil.showShort("图片有误");
+        }
+
+        final String filePath1 = str;
+        if (file.length() >= mFileSize) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    compressBmpToFile(filePath1, 10);
+                }
+            }).start();
+        } else {
+            numberSize++;
+        }
+
+        final List<String> list2 = mDatas.get(1);
+        String str2 = list2.get(0);
+        File file2 = new File(str2);
+        if (!file2.exists()) {
+            hideProgressDialog();
+            ToastUtil.showShort("图片有误");
+        }
+
+        final String filePath2 = str2;
+        if (file2.length() >= mFileSize) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    compressBmpToFile(filePath2, 11);
+                }
+            }).start();
+        } else {
+            numberSize++;
+        }
+
+        if (numberSize == 2) {
+            uploadFileNet(0, list.get(0));
+        }
+
+      /*  numberSize = 0;
+
         List<String> list = mDatas.get(0);
         String str = list.get(0);
         File file = new File(str);
@@ -540,10 +626,47 @@ public class InfoCheckTwoActivity extends RxBaseActivity {
         }
         if (numberSize == 2) {
             uploadFileNet(0, list.get(0));
-        }
-//            }
-//        }, 5000);
+        }*/
 
+    }
+
+    public void compressBmpToFile(String path, int flag) {
+        Bitmap bmp = BitmapFactory.decodeFile(path);
+
+        File externalFilesDir = getExternalFilesDir("Caches");
+        String imagePath = externalFilesDir.getAbsolutePath() + "/" + System.currentTimeMillis() + ".jpg";
+        File file = new File(imagePath);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        int options = 95;
+        bmp.compress(Bitmap.CompressFormat.JPEG, options, baos);
+        while (baos.toByteArray().length / 1024 > 2048) {
+            baos.reset();
+            options -= 5;
+            bmp.compress(Bitmap.CompressFormat.JPEG, options, baos);
+        }
+
+
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(baos.toByteArray());
+            fos.flush();
+            fos.close();
+            bmp.recycle();
+
+            Message message = Message.obtain();
+            message.what = flag;
+            message.obj = file.getAbsolutePath();
+            mHandler.sendMessage(message);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            bmp.recycle();
+
+            Message message = Message.obtain();
+            message.what = 12;
+            mHandler.sendMessage(message);
+        }
     }
 
     private void uploadFileNet(int flag, String path) {

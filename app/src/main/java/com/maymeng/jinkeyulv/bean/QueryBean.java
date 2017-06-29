@@ -48,6 +48,7 @@ public class QueryBean extends BaseBean{
         public String UserInfoRemake;   //资料审核驳回原因
         public String SignRemake;      //签约审核驳回原因
         public String InjuryRemake;      //伤情驳回原因
+        public String CheckRemake;      //信息校验驳回原因
         public int UserInfoState;      //资料审核状态
         public int SignState;//签约审核状态
         public int InJuryState;//伤情判定状态
@@ -71,6 +72,7 @@ public class QueryBean extends BaseBean{
             dest.writeString(this.UserInfoRemake);
             dest.writeString(this.SignRemake);
             dest.writeString(this.InjuryRemake);
+            dest.writeString(this.CheckRemake);
             dest.writeInt(this.UserInfoState);
             dest.writeInt(this.SignState);
             dest.writeInt(this.InJuryState);
@@ -91,6 +93,7 @@ public class QueryBean extends BaseBean{
             this.UserInfoRemake = in.readString();
             this.SignRemake = in.readString();
             this.InjuryRemake = in.readString();
+            this.CheckRemake = in.readString();
             this.UserInfoState = in.readInt();
             this.SignState = in.readInt();
             this.InJuryState = in.readInt();

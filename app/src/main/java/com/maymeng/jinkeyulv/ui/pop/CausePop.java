@@ -74,9 +74,10 @@ public class CausePop extends PopupWindow implements View.OnClickListener {
         } else {
             infoTv.setVisibility(View.GONE);
         }
-        if (!TextUtils.isEmpty(bean.InjuryRemake) && bean.InJuryState == 0) {
+
+        if (!TextUtils.isEmpty(bean.CheckRemake) && bean.CheckState == 0) {
             injuryTv.setVisibility(View.VISIBLE);
-            injuryTv.setText("伤情判断驳回原因：\n\t\t\t" + bean.InjuryRemake);
+            injuryTv.setText("信息校验驳回原因：\n\t\t\t" + bean.CheckRemake);
         } else {
             injuryTv.setVisibility(View.GONE);
         }

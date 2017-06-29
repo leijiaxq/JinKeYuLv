@@ -202,7 +202,7 @@ public class QueryResultActivity extends RxBaseActivity {
                 mSupplementTv.setEnabled(false);
             }
 
-            if ((mBean.UserInfoState == 0 && !TextUtils.isEmpty(mBean.UserInfoRemake)) || (mBean.SignState == 0 && !TextUtils.isEmpty(mBean.SignRemake))|| (mBean.InJuryState == 0 && !TextUtils.isEmpty(mBean.InjuryRemake))) {
+            if ((mBean.UserInfoState == 0 && !TextUtils.isEmpty(mBean.UserInfoRemake)) || (mBean.SignState == 0 && !TextUtils.isEmpty(mBean.SignRemake))|| (mBean.CheckState == 0 && !TextUtils.isEmpty(mBean.CheckRemake))) {
                 mCauseTv.setVisibility(View.VISIBLE);
             } else {
                 mCauseTv.setVisibility(View.GONE);

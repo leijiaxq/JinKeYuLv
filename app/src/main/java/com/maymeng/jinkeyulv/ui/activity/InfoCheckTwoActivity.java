@@ -113,7 +113,7 @@ public class InfoCheckTwoActivity extends RxBaseActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if (msg.what == 10) {
+            if (msg.what == 10) {          //身份证正面压缩成功
 
                 numberSize++;
                 List<String> list1 = mDatas.get(0);
@@ -124,7 +124,7 @@ public class InfoCheckTwoActivity extends RxBaseActivity {
                     List<String> list5 = mDatas.get(0);
                     uploadFileNet(0, list5.get(0));
                 }
-            } else if (msg.what == 11) {
+            } else if (msg.what == 11) {//身份证背面压缩成功
                 numberSize++;
 
                 List<String> list22 = mDatas.get(1);
@@ -135,7 +135,7 @@ public class InfoCheckTwoActivity extends RxBaseActivity {
                     List<String> list5 = mDatas.get(0);
                     uploadFileNet(0, list5.get(0));
                 }
-            } else if (msg.what == 12) {
+            } else if (msg.what == 12) {//身份证压缩失败
                 hideProgressDialog();
                 ToastUtil.showShort("压缩出错");
             }

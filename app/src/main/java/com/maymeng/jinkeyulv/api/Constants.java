@@ -12,7 +12,8 @@ public class Constants {
     //        public static final String BASE_URL = "http://www.qiuhongliang.com/";
 //    public static final String BASE_URL = "http://192.168.0.158/";
 //    public static final String BASE_URL = "http://apptest1.jk-yl.com:8086/";
-    public static final String BASE_URL = "http://apptest.jk-yl.com/";
+//    public static final String BASE_URL = "http://apptest.jk-yl.com/";
+    public static final String BASE_URL = "http://app.jk-yl.com/";
 
     //身份证，手机号，银行卡校验地址
     public static final String BASE_URL_INFO_CHECK = "http://v.apix.cn/";

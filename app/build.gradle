@@ -18,6 +18,7 @@ android {
             storePassword "maymeng"                               //密码
             keyAlias "maymeng"                                                //别名
             keyPassword "maymeng"                                //密码(就是设置证书那两个密码，建议都填一样的)
+            v2SigningEnabled false
         }
     }
 
